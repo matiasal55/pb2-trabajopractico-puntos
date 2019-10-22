@@ -28,6 +28,7 @@ public class Sistema {
 				return false;
 		}
 		this.listaDeUsuarios.add(usuario);
+		usuario.setId(this.listaDeUsuarios.size());
 		return true;
 	}
 

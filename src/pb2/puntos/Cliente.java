@@ -15,11 +15,28 @@ public class Cliente extends Usuario {
 
 	public Boolean comprarProducto(Producto producto) {
 		for (Producto lista : this.listaDeProductos) {
-			Random generador = new Random(System.currentTimeMillis());
-			Integer numeroDeOrden = generador.nextInt(1000);
-			Integer cantidadDePuntos = (int) (producto.getPrecioReal() * this.factorDePuntos);
-			Compras nueva = new Compras(producto.getDescripcion(), producto.getCodigo(), producto.getNombre(),
-					producto.getPrecioReal(), producto.getPrecioPuntos(), numeroDeOrden, cantidadDePuntos);
+			if (lista.equals(producto)) {
+				Random generador = new Random(System.currentTimeMillis());
+				Integer numeroDeOrden = generador.nextInt(1000);
+				Integer cantidadDePuntos = (int) (producto.getPrecioReal() * this.factorDePuntos);
+				Compras nuevaCompra = new Compras(producto.getDescripcion(), producto.getCodigo(), producto.getNombre(),
+						producto.getPrecioReal(), producto.getPrecioPuntos(), numeroDeOrden, cantidadDePuntos);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Boolean pagarProducto (Compras compra, String medioDePago, Usuario usuario) {
+		for(Usuario lista: this.listaDeUsuarios) {
+			if(lista.equals(usuario)) {
+				Ventas nueva=new Ventas(usuario, compra);
+				if(nueva.procesarVenta(nueva,medioDePago)) {
+					this.listaDeCompras.add(compra);
+					this.listaDeVentas.add(nueva);
+					return true;					
+				}
+			}
 		}
 		return false;
 	}
