@@ -1,12 +1,14 @@
 package pb2.puntos;
 
-public abstract class Persona extends Sistema{
+public class Persona extends Sistema{
 	private String nombre;
 	private String apellido;
+	private Sistema miSistema;
 
 	public Persona(String nombre, String apellido) {
 		this.nombre = nombre;
 		this.apellido = apellido;
+		this.miSistema=new Sistema();
 	}
 
 	public String getNombre() {

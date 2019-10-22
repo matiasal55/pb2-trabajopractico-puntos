@@ -25,22 +25,9 @@ public abstract class Usuario extends Persona {
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
-
-	public Boolean loginUsuario(String mail, String contrasenia) {
-		for (Usuario lista : this.listaDeUsuarios) {
-			if (lista.getMail().equals(mail) && lista.getContrasenia().equals(contrasenia))
-				return true;
-		}
-		return false;
-	}
 	
-	public Boolean registrarUsuario(Usuario usuario) {
-		for (Usuario lista : this.listaDeUsuarios) {
-			if (lista.getMail().equals(mail))
-				return false;
-		}
-		this.listaDeUsuarios.add(usuario);
-		return true;
-	}
+	public abstract Boolean comprarProducto(Producto producto);
+
+	public abstract Boolean pagarProducto(Compras compra, String medioDePago);
 
 }
