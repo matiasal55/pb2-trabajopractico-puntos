@@ -27,4 +27,14 @@ public class Compras extends Producto {
 		this.cantidadDePuntos = cantidadDePuntos;
 	}
 
+	@Override
+	public String toString() {
+		return "Compras [numeroDeOrden=" + numeroDeOrden + ", cantidadDePuntos=" + cantidadDePuntos + ", getCodigo()="
+				+ getCodigo() + ", getNombre()=" + getNombre() + ", getPrecioReal()=" + getPrecioReal()
+				+ ", getPrecioPuntos()=" + getPrecioPuntos() + ", getDescripcion()=" + getDescripcion()
+				+ "]";
+	}
+	
+	
+
 }

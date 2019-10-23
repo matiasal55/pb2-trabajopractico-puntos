@@ -1,6 +1,6 @@
 package pb2.puntos;
 
-public class Ventas{
+public class Ventas {
 	private Usuario usuario;
 	private Compras compra;
 
@@ -25,21 +25,4 @@ public class Ventas{
 		this.compra = compra;
 	}
 
-	public Boolean procesarVenta(Ventas venta, String medioDePago) {
-		if(medioDePago.equals("Puntos")) {
-			Integer puntosAnteriores=venta.getUsuario().getPuntos();
-			Integer puntosADescontar=venta.getCompra().getPrecioPuntos();
-			if(puntosAnteriores>=puntosADescontar) {
-				venta.getUsuario().setPuntos(puntosAnteriores-puntosADescontar);
-				venta.getCompra().setPrecioReal(0.0);
-				return true;
-			}
-			else
-				return false;
-		}
-		else {
-			venta.getCompra().setPrecioPuntos(0);
-			return true;
-		}
-	}
 }
