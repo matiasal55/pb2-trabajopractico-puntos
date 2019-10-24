@@ -17,7 +17,7 @@ public abstract class Usuario extends Persona {
 		this.puntosAcumulados = 0;
 		this.id = 0;
 		this.listaDeCompras = new ArrayList<>();
-		this.factorDePuntos=0;
+		this.factorDePuntos = 0;
 	}
 
 	public String getMail() {
@@ -59,45 +59,13 @@ public abstract class Usuario extends Persona {
 	public void setListaDeCompras(ArrayList<Compras> listaDeCompras) {
 		this.listaDeCompras = listaDeCompras;
 	}
-	
+
 	public Integer getFactorDePuntos() {
 		return factorDePuntos;
 	}
 
 	public void setFactorDePuntos(Integer factorDePuntos) {
 		this.factorDePuntos = factorDePuntos;
-	}
-
-	public abstract Boolean comprarProducto(Producto producto);
-	
-	public Boolean pagarProducto(Compras compra, String medioDePago, Usuario usuario) {
-		for (Usuario lista : this.listaDeUsuarios) {
-			if (lista.equals(usuario)) {
-				Ventas nueva = new Ventas(usuario, compra);
-				if (procesarVenta(nueva, medioDePago)) {
-					this.listaDeVentas.add(nueva);
-					usuario.setPuntos(getPuntos()+compra.getCantidadDePuntos());
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	public Boolean procesarVenta(Ventas venta, String medioDePago) {
-		if (medioDePago.equals("Puntos")) {
-			Integer puntosAnteriores = venta.getUsuario().getPuntos();
-			Integer puntosADescontar = venta.getCompra().getPrecioPuntos();
-			if (puntosAnteriores >= puntosADescontar) {
-				venta.getUsuario().setPuntos(puntosAnteriores - puntosADescontar);
-				venta.getCompra().setPrecioReal(0.0);
-				return true;
-			} else
-				return false;
-		} else {
-			venta.getCompra().setPrecioPuntos(0);
-			return true;
-		}
 	}
 
 }

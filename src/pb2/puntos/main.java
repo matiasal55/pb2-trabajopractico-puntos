@@ -17,10 +17,10 @@ public class main {
 		System.out.println(miSistema.registrarUsuario(nuevo1));
 		System.out.println(miSistema.registrarUsuario(admin));
 		for(Usuario lista:miSistema.listaDeUsuarios)
-			System.out.println(lista.getFactorDePuntos());
-		admin.modificarFactorDePuntos(30, "Cliente");
-		for(Usuario lista:miSistema.listaDeUsuarios)
-			System.out.println(lista.getFactorDePuntos());
+			System.out.println(lista.getId());
+//		admin.modificarFactorDePuntos(30, "Cliente");
+//		for(Usuario lista:miSistema.listaDeUsuarios)
+//			System.out.println(lista.getFactorDePuntos());
 //		Integer opcion;
 //		System.out.println("Bienvenidos a la perfumería!!!");
 //		System.out.println("1 - Login");
