@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class Sistema {
-	protected ArrayList<Producto> listaDeProductos;
+	protected static ArrayList<Producto> listaDeProductos;
 	protected ArrayList<Ventas> listaDeProductosVendidos;
-	protected LinkedList<Usuario> listaDeUsuarios;
+	protected static LinkedList<Usuario> listaDeUsuarios;
 
 	public Sistema() {
 		this.listaDeProductos = new ArrayList<>();
@@ -40,9 +40,9 @@ public class Sistema {
 	}
 
 	public Boolean loginUsuario(String mail, String contrasenia) {
-		String encriptada = DigestUtils.sha1Hex(contrasenia);
+		// String encriptada = DigestUtils.sha1Hex(contrasenia);
 		for (Usuario lista : this.listaDeUsuarios) {
-			if (lista.getMail().equals(mail) && lista.getContrasenia().equals(encriptada))
+			if (lista.getMail().equals(mail) && lista.getContrasenia().equals(contrasenia))
 				return true;
 		}
 		return false;
@@ -53,27 +53,29 @@ public class Sistema {
 			if (lista.getMail().equals(usuario.getMail()))
 				return false;
 		}
-		// usuario.setContrasenia(DigestUtils.sha1Hex(usuario.getContrasenia()));
+//		usuario.setContrasenia(DigestUtils.sha1Hex(usuario.getContrasenia()));
+		if(usuario.getContrasenia().matches(".*[A-Z].*")) {
 		this.listaDeUsuarios.add(usuario);
 		usuario.setId(this.listaDeUsuarios.indexOf(usuario));
 		return true;
+		}
+		return false;
 	}
 
-	public Boolean comprarProducto(Producto producto) {
-		// for (Producto lista : this.listaDeProductos) {
-		// if (lista.equals(producto)) {
-		// Integer cantidadDePuntos = (int) (producto.getPrecioReal() *
-		// this.factorDePuntos);
-		// Integer numeroDeOrden = this.listaDeCompras.size() + 1;
-		// Compras nuevaCompra = new Compras(producto.getDescripcion(),
-		// producto.getCodigo(), producto.getNombre(),
-		// producto.getPrecioReal(), producto.getPrecioPuntos(), numeroDeOrden,
-		// cantidadDePuntos);
-		// this.listaDeCompras.add(nuevaCompra);
-		// System.out.println("Compra realizada");
-		// return true;
-		// }
-		// }
+	public Boolean comprarProducto(Producto producto, Integer cantidad) {
+		for (Producto lista : this.listaDeProductos) {
+			if (lista.equals(producto)) {
+				// Integer cantidadDePuntos = (int) (producto.getPrecioReal() *
+				// this.factorDePuntos);
+				// Integer numeroDeOrden = this.listaDeCompras.size() + 1;
+				// Ventas nueva=new Ventas(cliente, producto, cantidad, numeroDeOrden,
+				// cantidadDePuntos, medio)
+				// this.listaDeCompras.add(nuevaCompra);
+				// System.out.println("Compra realizada");
+				return true;
+			}
+		}
+//		System.out.println("Compra rechazada");
 		return false;
 	}
 

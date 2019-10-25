@@ -10,16 +10,16 @@ public class Administrador extends Usuario {
 	}
 
 	public Boolean agregarProducto(Producto producto) {
-		for (Producto lista : this.listaDeProductos) {
+		for (Producto lista : Sistema.listaDeProductos) {
 			if (lista.equals(producto))
 				return false;
 		}
-		this.listaDeProductos.add(producto);
+		Sistema.listaDeProductos.add(producto);
 		return true;
 	}
 
 	public Boolean eliminarUsuario(Integer id) {
-		Iterator<Usuario> it = this.listaDeUsuarios.iterator();
+		Iterator<Usuario> it = Sistema.listaDeUsuarios.iterator();
 		while (it.hasNext()) {
 			Usuario aux = it.next();
 			if (aux.getId().equals(id)) {
@@ -35,7 +35,7 @@ public class Administrador extends Usuario {
 	}
 
 	public Boolean eliminarUsuario(String mail) {
-		Iterator<Usuario> it = this.listaDeUsuarios.iterator();
+		Iterator<Usuario> it = Sistema.listaDeUsuarios.iterator();
 		while (it.hasNext()) {
 			Usuario aux = it.next();
 			if (aux.getMail().equals(mail)) {

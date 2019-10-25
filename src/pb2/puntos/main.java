@@ -8,16 +8,19 @@ public class main {
 
 	public static void main(String[] args) {
 		Sistema miSistema=new Sistema();
-		Usuario nuevo1=new Cliente("Cosme", "Fulanito", "hotmail.com", "1234");
-		Administrador admin=new Administrador("Roberto", "Funes", "airbook.com", "1234");
+		Usuario nuevo1=new Cliente("Cosme", "Fulanito", "hotmail.com", "1234A");
+		Administrador admin=new Administrador("Roberto", "Funes", "airbook.com", "1234A");
+		Producto p1=new Producto("c", 123, "Choco", 21.0, 200);
 		if(nuevo1.getClass().getSimpleName().equals("Administrador"))
 			System.out.println("Soy administrador");
 		else
 			System.out.println("Soy cliente");
 		System.out.println(miSistema.registrarUsuario(nuevo1));
 		System.out.println(miSistema.registrarUsuario(admin));
-		for(Usuario lista:miSistema.listaDeUsuarios)
-			System.out.println(lista.getId());
+		((Administrador)admin).agregarProducto(p1);
+		System.out.println(miSistema.comprarProducto(p1, 1));
+//		for(Usuario lista:miSistema.listaDeUsuarios)
+//			System.out.println(lista.getId());
 //		admin.modificarFactorDePuntos(30, "Cliente");
 //		for(Usuario lista:miSistema.listaDeUsuarios)
 //			System.out.println(lista.getFactorDePuntos());

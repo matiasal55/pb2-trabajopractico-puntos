@@ -68,4 +68,11 @@ public abstract class Usuario extends Persona {
 		this.factorDePuntos = factorDePuntos;
 	}
 
+	@Override
+	public String toString() {
+		return "Usuario [mail=" + mail + ", contrasenia=" + contrasenia + ", factorDePuntos=" + factorDePuntos + "]";
+	}
+	
+	
+
 }

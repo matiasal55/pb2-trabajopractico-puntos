@@ -6,5 +6,5 @@ public class Cliente extends Usuario {
 		super(nombre, apellido, mail, contrasenia);
 		this.factorDePuntos = 60;
 	}
-
+	
 }
