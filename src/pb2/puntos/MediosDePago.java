@@ -16,3 +16,4 @@ public class MediosDePago {
 		this.medio = medio;
 	}
 }
+

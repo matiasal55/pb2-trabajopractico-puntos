@@ -39,6 +39,7 @@ public class Producto extends Categoria {
 		this.precioReal = precioReal;
 	}
 	
+	
 	public Integer getPrecioPuntos() {
 		return precioPuntos;
 	}

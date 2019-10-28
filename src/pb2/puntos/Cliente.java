@@ -7,5 +7,4 @@ public class Cliente extends Usuario{
 	public Cliente(String nombre, String apellido, String mail, String contrasenia, Integer factorDePuntos) {
 		super(nombre, apellido, mail, contrasenia);
 	}
-	
 }

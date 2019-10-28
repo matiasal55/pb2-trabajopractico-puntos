@@ -8,5 +8,4 @@ public class Administrador extends Usuario {
 		super(nombre, apellido, mail, contrasenia);
 	}
 	
-	
 }

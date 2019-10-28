@@ -34,5 +34,4 @@ public abstract class Usuario extends Persona{
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
-
 }
