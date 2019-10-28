@@ -1,12 +1,22 @@
 package pb2.puntos;
 
-public class Usuario {
+import java.util.ArrayList;
+
+public abstract class Usuario extends Persona{
+	
 	private String mail;
 	private String contrasenia;
+	private Integer id = 0;
+	private Integer puntosAcumulados = 0;
+	
+	private ArrayList <Ventas> listaDeCompras = new ArrayList <Ventas>();
+	
 
-	public Usuario(String mail, String contrasenia) {
+	public Usuario(String nombre, String apellido, String mail, String contrasenia) {
+		super(nombre, apellido);
 		this.mail = mail;
 		this.contrasenia = contrasenia;
+		
 	}
 
 	public String getMail() {
