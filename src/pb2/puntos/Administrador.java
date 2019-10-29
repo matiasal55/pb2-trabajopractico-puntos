@@ -1,32 +1,39 @@
 package pb2.puntos;
 
-import java.util.Iterator;
-
 public class Administrador extends Usuario {
+	private Integer factorDePuntos;
 
 	public Administrador(String nombre, String apellido, String mail, String contrasenia) {
 		super(nombre, apellido, mail, contrasenia);
 		this.factorDePuntos = 120;
 	}
 
+	public Integer getFactorDePuntos() {
+		return factorDePuntos;
+	}
+
+	public void setFactorDePuntos(Integer factorDePuntos) {
+		this.factorDePuntos = factorDePuntos;
+	}
+
 	public Boolean agregarProducto(Producto producto) {
-		for (Producto lista : Sistema.listaDeProductos) {
-			if (lista.equals(producto))
-				return false;
-		}
-		Sistema.listaDeProductos.add(producto);
+		// for (Producto lista : Sistema.listaDeProductos) {
+		// if (lista.equals(producto))
+		// return false;
+		// }
+		// Sistema.listaDeProductos.add(producto);
 		return true;
 	}
 
 	public Boolean eliminarUsuario(Integer id) {
-		Iterator<Usuario> it = Sistema.listaDeUsuarios.iterator();
-		while (it.hasNext()) {
-			Usuario aux = it.next();
-			if (aux.getId().equals(id)) {
-				it.remove();
-				return true;
-			}
-		}
+		// Iterator<Usuario> it = Sistema.listaDeUsuarios.iterator();
+		// while (it.hasNext()) {
+		// Usuario aux = it.next();
+		// if (aux.getId().equals(id)) {
+		// it.remove();
+		// return true;
+		// }
+		// }
 		return false;
 	}
 
@@ -35,14 +42,14 @@ public class Administrador extends Usuario {
 	}
 
 	public Boolean eliminarUsuario(String mail) {
-		Iterator<Usuario> it = Sistema.listaDeUsuarios.iterator();
-		while (it.hasNext()) {
-			Usuario aux = it.next();
-			if (aux.getMail().equals(mail)) {
-				it.remove();
-				return true;
-			}
-		}
+		// Iterator<Usuario> it = Sistema.listaDeUsuarios.iterator();
+		// while (it.hasNext()) {
+		// Usuario aux = it.next();
+		// if (aux.getMail().equals(mail)) {
+		// it.remove();
+		// return true;
+		// }
+		// }
 		return false;
 	}
 

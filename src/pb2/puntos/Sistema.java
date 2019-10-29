@@ -6,12 +6,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class Sistema {
 	private ArrayList<Producto> listaDeProductos;
-	protected ArrayList<Ventas> listaDeProductosVendidos;
+	protected ArrayList<Ventas> listaDeVentas;
 	private LinkedList<Usuario> listaDeUsuarios;
 
 	public Sistema() {
 		this.listaDeProductos = new ArrayList<>();
-		this.listaDeProductosVendidos = new ArrayList<>();
+		this.listaDeVentas = new ArrayList<>();
 		this.listaDeUsuarios = new LinkedList<>();
 	}
 
@@ -23,12 +23,12 @@ public class Sistema {
 		this.listaDeProductos = listaDeProductos;
 	}
 
-	public ArrayList<Ventas> getListaDeProductosVendidos() {
-		return listaDeProductosVendidos;
+	public ArrayList<Ventas> getListaDeVentas() {
+		return listaDeVentas;
 	}
 
-	public void setListaDeProductosVendidos(ArrayList<Ventas> listaDeProductosVendidos) {
-		this.listaDeProductosVendidos = listaDeProductosVendidos;
+	public void setListaDeVentas(ArrayList<Ventas> listaDeVentas) {
+		this.listaDeVentas = listaDeVentas;
 	}
 
 	public LinkedList<Usuario> getListaDeUsuarios() {
@@ -89,22 +89,6 @@ public class Sistema {
 		// }
 		// }
 		return false;
-	}
-
-	public Boolean procesarVenta(Ventas venta, String medioDePago) {
-		// if (medioDePago.equals("Puntos")) {
-		// Integer puntosAnteriores = venta.getUsuario().getPuntos();
-		// Integer puntosADescontar = venta.getCompra().getPrecioPuntos();
-		// if (puntosAnteriores >= puntosADescontar) {
-		// venta.getUsuario().setPuntos(puntosAnteriores - puntosADescontar);
-		// venta.getCompra().setPrecioReal(0.0);
-		// return true;
-		// } else
-		// return false;
-		// } else {
-		// venta.getCompra().setPrecioPuntos(0);
-		return true;
-		// }
 	}
 
 }

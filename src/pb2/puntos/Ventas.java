@@ -1,23 +1,20 @@
 package pb2.puntos;
 
-import java.util.ArrayList;
-
 public class Ventas {
 	private Cliente cliente;
 	private Producto producto;
 	private Integer cantidad;
 	private Integer numeroDeOrden;
 	private Integer cantidadDePuntos;
-	private MediosDePagos medio;
+	private String medioDePago;
 
-	public Ventas(Cliente cliente, Producto producto, Integer cantidad, Integer numeroDeOrden, Integer cantidadDePuntos,
-			MediosDePagos medio) {
+	public Ventas(Cliente cliente, Producto producto, Integer cantidad, Integer numeroDeOrden, String medioDePago) {
 		this.cliente = cliente;
 		this.producto = producto;
 		this.cantidad = cantidad;
 		this.numeroDeOrden = numeroDeOrden;
-		this.cantidadDePuntos = cantidadDePuntos;
-		this.medio = medio;
+		this.cantidadDePuntos = (int)(this.producto.getPrecioReal()*cliente.getFactorDePuntos());
+		this.medioDePago = medioDePago;
 	}
 
 	public Cliente getCliente() {
@@ -48,16 +45,12 @@ public class Ventas {
 		return cantidadDePuntos;
 	}
 
-	public void setCantidadDePuntos(Integer cantidadDePuntos) {
-		this.cantidadDePuntos = cantidadDePuntos;
+	public String getMedioDePago() {
+		return medioDePago;
 	}
 
-	public MediosDePagos getMedio() {
-		return medio;
-	}
-
-	public void setMedio(MediosDePagos medio) {
-		this.medio = medio;
+	public void setMedioDePago(String medioDePago) {
+		this.medioDePago = medioDePago;
 	}
 
 	public Producto getProducto() {

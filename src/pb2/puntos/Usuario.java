@@ -2,12 +2,11 @@ package pb2.puntos;
 
 import java.util.ArrayList;
 
-public abstract class Usuario extends Persona {
+public class Usuario extends Persona {
 	private String mail;
 	private String contrasenia;
 	private Integer puntosAcumulados;
 	private Integer id;
-	protected Integer factorDePuntos;
 	protected ArrayList<Compras> listaDeCompras;
 
 	public Usuario(String nombre, String apellido, String mail, String contrasenia) {
@@ -17,7 +16,6 @@ public abstract class Usuario extends Persona {
 		this.puntosAcumulados = 0;
 		this.id = 0;
 		this.listaDeCompras = new ArrayList<>();
-		this.factorDePuntos = 0;
 	}
 
 	public String getMail() {
@@ -60,19 +58,9 @@ public abstract class Usuario extends Persona {
 		this.listaDeCompras = listaDeCompras;
 	}
 
-	public Integer getFactorDePuntos() {
-		return factorDePuntos;
-	}
-
-	public void setFactorDePuntos(Integer factorDePuntos) {
-		this.factorDePuntos = factorDePuntos;
-	}
-
 	@Override
 	public String toString() {
-		return "Usuario [mail=" + mail + ", contrasenia=" + contrasenia + ", factorDePuntos=" + factorDePuntos + "]";
+		return "Usuario [mail=" + mail + ", contrasenia=" + contrasenia + "]";
 	}
-	
-	
 
 }
