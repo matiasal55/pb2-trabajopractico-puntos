@@ -58,5 +58,4 @@ public class testTrabajo {
 		Assert.assertTrue(miSistema.comprarProducto(nuevoProducto, 1));
 	}
 	
-	
 }

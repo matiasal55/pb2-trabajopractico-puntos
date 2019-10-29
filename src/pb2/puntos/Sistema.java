@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class Sistema {
-	protected static ArrayList<Producto> listaDeProductos;
+	private ArrayList<Producto> listaDeProductos;
 	protected ArrayList<Ventas> listaDeProductosVendidos;
-	protected static LinkedList<Usuario> listaDeUsuarios;
+	private LinkedList<Usuario> listaDeUsuarios;
 
 	public Sistema() {
 		this.listaDeProductos = new ArrayList<>();
@@ -40,9 +40,9 @@ public class Sistema {
 	}
 
 	public Boolean loginUsuario(String mail, String contrasenia) {
-		// String encriptada = DigestUtils.sha1Hex(contrasenia);
+		String encriptada = DigestUtils.sha1Hex(contrasenia);
 		for (Usuario lista : this.listaDeUsuarios) {
-			if (lista.getMail().equals(mail) && lista.getContrasenia().equals(contrasenia))
+			if (lista.getMail().equals(mail) && lista.getContrasenia().equals(encriptada))
 				return true;
 		}
 		return false;
@@ -53,13 +53,11 @@ public class Sistema {
 			if (lista.getMail().equals(usuario.getMail()))
 				return false;
 		}
-//		usuario.setContrasenia(DigestUtils.sha1Hex(usuario.getContrasenia()));
-		if(usuario.getContrasenia().matches(".*[A-Z].*")) {
+		usuario.setContrasenia(DigestUtils.sha1Hex(usuario.getContrasenia()));
 		this.listaDeUsuarios.add(usuario);
 		usuario.setId(this.listaDeUsuarios.indexOf(usuario));
 		return true;
-		}
-		return false;
+
 	}
 
 	public Boolean comprarProducto(Producto producto, Integer cantidad) {
@@ -75,7 +73,7 @@ public class Sistema {
 				return true;
 			}
 		}
-//		System.out.println("Compra rechazada");
+		// System.out.println("Compra rechazada");
 		return false;
 	}
 
