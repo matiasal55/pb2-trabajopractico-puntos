@@ -12,6 +12,18 @@ public class Ventas {
 		super();
 	}
 
+	public Ventas(Integer idVenta, Cliente cliente, Integer cantidad, Producto producto, String medioDePago,
+			Integer cantidadDePuntos) {
+		this.idVenta = idVenta;
+		this.cliente = cliente;
+		this.cantidad = cantidad;
+		this.producto = producto;
+		this.medioDePago = medioDePago;
+		this.cantidadDePuntos = cantidadDePuntos;
+	}
+
+
+
 	public Integer getIdVenta() {
 		return idVenta;
 	}
