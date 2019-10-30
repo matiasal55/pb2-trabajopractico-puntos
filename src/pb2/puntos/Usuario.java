@@ -1,17 +1,26 @@
 package pb2.puntos;
 
-import java.util.LinkedList;
+public abstract class Usuario extends Persona {
 
-public abstract class Usuario extends Persona{
-	private String mail;
+	private String email;
 	private String contrasenia;
-
-	public String getMail() {
-		return mail;
+	private Integer id;
+	private Integer puntos = 0;
+	
+	public Usuario(String nombre, String apellido, String email, String contrasenia, Integer id, Integer puntos2) {
+		super(nombre, apellido);
+		this.email = email;
+		this.contrasenia = contrasenia;
+		this.id = id;
+		this.puntos = puntos2;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getContrasenia() {
@@ -22,37 +31,20 @@ public abstract class Usuario extends Persona{
 		this.contrasenia = contrasenia;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((contrasenia == null) ? 0 : contrasenia.hashCode());
-		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
-		return result;
+	public Integer getId() {
+		return id;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Usuario other = (Usuario) obj;
-		if (contrasenia == null) {
-			if (other.contrasenia != null)
-				return false;
-		} else if (!contrasenia.equals(other.contrasenia))
-			return false;
-		if (mail == null) {
-			if (other.mail != null)
-				return false;
-		} else if (!mail.equals(other.mail))
-			return false;
-		return true;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	
-	
-	
+
+	public Integer getPuntos() {
+		return puntos;
+	}
+
+	public void setPuntos(Integer puntos) {
+		this.puntos = puntos;
+	}
+
 }
