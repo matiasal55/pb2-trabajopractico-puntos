@@ -1,28 +1,29 @@
 package pb2.puntos;
 
 public class Ventas {
-	private Cliente cliente;
-	private Producto producto;
+	private Integer idVenta;
 	private Integer cantidad;
-	private Integer numeroDeOrden;
+	private Producto producto;
+	private Usuario comprador;
 	private Integer cantidadDePuntos;
 	private String medioDePago;
 
-	public Ventas(Cliente cliente, Producto producto, Integer cantidad, Integer numeroDeOrden, String medioDePago) {
-		this.cliente = cliente;
-		this.producto = producto;
+	public Ventas(Integer idVenta, Integer cantidad, Producto producto, Usuario comprador, Integer cantidadDePuntos,
+			String medioDePago) {
+		this.idVenta = idVenta;
 		this.cantidad = cantidad;
-		this.numeroDeOrden = numeroDeOrden;
-		this.cantidadDePuntos = (int)(this.producto.getPrecioReal()*cliente.getFactorDePuntos());
+		this.producto = producto;
+		this.comprador = comprador;
+		this.cantidadDePuntos = cantidadDePuntos;
 		this.medioDePago = medioDePago;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public Integer getIdVenta() {
+		return idVenta;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setIdVenta(Integer idVenta) {
+		this.idVenta = idVenta;
 	}
 
 	public Integer getCantidad() {
@@ -33,16 +34,28 @@ public class Ventas {
 		this.cantidad = cantidad;
 	}
 
-	public Integer getNumeroDeOrden() {
-		return numeroDeOrden;
+	public Producto getProducto() {
+		return producto;
 	}
 
-	public void setNumeroDeOrden(Integer numeroDeOrden) {
-		this.numeroDeOrden = numeroDeOrden;
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+	public Usuario getComprador() {
+		return comprador;
+	}
+
+	public void setComprador(Usuario comprador) {
+		this.comprador = comprador;
 	}
 
 	public Integer getCantidadDePuntos() {
 		return cantidadDePuntos;
+	}
+
+	public void setCantidadDePuntos(Integer cantidadDePuntos) {
+		this.cantidadDePuntos = cantidadDePuntos;
 	}
 
 	public String getMedioDePago() {
@@ -51,14 +64,6 @@ public class Ventas {
 
 	public void setMedioDePago(String medioDePago) {
 		this.medioDePago = medioDePago;
-	}
-
-	public Producto getProducto() {
-		return producto;
-	}
-
-	public void setProducto(Producto producto) {
-		this.producto = producto;
 	}
 
 }

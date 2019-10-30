@@ -1,6 +1,7 @@
 package pb2.puntos;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -14,80 +15,53 @@ public class Sistema {
 		this.listaDeVentas = new ArrayList<>();
 		this.listaDeUsuarios = new LinkedList<>();
 	}
-
-	public ArrayList<Producto> getListaDeProductos() {
-		return listaDeProductos;
+	
+	public Boolean registrarUsuario(Usuario usuario) {
+		return true;
 	}
-
-	public void setListaDeProductos(ArrayList<Producto> listaDeProductos) {
-		this.listaDeProductos = listaDeProductos;
-	}
-
-	public ArrayList<Ventas> getListaDeVentas() {
-		return listaDeVentas;
-	}
-
-	public void setListaDeVentas(ArrayList<Ventas> listaDeVentas) {
-		this.listaDeVentas = listaDeVentas;
-	}
-
-	public LinkedList<Usuario> getListaDeUsuarios() {
-		return listaDeUsuarios;
-	}
-
-	public void setListaDeUsuarios(LinkedList<Usuario> listaDeUsuarios) {
-		this.listaDeUsuarios = listaDeUsuarios;
-	}
-
-	public Boolean loginUsuario(String mail, String contrasenia) {
-		String encriptada = DigestUtils.sha1Hex(contrasenia);
-		for (Usuario lista : this.listaDeUsuarios) {
-			if (lista.getMail().equals(mail) && lista.getContrasenia().equals(encriptada))
-				return true;
-		}
+	
+	public Boolean loginUsuario(String email, String contrasenia) {
 		return false;
 	}
-
-	public Boolean registrarUsuario(Usuario usuario) {
-		for (Usuario lista : this.listaDeUsuarios) {
-			if (lista.getMail().equals(usuario.getMail()))
+	
+	public Boolean comprarProducto(Usuario comprador, Integer cantidad, Producto producto, String medioDePago) {
+		return false;
+	}
+	
+	public Boolean pagarCompra() {
+		return false;
+	}
+	
+	public Boolean cargarSaldo(Usuario comprador, Double monto) {
+			for(Usuario lista: this.listaDeUsuarios) {
+				if(lista.equals(comprador)) {
+					Double saldoAnterior=lista.getSaldo();
+					Double saldoNuevo=saldoAnterior+monto;
+					lista.setSaldo(saldoNuevo);
+					return true;
+				}
+			}
+		return false;
+	}
+	
+	public Boolean agregarProducto(Producto nuevo) {
+		for(Producto lista: this.listaDeProductos) {
+			if(lista.equals(nuevo))
 				return false;
 		}
-		usuario.setContrasenia(DigestUtils.sha1Hex(usuario.getContrasenia()));
-		this.listaDeUsuarios.add(usuario);
-		usuario.setId(this.listaDeUsuarios.indexOf(usuario));
+		this.listaDeProductos.add(nuevo);
 		return true;
-
 	}
-
-	public Boolean comprarProducto(Producto producto, Integer cantidad) {
-		for (Producto lista : this.listaDeProductos) {
-			if (lista.equals(producto)) {
-				// Integer cantidadDePuntos = (int) (producto.getPrecioReal() *
-				// this.factorDePuntos);
-				// Integer numeroDeOrden = this.listaDeCompras.size() + 1;
-				// Ventas nueva=new Ventas(cliente, producto, cantidad, numeroDeOrden,
-				// cantidadDePuntos, medio)
-				// this.listaDeCompras.add(nuevaCompra);
-				// System.out.println("Compra realizada");
+	
+	public Boolean anularCompra(Integer id) {
+		Iterator<Ventas> it=this.listaDeVentas.iterator();
+		while(it.hasNext()) {
+			Ventas aux=it.next();
+			if(aux.getIdVenta().equals(id)) {
+				it.remove();
 				return true;
 			}
 		}
-		// System.out.println("Compra rechazada");
-		return false;
-	}
-
-	public Boolean pagarProducto(Compras compra, String medioDePago, Usuario usuario) {
-		// for (Usuario lista : this.listaDeUsuarios) {
-		// if (lista.equals(usuario)) {
-		// Ventas nueva = new Ventas(usuario, compra);
-		// if (procesarVenta(nueva, medioDePago)) {
-		// this.listaDeVentas.add(nueva);
-		// usuario.setPuntos(getPuntos()+compra.getCantidadDePuntos());
-		// return true;
-		// }
-		// }
-		// }
 		return false;
 	}
 
