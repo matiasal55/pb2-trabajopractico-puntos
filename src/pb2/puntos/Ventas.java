@@ -8,10 +8,6 @@ public class Ventas {
 	private String medioDePago;
 	private Integer cantidadDePuntos;
 
-	public Ventas() {
-		super();
-	}
-
 	public Ventas(Integer idVenta, Cliente cliente, Integer cantidad, Producto producto, String medioDePago,
 			Integer cantidadDePuntos) {
 		this.idVenta = idVenta;
@@ -21,8 +17,6 @@ public class Ventas {
 		this.medioDePago = medioDePago;
 		this.cantidadDePuntos = cantidadDePuntos;
 	}
-
-
 
 	public Integer getIdVenta() {
 		return idVenta;
@@ -62,6 +56,14 @@ public class Ventas {
 
 	public void setMedioDePago(String medioDePago) {
 		this.medioDePago = medioDePago;
+    }
+    
+	public Integer getNumeroDeOrden() {
+		return numeroDeOrden;
+	}
+
+	public void setNumeroDeOrden(Integer numeroDeOrden) {
+		this.numeroDeOrden = numeroDeOrden;
 	}
 
 	public Integer getCantidadDePuntos() {

@@ -1,15 +1,22 @@
 package pb2.puntos;
 
 import java.util.ArrayList;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.security.auth.login.LoginException;
 
 public class Sistema {
-	ArrayList<Producto> listaDeProductos;
-	LinkedList<Usuario> listaDeUsuarios;
-	ArrayList<Ventas> listaDeVentas;
+	private ArrayList<Producto> listaDeProductos;
+	private LinkedList<Usuario> listaDeUsuarios;
+	private ArrayList<Ventas> listaDeVentas;
+  
+  public Sistema() {
+		this.listaDeProductos = new ArrayList<>();
+		this.listaDeVentas = new ArrayList<>();
+		this.listaDeUsuarios = new LinkedList<>();
+	}
 
 	public Boolean registrarUsuario(Usuario usuario) throws UsuarioYaRegistrado {
 		Iterator<Usuario> listaAux = listaDeUsuarios.iterator();
