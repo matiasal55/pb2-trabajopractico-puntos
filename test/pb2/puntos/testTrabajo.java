@@ -1,8 +1,5 @@
 package pb2.puntos;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,42 +17,27 @@ public class testTrabajo {
 		nuevo = new Cliente("Cosme", "Fulanito", "hotmail.com", "1234A");
 		admin = new Administrador("Matias", "Alarcon", "gmail.com", "1234A");
 		nuevoProducto = new Producto("Chocolate", 123, "Blanco", 21.0, 100);
-	}
-
-	@Test
-	public void loginConUsuarioIncorrecto() {
-		Boolean valor = miSistema.loginUsuario(nuevo.getMail(), nuevo.getContrasenia());
-		Assert.assertFalse(valor);
-	}
-
-	@Test
-	public void crearClienteYLoguearlo() {
-		Assert.assertTrue(miSistema.registrarUsuario(nuevo));
-		Assert.assertTrue(miSistema.loginUsuario(nuevo.getMail(), nuevo.getContrasenia()));
-	}
-
-	@Test
-	public void usuarioExistente() {
 		miSistema.registrarUsuario(nuevo);
-		miSistema.loginUsuario(nuevo.getMail(), nuevo.getContrasenia());
-		Assert.assertFalse(miSistema.registrarUsuario(nuevo));
+		miSistema.registrarUsuario(admin);
+		miSistema.agregarProducto(nuevoProducto);
 	}
 
 	@Test
-	public void crearAdministradorYLoguearlo() {
-		Assert.assertTrue(miSistema.registrarUsuario(admin));
-		Assert.assertTrue(miSistema.loginUsuario(admin.getMail(), admin.getContrasenia()));
+	public void comprarYpagar() {
+		miSistema.cargarSaldo(nuevo, 200.0);
+		Assert.assertTrue(miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo"));
 	}
 
 	@Test
-	public void crearProducto() {
-		Assert.assertTrue(((Administrador) admin).agregarProducto(nuevoProducto));
+	public void cargarSaldo() {
+		Assert.assertTrue(miSistema.cargarSaldo(nuevo, 200.0));
 	}
-	
+
 	@Test
-	public void comprarProducto() {
-		Assert.assertTrue(((Administrador) admin).agregarProducto(nuevoProducto));
-		Assert.assertTrue(miSistema.comprarProducto(nuevoProducto, 1));
+	public void anularCompraPorID() {
+		miSistema.cargarSaldo(nuevo, 200.0);
+		miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
+		Assert.assertTrue(miSistema.anularCompra(1));
 	}
-	
+
 }
