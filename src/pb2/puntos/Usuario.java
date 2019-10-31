@@ -7,11 +7,11 @@ public abstract class Usuario extends Persona {
 	private Integer id;
 	private Integer puntosAcumulados = 0;
 
-	public Usuario(String nombre, String apellido, String email, String contrasenia, Integer id) {
+	public Usuario(String nombre, String apellido, String email, String contrasenia) {
 		super(nombre, apellido);
 		this.email = email;
 		this.contrasenia = contrasenia;
-		this.id = id;
+		this.id = 0;
 		this.puntosAcumulados = 0;
 	}
 
@@ -39,12 +39,12 @@ public abstract class Usuario extends Persona {
 		this.id = id;
 	}
 
-	public Integer getPuntos() {
-		return puntos;
+	public Integer getPuntosAcumulados() {
+		return puntosAcumulados;
 	}
 
-	public void setPuntos(Integer puntos) {
-		this.puntos = puntos;
+	public void setPuntosAcumulados(Integer puntosAcumulados) {
+		this.puntosAcumulados = puntosAcumulados;
 	}
 
 }

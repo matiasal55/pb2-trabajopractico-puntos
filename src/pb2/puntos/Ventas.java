@@ -56,14 +56,6 @@ public class Ventas {
 
 	public void setMedioDePago(String medioDePago) {
 		this.medioDePago = medioDePago;
-    }
-    
-	public Integer getNumeroDeOrden() {
-		return numeroDeOrden;
-	}
-
-	public void setNumeroDeOrden(Integer numeroDeOrden) {
-		this.numeroDeOrden = numeroDeOrden;
 	}
 
 	public Integer getCantidadDePuntos() {

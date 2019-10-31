@@ -1,8 +1,5 @@
 package pb2.puntos;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
 public class Administrador extends Usuario {
 	private Integer factorPuntos = 120;
   
