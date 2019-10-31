@@ -1,24 +1,37 @@
 package pb2.puntos;
 
-import java.util.ArrayList;
-
 public class Ventas {
-	
+	private Integer idVenta;
 	private Cliente cliente;
 	private Integer cantidad;
-	private Integer numeroDeOrden;
+	private Producto producto;
+	private String medioDePago;
 	private Integer cantidadDePuntos;
-	private MediosDePago mediosDePago;
-	
-	private ArrayList <Producto> listaDeProductosVendidos =new ArrayList <Producto>();
-	
-	public Ventas(Cliente cliente, Integer cantidad, Integer numeroDeOrden, Integer cantidadDePuntos,
-			MediosDePago mediosDePago) {
+
+	public Ventas(Integer idVenta, Cliente cliente, Integer cantidad, Producto producto, String medioDePago,
+			Integer cantidadDePuntos) {
+		this.idVenta = idVenta;
 		this.cliente = cliente;
 		this.cantidad = cantidad;
-		this.numeroDeOrden = numeroDeOrden;
+		this.producto = producto;
+		this.medioDePago = medioDePago;
 		this.cantidadDePuntos = cantidadDePuntos;
-		this.mediosDePago = mediosDePago;
+	}
+
+	public Integer getIdVenta() {
+		return idVenta;
+	}
+
+	public void setIdVenta(Integer idVenta) {
+		this.idVenta = idVenta;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public Integer getCantidad() {
@@ -29,6 +42,22 @@ public class Ventas {
 		this.cantidad = cantidad;
 	}
 
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+	public String getMedioDePago() {
+		return medioDePago;
+	}
+
+	public void setMedioDePago(String medioDePago) {
+		this.medioDePago = medioDePago;
+    }
+    
 	public Integer getNumeroDeOrden() {
 		return numeroDeOrden;
 	}
@@ -45,13 +74,4 @@ public class Ventas {
 		this.cantidadDePuntos = cantidadDePuntos;
 	}
 
-	public MediosDePago getMediosDePago() {
-		return mediosDePago;
-	}
-
-	public void setMediosDePago(MediosDePago mediosDePago) {
-		this.mediosDePago = mediosDePago;
-	}
-	
 }
-

@@ -1,30 +1,26 @@
 package pb2.puntos;
 
-import java.util.ArrayList;
+public abstract class Usuario extends Persona {
 
-public abstract class Usuario extends Persona{
-	
-	private String mail;
+	private String email;
 	private String contrasenia;
-	private Integer id = 0;
+	private Integer id;
 	private Integer puntosAcumulados = 0;
-	
-	private ArrayList <Ventas> listaDeCompras = new ArrayList <Ventas>();
-	
 
-	public Usuario(String nombre, String apellido, String mail, String contrasenia) {
+	public Usuario(String nombre, String apellido, String email, String contrasenia, Integer id) {
 		super(nombre, apellido);
-		this.mail = mail;
+		this.email = email;
 		this.contrasenia = contrasenia;
-		
+		this.id = id;
+		this.puntosAcumulados = 0;
 	}
 
-	public String getMail() {
-		return mail;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getContrasenia() {
@@ -34,4 +30,21 @@ public abstract class Usuario extends Persona{
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getPuntos() {
+		return puntos;
+	}
+
+	public void setPuntos(Integer puntos) {
+		this.puntos = puntos;
+	}
+
 }
