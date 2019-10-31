@@ -8,8 +8,7 @@ public class Ventas {
 	private Integer cantidadDePuntos;
 	private String medioDePago;
 
-	public Ventas(Integer idVenta, Integer cantidad, Producto producto, Usuario comprador, Integer cantidadDePuntos,
-			String medioDePago) {
+	public Ventas(Integer idVenta, Integer cantidad, Producto producto, Usuario comprador, Integer cantidadDePuntos, String medioDePago) {
 		this.idVenta = idVenta;
 		this.cantidad = cantidad;
 		this.producto = producto;
