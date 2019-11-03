@@ -2,7 +2,7 @@ package pb2.puntos;
 
 public class Ventas {
 	private Integer idVenta;
-	private Cliente cliente;
+	private Usuario usuario;
 	private Integer cantidad;
 	private Producto producto;
 	private String medioDePago;
@@ -11,7 +11,7 @@ public class Ventas {
 	public Ventas(Integer idVenta, Cliente cliente, Integer cantidad, Producto producto, String medioDePago,
 			Integer cantidadDePuntos) {
 		this.idVenta = idVenta;
-		this.cliente = cliente;
+		this.usuario = usuario;
 		this.cantidad = cantidad;
 		this.producto = producto;
 		this.medioDePago = medioDePago;
@@ -26,12 +26,12 @@ public class Ventas {
 		this.idVenta = idVenta;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Integer getCantidad() {
