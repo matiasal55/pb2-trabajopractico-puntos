@@ -55,30 +55,4 @@ public class Sistema {
 		}
 		throw new VentaFallidaException();
 	}
-	
-	public void pagarConPuntos (Producto producto, Usuario usuario) {
-		for (Producto p : listaDeProductos) {
-			if (p.getCodigo().equals(producto.getCodigo())){
-				for (Usuario u : listaDeUsuarios) {
-					if(u.getId().equals(usuario.getId())) {
-					Integer pagar = u.getPuntosAcumulados() - p.getPrecioPuntos();
-					u.setPuntosAcumulados(pagar);
-					}
-				}
-			}
-		}
-	}
-	
-	public void pagarConEfectivo (Producto producto, Usuario usuario) {
-		for (Producto p : listaDeProductos) {
-			if (p.getCodigo().equals(producto.getCodigo())){
-				for (Usuario u : listaDeUsuarios) {
-					if(u.getId().equals(usuario.getId())) {
-					Double pagar = u.getSaldo() - p.getPrecioReal();
-					u.setSaldo(pagar);
-					}
-				}
-			}
-		}
-	}
 }
