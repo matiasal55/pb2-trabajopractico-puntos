@@ -5,9 +5,9 @@ public class Producto extends Categoria {
 	private Integer codigo;
 	private String nombreProducto;
 	private Double precioReal;
-	private Double precioPuntos;
+	private Integer precioPuntos;
 
-	public Producto(String descripcion, Integer codigo, String nombreProducto, Double precioReal, Double precioPuntos) {
+	public Producto(String descripcion, Integer codigo, String nombreProducto, Double precioReal, Integer precioPuntos) {
 		super(descripcion);
 		this.codigo = codigo;
 		this.nombreProducto = nombreProducto;
@@ -39,11 +39,11 @@ public class Producto extends Categoria {
 		this.precioReal = precioReal;
 	}
 
-	public Double getPrecioPuntos() {
+	public Integer getPrecioPuntos() {
 		return precioPuntos;
 	}
 
-	public void setPrecioPuntos(Double precioPuntos) {
+	public void setPrecioPuntos(Integer precioPuntos) {
 		this.precioPuntos = precioPuntos;
 	}
   
