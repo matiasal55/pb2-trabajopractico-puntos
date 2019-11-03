@@ -55,4 +55,26 @@ public class Sistema {
 		}
 		throw new VentaFallidaException();
 	}
+	
+	public Boolean pagarConPuntos (Producto producto, Usuario usuario) throws PagoConPuntosFallido {
+				for (Usuario u : listaDeUsuarios) {
+					if(u.getId().equals(usuario.getId()) && u.getPuntosAcumulados()>= producto.getPrecioPuntos()) {
+					Integer pagar = u.getPuntosAcumulados() - producto.getPrecioPuntos();
+					u.setPuntosAcumulados(pagar);
+					return true;
+					}
+				}
+				throw new PagoConPuntosFallido();
+		}
+	
+	public Boolean pagarConEfectivo (Producto producto, Usuario usuario) throws PagoConEfectivoFallido {
+		for (Usuario u : listaDeUsuarios) {
+			if(u.getId().equals(usuario.getId()) && u.getSaldo()>= producto.getPrecioReal()) {
+			Double pagar = u.getSaldo() - producto.getPrecioReal();
+			u.setSaldo(pagar);
+			return true;
+			}
+		}
+		throw new PagoConEfectivoFallido();
+}
 }
