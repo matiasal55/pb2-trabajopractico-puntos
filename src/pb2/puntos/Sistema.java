@@ -43,40 +43,67 @@ public class Sistema {
 		listaDeProductos.add(prod);
 	}
 	
-	public Boolean realizarCompra(Ventas venta) throws VentaFallidaException {
+	public Integer realizarCompra(Ventas venta) throws VentaFallidaException {
 		Iterator<Producto> listaAux = listaDeProductos.iterator();
 		while(listaAux.hasNext()) {
 			Producto prodAux = listaAux.next();
 			if(prodAux.equals(venta.getProducto())){
 				listaDeProductos.remove(venta.getProducto());
 				listaDeVentas.add(venta);
-				return true;
+				return venta.getIdVenta();
 			}
 		}
 		throw new VentaFallidaException();
 	}
 	
-	public Boolean pagarConPuntos (Producto producto, Usuario usuario) throws PagoConPuntosFallido {
+	public Boolean anularVenta (Integer idVenta) throws VentaYaAnuladaException {
+		Iterator<Ventas> listaAux = listaDeVentas.iterator();
+		while(listaAux.hasNext()) {
+			Ventas v = listaAux.next();
+			if(v.getIdVenta().equals(idVenta)){
+				listaDeVentas.remove(v);
+				return true;
+			}
+		}
+		throw new VentaYaAnuladaException();
+	}
+	
+	public Boolean pagarConPuntos (Producto producto, Usuario usuario, Integer IdVenta) throws VentaYaAnuladaException, PagoConPuntosFallido {
+			Integer pagar = 0;
 				for (Usuario u : listaDeUsuarios) {
-					if(u.getId().equals(usuario.getId()) && u.getPuntosAcumulados()>= producto.getPrecioPuntos()) {
-					Integer pagar = u.getPuntosAcumulados() - producto.getPrecioPuntos();
-					u.setPuntosAcumulados(pagar);
-					return true;
+					for(Ventas v : listaDeVentas) {
+						if(u.getId().equals(usuario.getId()) && u.getPuntosAcumulados()>= producto.getPrecioPuntos()) {
+						pagar = u.getPuntosAcumulados() - producto.getPrecioPuntos() * v.getCantidad();
+						u.setPuntosAcumulados(pagar);
+						return true;
+					}
+						if (v.getIdVenta().equals(IdVenta)) {
+							this.anularVenta(IdVenta);
+							pagar = u.getPuntosAcumulados() + producto.getPrecioPuntos() * v.getCantidad();
+							u.setPuntosAcumulados(pagar);
 					}
 				}
-				throw new PagoConPuntosFallido();
+			}
+			throw new PagoConPuntosFallido();
 		}
 	
-	public Boolean pagarConEfectivo (Producto producto, Usuario usuario) throws PagoConEfectivoFallido {
+	public Boolean pagarConEfectivo (Producto producto, Usuario usuario, Integer IdVenta) throws VentaYaAnuladaException, PagoConEfectivoFallido {
+		Double pagar = 0.0;
 		for (Usuario u : listaDeUsuarios) {
+			for (Ventas v : listaDeVentas) {
 			if(u.getId().equals(usuario.getId()) && u.getSaldo()>= producto.getPrecioReal()) {
-				Double pagar = u.getSaldo() - producto.getPrecioReal();
+				pagar = u.getSaldo() - producto.getPrecioReal() * v.getCantidad();
 				u.setSaldo(pagar);
 				return true;
+				}
+			if (v.getIdVenta().equals(IdVenta)) {
+				this.anularVenta(IdVenta);
+				pagar = u.getSaldo() + producto.getPrecioReal() * v.getCantidad();
+				u.setSaldo(pagar);
+				}
 			}
 		}
 		throw new PagoConEfectivoFallido();
 	}
-	
 	
 }
