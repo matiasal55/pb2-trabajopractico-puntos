@@ -70,11 +70,13 @@ public class Sistema {
 	public Boolean pagarConEfectivo (Producto producto, Usuario usuario) throws PagoConEfectivoFallido {
 		for (Usuario u : listaDeUsuarios) {
 			if(u.getId().equals(usuario.getId()) && u.getSaldo()>= producto.getPrecioReal()) {
-			Double pagar = u.getSaldo() - producto.getPrecioReal();
-			u.setSaldo(pagar);
-			return true;
+				Double pagar = u.getSaldo() - producto.getPrecioReal();
+				u.setSaldo(pagar);
+				return true;
 			}
 		}
 		throw new PagoConEfectivoFallido();
-}
+	}
+	
+	
 }

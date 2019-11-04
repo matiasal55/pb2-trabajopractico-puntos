@@ -1,6 +1,6 @@
 package pb2.puntos;
 
-public abstract class Usuario extends Persona {
+public class Usuario extends Persona {
 
 	private String email;
 	private String contrasenia;
@@ -56,7 +56,4 @@ public abstract class Usuario extends Persona {
 	public void setSaldo(Double saldo) {
 		this.saldo = saldo;
 	}
-	
-	
-
 }
