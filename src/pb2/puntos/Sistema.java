@@ -68,42 +68,43 @@ public class Sistema {
 		throw new VentaYaAnuladaException();
 	}
 	
-	public Boolean pagarConPuntos (Producto producto, Usuario usuario, Integer IdVenta) throws VentaYaAnuladaException, PagoConPuntosFallido {
+	public Boolean pagarConPuntos (Integer IdVenta) throws VentaYaAnuladaException, PagoConPuntosFallido {
 			Integer pagar = 0;
-				for (Usuario u : listaDeUsuarios) {
 					for(Ventas v : listaDeVentas) {
-						if(u.getId().equals(usuario.getId()) && u.getPuntosAcumulados()>= producto.getPrecioPuntos()) {
-						pagar = u.getPuntosAcumulados() - producto.getPrecioPuntos() * v.getCantidad();
-						u.setPuntosAcumulados(pagar);
+						if(v.getIdVenta().equals(IdVenta) && v.getUsuario().getPuntosAcumulados()>= v.getProducto().getPrecioPuntos()) {
+						pagar = v.getUsuario().getPuntosAcumulados() - v.getProducto().getPrecioPuntos() * v.getCantidad();
+						v.getUsuario().setPuntosAcumulados(pagar);
 						return true;
 					}
-						if (v.getIdVenta().equals(IdVenta)) {
-							this.anularVenta(IdVenta);
-							pagar = u.getPuntosAcumulados() + producto.getPrecioPuntos() * v.getCantidad();
-							u.setPuntosAcumulados(pagar);
+						else {
+							if (this.anularVenta(IdVenta) == true) {
+							pagar = v.getUsuario().getPuntosAcumulados() + v.getProducto().getPrecioPuntos() * v.getCantidad();
+							v.getUsuario().setPuntosAcumulados(pagar);
+							}
+							throw new VentaYaAnuladaException();
+						}
 					}
-				}
-			}
-			throw new PagoConPuntosFallido();
-		}
+						throw new PagoConPuntosFallido();
+				}		
 	
-	public Boolean pagarConEfectivo (Producto producto, Usuario usuario, Integer IdVenta) throws VentaYaAnuladaException, PagoConEfectivoFallido {
+	public Boolean pagarConEfectivo (Integer IdVenta) throws VentaYaAnuladaException, PagoConEfectivoFallido {
 		Double pagar = 0.0;
-		for (Usuario u : listaDeUsuarios) {
 			for (Ventas v : listaDeVentas) {
-			if(u.getId().equals(usuario.getId()) && u.getSaldo()>= producto.getPrecioReal()) {
-				pagar = u.getSaldo() - producto.getPrecioReal() * v.getCantidad();
-				u.setSaldo(pagar);
+				if(v.getIdVenta().equals(IdVenta) && v.getUsuario().getSaldo()>= v.getProducto().getPrecioReal()) {
+				pagar = v.getUsuario().getSaldo() - v.getProducto().getPrecioReal() * v.getCantidad();
+				v.getUsuario().setSaldo(pagar);
 				return true;
-				}
-			if (v.getIdVenta().equals(IdVenta)) {
-				this.anularVenta(IdVenta);
-				pagar = u.getSaldo() + producto.getPrecioReal() * v.getCantidad();
-				u.setSaldo(pagar);
+			}
+				
+				else {
+					if (this.anularVenta(IdVenta) == true) {
+						pagar = v.getUsuario().getSaldo() + v.getProducto().getPrecioReal() * v.getCantidad();
+					v.getUsuario().setSaldo(pagar);
+					}
+					throw new VentaYaAnuladaException();
 				}
 			}
-		}
-		throw new PagoConEfectivoFallido();
-	}
+				throw new PagoConEfectivoFallido();
+		}		
 	
 }
