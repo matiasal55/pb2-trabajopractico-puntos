@@ -34,14 +34,6 @@ public class Ventas {
 		this.cliente = cliente;
 	}
 
-	public Integer getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;
-	}
-
 	public Producto getProducto() {
 		return producto;
 	}
@@ -56,14 +48,6 @@ public class Ventas {
 
 	public void setMedioDePago(String medioDePago) {
 		this.medioDePago = medioDePago;
-    }
-    
-	public Integer getNumeroDeOrden() {
-		return numeroDeOrden;
-	}
-
-	public void setNumeroDeOrden(Integer numeroDeOrden) {
-		this.numeroDeOrden = numeroDeOrden;
 	}
 
 	public Integer getCantidadDePuntos() {
@@ -72,6 +56,14 @@ public class Ventas {
 
 	public void setCantidadDePuntos(Integer cantidadDePuntos) {
 		this.cantidadDePuntos = cantidadDePuntos;
+	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
 	}
 
 }

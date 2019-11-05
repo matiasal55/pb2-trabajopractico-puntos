@@ -11,8 +11,8 @@ public class Sistema {
 	private ArrayList<Producto> listaDeProductos;
 	private LinkedList<Usuario> listaDeUsuarios;
 	private ArrayList<Ventas> listaDeVentas;
-  
-  public Sistema() {
+
+	public Sistema() {
 		this.listaDeProductos = new ArrayList<>();
 		this.listaDeVentas = new ArrayList<>();
 		this.listaDeUsuarios = new LinkedList<>();
@@ -39,21 +39,23 @@ public class Sistema {
 		throw new LoginFallidoException();
 	}
 
-	public void agregarProducto(Producto prod) {
-		listaDeProductos.add(prod);
+	public void agregarProducto(Usuario usr, Producto prod) {
+		if (usr instanceof Administrador) {
+			listaDeProductos.add(prod);
+		}
 	}
-	
+
 	public Boolean realizarCompra(Ventas venta) throws VentaFallidaException {
 		Iterator<Producto> listaAux = listaDeProductos.iterator();
-		while(listaAux.hasNext()) {
+		while (listaAux.hasNext()) {
 			Producto prodAux = listaAux.next();
-			if(prodAux.equals(venta.getProducto())){
-				listaDeProductos.remove(venta.getProducto());
+			if (prodAux.equals(venta.getProducto())) {
+				listaDeProductos.remove(prodAux);
 				listaDeVentas.add(venta);
 				return true;
 			}
 		}
 		throw new VentaFallidaException();
 	}
-	
+
 }
