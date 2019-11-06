@@ -39,10 +39,12 @@ public class Sistema {
 		throw new LoginFallidoException();
 	}
 
-	public void agregarProducto(Usuario usr, Producto prod) {
+	public Boolean agregarProducto(Usuario usr, Producto prod) throws NoEsAdminException {
 		if (usr instanceof Administrador) {
 			listaDeProductos.add(prod);
+			return true;
 		}
+		throw new NoEsAdminException();
 	}
 
 	public Boolean realizarCompra(Ventas venta) throws VentaFallidaException {
@@ -52,10 +54,55 @@ public class Sistema {
 			if (prodAux.equals(venta.getProducto())) {
 				listaDeProductos.remove(prodAux);
 				listaDeVentas.add(venta);
+				venta.getCliente()
+						.setPuntosAcumulados(venta.getCliente().getPuntosAcumulados() + venta.getCantidadDePuntos());
 				return true;
 			}
 		}
+		if (venta.getMedioDePago().equals("efectivo")) {
+			venta.getCliente().setSaldo(venta.getCliente().getSaldo() - venta.getProducto().getPrecioReal());
+		}
+		if (venta.getMedioDePago().equals("puntos")) {
+			venta.getCliente().setPuntosAcumulados(
+					venta.getCliente().getPuntosAcumulados() - venta.getProducto().getPrecioPuntos());
+		}
+		if (venta.getMedioDePago() != "efectivo" || venta.getMedioDePago() != "puntos") {
+			throw new VentaFallidaException();
+		}
+
 		throw new VentaFallidaException();
+	}
+
+	public void obtenerComprasOrdenadasPorLetra() {
+
+	}
+
+	public void recargarSaldo(Usuario usrARecargar, Integer monto) {
+		usrARecargar.setSaldo(usrARecargar.getSaldo() + monto);
+	}
+
+	public ArrayList<Producto> getListaDeProductos() {
+		return listaDeProductos;
+	}
+
+	public void setListaDeProductos(ArrayList<Producto> listaDeProductos) {
+		this.listaDeProductos = listaDeProductos;
+	}
+
+	public LinkedList<Usuario> getListaDeUsuarios() {
+		return listaDeUsuarios;
+	}
+
+	public void setListaDeUsuarios(LinkedList<Usuario> listaDeUsuarios) {
+		this.listaDeUsuarios = listaDeUsuarios;
+	}
+
+	public ArrayList<Ventas> getListaDeVentas() {
+		return listaDeVentas;
+	}
+
+	public void setListaDeVentas(ArrayList<Ventas> listaDeVentas) {
+		this.listaDeVentas = listaDeVentas;
 	}
 
 }
