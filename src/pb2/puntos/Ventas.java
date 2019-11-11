@@ -1,29 +1,20 @@
 package pb2.puntos;
 
 public class Ventas {
-	private Integer idVenta;
+	
 	private Usuario usuario;
 	private Integer cantidad;
 	private Producto producto;
-	private String medioDePago;
+	private DetalleDePago detalle;
 	private Integer cantidadDePuntos;
 
-	public Ventas(Integer idVenta, Cliente cliente, Integer cantidad, Producto producto, String medioDePago,
+	public Ventas(Cliente cliente, Integer cantidad, Producto producto, DetalleDePago detalle,
 			Integer cantidadDePuntos) {
-		this.idVenta = idVenta;
 		this.usuario = usuario;
 		this.cantidad = cantidad;
 		this.producto = producto;
-		this.medioDePago = medioDePago;
+		this.detalle = detalle;
 		this.cantidadDePuntos = cantidadDePuntos;
-	}
-
-	public Integer getIdVenta() {
-		return idVenta;
-	}
-
-	public void setIdVenta(Integer idVenta) {
-		this.idVenta = idVenta;
 	}
 
 	public Usuario getUsuario() {
@@ -50,12 +41,12 @@ public class Ventas {
 		this.producto = producto;
 	}
 
-	public String getMedioDePago() {
-		return medioDePago;
+	public DetalleDePago getDetalle() {
+		return detalle;
 	}
 
-	public void setMedioDePago(String medioDePago) {
-		this.medioDePago = medioDePago;
+	public void setDetalle(DetalleDePago detalle) {
+		this.detalle = detalle;
 	}
 
 	public Integer getCantidadDePuntos() {

@@ -1,18 +1,28 @@
 package pb2.puntos;
 
-public class Producto extends Categoria {
-
+public class Producto {
+	
+	private String descripcion;
 	private Integer codigo;
 	private String nombreProducto;
 	private Double precioReal;
 	private Integer precioPuntos;
 
 	public Producto(String descripcion, Integer codigo, String nombreProducto, Double precioReal, Integer precioPuntos) {
-		super(descripcion);
+		this.descripcion = descripcion;
 		this.codigo = codigo;
 		this.nombreProducto = nombreProducto;
 		this.precioReal = precioReal;
 		this.precioPuntos = precioPuntos;
+	}
+
+	
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public Integer getCodigo() {
@@ -46,5 +56,8 @@ public class Producto extends Categoria {
 	public void setPrecioPuntos(Integer precioPuntos) {
 		this.precioPuntos = precioPuntos;
 	}
-  
+	
+	public int compareTo(Producto o) {
+		return this.codigo.compareTo(o.getCodigo());
+	}
 }
