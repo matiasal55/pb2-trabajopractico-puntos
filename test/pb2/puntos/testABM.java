@@ -20,26 +20,25 @@ public class testABM {
 	}
 	
 	@Test (expected= LoginFallidoException.class)
-	public void loginConUsuarioIncorrecto() throws LoginFallidoException {
+	public void loginConUsuarioIncorrecto() throws LoginFallidoException, contraseniaInvalidaException {
 		Boolean valor = miSistema.loginUsuario(nuevo.getMail(), nuevo.getContrasenia());
 		Assert.assertFalse(valor);
 	}
 
 	@Test
-	public void crearClienteYLoguearlo() throws LoginFallidoException {
-		Assert.assertTrue(miSistema.registrarUsuario(nuevo));
+	public void crearClienteYLoguearlo() throws LoginFallidoException, usuarioExistenteException, contraseniaInvalidaException {
+		miSistema.registrarUsuario(nuevo);
 		Assert.assertTrue(miSistema.loginUsuario(nuevo.getMail(), nuevo.getContrasenia()));
 	}
 
-	@Test
-	public void usuarioExistente() throws LoginFallidoException {
+	@Test (expected=usuarioExistenteException.class)
+	public void usuarioExistente() throws LoginFallidoException, usuarioExistenteException, contraseniaInvalidaException {
 		miSistema.registrarUsuario(nuevo);
-		miSistema.loginUsuario(nuevo.getMail(), nuevo.getContrasenia());
-		Assert.assertFalse(miSistema.registrarUsuario(nuevo));
+		miSistema.registrarUsuario(nuevo);
 	}
 	
 	@Test
-	public void crearAdministradorYLoguearlo() throws LoginFallidoException {
+	public void crearAdministradorYLoguearlo() throws LoginFallidoException, usuarioExistenteException, contraseniaInvalidaException {
 		miSistema.registrarUsuario(admin);
 		Assert.assertTrue(miSistema.loginUsuario(admin.getMail(), admin.getContrasenia()));
 	}

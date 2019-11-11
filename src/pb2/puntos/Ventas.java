@@ -4,17 +4,24 @@ public class Ventas {
 	private Integer idVenta;
 	private Integer cantidad;
 	private Producto producto;
-	private Usuario comprador;
+	private Integer totalPuntos;
+	private Double precioTotal;
+	private String comprador;
 	private Integer cantidadDePuntos;
 	private String medioDePago;
+	private String estadoDePago;
 
-	public Ventas(Integer idVenta, Integer cantidad, Producto producto, Usuario comprador, Integer cantidadDePuntos, String medioDePago) {
+	public Ventas(Integer idVenta, Integer cantidad, Producto producto, Integer totalPuntos, Double precioTotal,
+			String comprador, Integer cantidadDePuntos, String medioDePago, String estadoDePago) {
 		this.idVenta = idVenta;
 		this.cantidad = cantidad;
 		this.producto = producto;
+		this.totalPuntos = totalPuntos;
+		this.precioTotal = precioTotal;
 		this.comprador = comprador;
 		this.cantidadDePuntos = cantidadDePuntos;
 		this.medioDePago = medioDePago;
+		this.estadoDePago = estadoDePago;
 	}
 
 	public Integer getIdVenta() {
@@ -41,11 +48,27 @@ public class Ventas {
 		this.producto = producto;
 	}
 
-	public Usuario getComprador() {
+	public Integer getTotalPuntos() {
+		return totalPuntos;
+	}
+
+	public void setTotalPuntos(Integer totalPuntos) {
+		this.totalPuntos = totalPuntos;
+	}
+
+	public Double getPrecioTotal() {
+		return precioTotal;
+	}
+
+	public void setPrecioTotal(Double precioTotal) {
+		this.precioTotal = precioTotal;
+	}
+
+	public String getComprador() {
 		return comprador;
 	}
 
-	public void setComprador(Usuario comprador) {
+	public void setComprador(String comprador) {
 		this.comprador = comprador;
 	}
 
@@ -63,6 +86,14 @@ public class Ventas {
 
 	public void setMedioDePago(String medioDePago) {
 		this.medioDePago = medioDePago;
+	}
+
+	public String getEstadoDePago() {
+		return estadoDePago;
+	}
+
+	public void setEstadoDePago(String estadoDePago) {
+		this.estadoDePago = estadoDePago;
 	}
 
 }

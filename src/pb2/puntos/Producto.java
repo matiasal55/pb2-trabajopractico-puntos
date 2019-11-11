@@ -1,6 +1,6 @@
 package pb2.puntos;
 
-public class Producto extends Categoria {
+public class Producto extends Categoria implements Comparable<Producto>{
 	private Integer codigo;
 	private String nombre;
 	private Double precioReal;
@@ -45,5 +45,12 @@ public class Producto extends Categoria {
 	public void setPrecioPuntos(Integer precioPuntos) {
 		this.precioPuntos = precioPuntos;
 	}
+
+	@Override
+	public int compareTo(Producto o) {
+		return this.codigo.compareTo(o.getCodigo());
+	}
+
+	
 
 }

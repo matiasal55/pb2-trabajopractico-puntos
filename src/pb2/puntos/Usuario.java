@@ -56,4 +56,12 @@ public class Usuario extends Persona {
 		this.saldo = saldo;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
+		return result;
+	}
+
 }
