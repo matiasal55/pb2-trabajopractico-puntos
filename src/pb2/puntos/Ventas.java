@@ -7,6 +7,7 @@ public class Ventas {
 	private Producto producto;
 	private DetalleDePago detalle;
 	private Integer cantidadDePuntos;
+	private Boolean estado;
 
 	public Ventas(Cliente cliente, Integer cantidad, Producto producto, DetalleDePago detalle,
 			Integer cantidadDePuntos) {
@@ -15,6 +16,7 @@ public class Ventas {
 		this.producto = producto;
 		this.detalle = detalle;
 		this.cantidadDePuntos = cantidadDePuntos;
+		this.estado = estado;
 	}
 
 	public Usuario getUsuario() {
@@ -55,6 +57,14 @@ public class Ventas {
 
 	public void setCantidadDePuntos(Integer cantidadDePuntos) {
 		this.cantidadDePuntos = cantidadDePuntos;
+	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
 	}
 
 }

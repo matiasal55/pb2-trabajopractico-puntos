@@ -3,12 +3,12 @@ package pb2.puntos;
 public class DetalleDePago {
 	
 	private Integer id;
-	private Double totalEnEfectivo;
+	private Double totalEnSaldo;
 	private Integer totalEnPuntos;
 	
-	public DetalleDePago(Integer id, Double totalEnEfectivo, Integer totalEnPuntos) {
+	public DetalleDePago(Integer id, Double totalEnSaldo, Integer totalEnPuntos) {
 		this.id = id;
-		this.totalEnEfectivo = totalEnEfectivo;
+		this.totalEnSaldo = totalEnSaldo;
 		this.totalEnPuntos = totalEnPuntos;
 	}
 
@@ -20,12 +20,12 @@ public class DetalleDePago {
 		this.id = id;
 	}
 
-	public Double getTotalEnEfectivo() {
-		return totalEnEfectivo;
+	public Double getTotalEnSaldo() {
+		return totalEnSaldo;
 	}
 
-	public void setTotalEnEfectivo(Double totalEnEfectivo) {
-		this.totalEnEfectivo = totalEnEfectivo;
+	public void setTotalEnSaldo(Double totalEnSaldo) {
+		this.totalEnSaldo = totalEnSaldo;
 	}
 
 	public Integer getTotalEnPuntos() {

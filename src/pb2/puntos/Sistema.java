@@ -33,7 +33,11 @@ public class Sistema {
 
 	public Boolean loginUsuario(String email, String contrasenia) throws LoginFallidoException {
 		for (Usuario listaAux : listaDeUsuarios) {
-			if (listaAux.getEmail().equals(email) && listaAux.getContrasenia().equals(contrasenia)) { // verifica que el mail y la contraseñaesten bien ingresados
+			if (listaAux.getEmail().equals(email) && listaAux.getContrasenia().equals(contrasenia)) { // verifica que el
+																										// mail y la
+																										// contraseñaesten
+																										// bien
+																										// ingresados
 				return true;
 			}
 		}
@@ -101,7 +105,18 @@ public class Sistema {
 		}
 		throw new VentaFallidaException();
 	}
-	
-	
+
+	public Boolean recargarSaldo(Usuario usuario, Double monto) throws UsuarioInexistente, MontoInsuficiente {
+		for (Usuario u : listaDeUsuarios) {
+			if (usuario.equals(u)) { // si el usuario se encuentra en la lista
+				if (monto > 0) { // si el monto ingresado es mas de 0
+					usuario.setSaldo(monto);
+					return true;
+				}
+				throw new MontoInsuficiente();
+			}
+		}
+		throw new UsuarioInexistente();
+	}
 
 }
