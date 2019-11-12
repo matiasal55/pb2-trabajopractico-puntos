@@ -87,10 +87,10 @@ public class Sistema {
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-	public Integer autogeneracionDeId(Usuario usr) {
-		usr.setId(listaDeUsuarios.size() + 1);
-		return usr.getId();
-	}
+//	public Integer autogeneracionDeId(Usuario usr) {
+//		usr.setId(listaDeUsuarios.size() + 1);
+//		return usr.getId();
+//	}
 
 	public Boolean realizarCompra(Ventas venta) throws VentaFallidaException, MetodoDePagoNoExistenteException,
 			EmailYaRegistrado, ElUsuarioNoEstaRegistradoException {
@@ -138,6 +138,10 @@ public class Sistema {
 			}
 		}
 		return false;
+	}
+	
+	public Boolean reintegro(Ventas venta){
+		
 	}
 
 //----------------------------------------------------------------------------------------------------------------------------------
