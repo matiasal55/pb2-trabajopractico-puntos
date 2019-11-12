@@ -15,6 +15,16 @@ public class Producto extends Categoria {
 		this.precioPuntos = precioPuntos;
 	}
 
+	
+	
+	@Override
+	public String toString() {
+		return "Producto: codigo=" + codigo + ", nombreProducto=" + nombreProducto + ", precioReal=" + precioReal
+				+ ", precioPuntos=" + precioPuntos;
+	}
+
+
+
 	public Integer getCodigo() {
 		return codigo;
 	}

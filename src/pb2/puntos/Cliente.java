@@ -7,4 +7,5 @@ public class Cliente extends Usuario {
 		super(nombre, apellido, mail, contrasenia, id, puntosAcumulados, saldo);
 	}
 
+
 }
