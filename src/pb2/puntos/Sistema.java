@@ -73,29 +73,27 @@ public class Sistema {
 
 	// ___________________________________________________________________________________________
 
-	public DetallesDePago comprarProducto(String comprador, Integer cantidad, Producto producto, String medioDePago) {
-		// if (this.listaDeProductos.contains(producto)) {
-		Integer idPago = this.listaDeVentas.size() + 1;
-		Double precioTotal = cantidad * producto.getPrecioReal();
-		Integer totalPuntos = cantidad * producto.getPrecioPuntos();
-		Integer cantidadDePuntos = (int) (precioTotal * obtenerFactorPuntos(comprador));
-		String estadoDePago = "Pagar";
-		Ventas nueva = new Ventas(idPago, cantidad, producto, totalPuntos, precioTotal, comprador, cantidadDePuntos,
-				medioDePago, estadoDePago);
-		DetallesDePago nuevo = new DetallesDePago(idPago, precioTotal, totalPuntos);
-		this.listaDeVentas.add(nueva);
-		return nuevo;
-		// }
-		// return null;
+	public DetallesDePago comprarProducto(Usuario comprador, Integer cantidad, Producto producto, String medioDePago) {
+		if (this.listaDeProductos.contains(producto)) {
+			Integer factorDePuntos = obtenerFactorPuntos(comprador);
+			Integer cantidadDePuntos = (int) (cantidad * producto.getPrecioReal() * factorDePuntos);
+			Ventas nuevaVenta = new Ventas(this.listaDeVentas.size() + 1, cantidad, producto, comprador,
+					cantidadDePuntos, medioDePago);
+			DetallesDePago nuevoDetalle = new DetallesDePago(nuevaVenta.getIdVenta(), nuevaVenta.getPrecioTotal(),
+					nuevaVenta.getTotalPuntos());
+			this.listaDeVentas.add(nuevaVenta);
+			return nuevoDetalle;
+		}
+		return null;
 
 	}
 
-	private Integer obtenerFactorPuntos(String comprador) {
+	private Integer obtenerFactorPuntos(Usuario comprador) {
 		for (Usuario lista : this.listaDeUsuarios) {
 			if (lista.getMail().equals(comprador)) {
 				if (lista instanceof Cliente)
 					return ((Cliente) lista).getFactorDePuntos();
-				else
+				else if (lista instanceof Administrador)
 					return ((Administrador) lista).getFactorDePuntos();
 			}
 		}
@@ -106,7 +104,7 @@ public class Sistema {
 		for (Ventas lista : this.listaDeVentas) {
 			if (lista.getIdVenta().equals(idPago)) {
 				for (Usuario lista2 : this.listaDeUsuarios) {
-					if (lista2.getMail().equals(lista.getComprador()) && lista2.getPuntosAcumulados() >= puntos) {
+					if (lista2.equals(lista.getComprador()) && lista2.getPuntosAcumulados() >= puntos) {
 						lista2.setPuntosAcumulados(lista2.getPuntosAcumulados() - puntos);
 						lista.setEstadoDePago("Pagado");
 						return true;
@@ -117,7 +115,8 @@ public class Sistema {
 		return false;
 	}
 
-	public Boolean pagarConSaldo(Integer id, Double monto) throws productoInexistenteException, saldoInsuficienteException {
+	public Boolean pagarConSaldo(Integer id, Double monto)
+			throws productoInexistenteException, saldoInsuficienteException {
 		for (Ventas lista : this.listaDeVentas) {
 			if (lista.getIdVenta().equals(id)) {
 				for (Usuario lista2 : this.listaDeUsuarios) {
@@ -163,7 +162,7 @@ public class Sistema {
 		}
 		return precio;
 	}
-	
+
 	public Boolean eliminarDeListaDeVentas(Integer id) {
 		Iterator<Ventas> it = this.listaDeVentas.iterator();
 		while (it.hasNext()) {
