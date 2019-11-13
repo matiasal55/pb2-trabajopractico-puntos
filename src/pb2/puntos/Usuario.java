@@ -56,36 +56,4 @@ public class Usuario extends Persona {
 	public void setSaldo(Double saldo) {
 		this.saldo = saldo;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((contrasenia == null) ? 0 : contrasenia.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Usuario other = (Usuario) obj;
-		if (contrasenia == null) {
-			if (other.contrasenia != null)
-				return false;
-		} else if (!contrasenia.equals(other.contrasenia))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		return true;
-	}
-	
 }
