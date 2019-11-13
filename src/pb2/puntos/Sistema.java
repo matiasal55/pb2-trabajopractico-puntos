@@ -108,20 +108,22 @@ public class Sistema {
 		throw new NoEsAdministradorException();
 	}
 
-	public Boolean recargarSaldo(Usuario usuario, Double monto) throws UsuarioInexistenteException, MontoInsuficiente {
+	public Boolean recargarSaldo(Usuario usuario, Double monto) throws UsuarioInexistenteException, MontoIncorrecto {
 		for (Usuario u : listaDeUsuarios) {
 			if (usuario.equals(u)) { // si el usuario se encuentra en la lista
 				if (monto > 0) { // si el monto ingresado es mas de 0
 					usuario.setSaldo(monto);
 					return true;
 				}
-				throw new MontoInsuficiente();
+				throw new MontoIncorrecto();
 			}
 		}
 		throw new UsuarioInexistenteException();
 	}
 
-	private Integer obtenerFactorPuntos(Usuario usuario) throws UsuarioInexistenteException { // Porque el administrador obtiene más puntos por compra
+	private Integer obtenerFactorPuntos(Usuario usuario) throws UsuarioInexistenteException { // Porque el administrador
+																								// obtiene más puntos
+																								// por compra
 		for (Usuario u : this.listaDeUsuarios) {
 			if (u.equals(usuario)) {
 				if (u instanceof Cliente) // si es cliente
@@ -134,7 +136,8 @@ public class Sistema {
 		return 0;
 	}
 
-	public DetalleDePago comprarProducto(Usuario usuario, Integer cantidad, Producto producto, String medioDePago) throws ProductoNoExisteException, UsuarioInexistenteException {
+	public DetalleDePago comprarProducto(Usuario usuario, Integer cantidad, Producto producto, String medioDePago)
+			throws ProductoNoExisteException, UsuarioInexistenteException {
 		if (this.listaDeProductos.contains(producto)) { // si está el producto que se quiere comprar
 			Integer factorDePuntos = obtenerFactorPuntos(usuario); // obtener el factor de puntos por si es admin o no
 			Integer cantidadDePuntos = (int) (cantidad * producto.getPrecioReal() * factorDePuntos); // la cantidad de
@@ -151,9 +154,52 @@ public class Sistema {
 		throw new ProductoNoExisteException();
 
 	}
-	
-	
-	
-	
+
+	public Boolean pagarConSaldo(Integer id, Double monto)
+			throws SaldoInsuficienteException, VentaNoExisteException, UsuarioInexistenteException {
+		for (Ventas v : this.listaDeVentas) { // Si existe la venta, se fija por id
+			if (v.getIdVenta().equals(id)) {
+				for (Usuario v2 : this.listaDeUsuarios) { // si existe el usuario
+					if (v2.equals(v.getUsuario())) {
+						if (v2.getSaldo() >= monto) { // si le alcanza el saldo para pagar
+							v2.setPuntosAcumulados(v2.getPuntosAcumulados() + v.getCantidadDePuntos()); // le agrega los
+																										// puntos
+																										// ganados por
+																										// la compra
+							v2.setSaldo(v2.getSaldo() - monto); // le resta el monto del salgo
+							v.setEstadoDePago("Pagado"); // el estado cambia a "pagado" siendo antes "pagar"
+							return true;
+						} else {
+							v.setEstadoDePago("Saldo insuficiente");
+							throw new SaldoInsuficienteException();
+						}
+
+					}
+					throw new UsuarioInexistenteException();
+				}
+			}
+		}
+		throw new VentaNoExisteException();
+	}
+
+	public Boolean pagarConPuntos(Integer id, Integer puntos) throws VentaNoExisteException, PuntosInsuficientesException, UsuarioInexistenteException {
+		for (Ventas v : this.listaDeVentas) {
+			if (v.getIdVenta().equals(id)) { // si existe la venta
+				for (Usuario v2 : this.listaDeUsuarios) {
+					if (v2.equals(v.getUsuario())) { // si existe el usuario
+						if (v2.getPuntosAcumulados() >= puntos) { // si le alcanzan los puntos
+							v2.setPuntosAcumulados(v2.getPuntosAcumulados() - puntos); // si le alcanzan, se restan
+							v.setEstadoDePago("Pagado"); // el estado cambia a "pagado" siendo antes "pagar"
+							return true;
+						}
+						throw new PuntosInsuficientesException();
+					}
+				}
+				throw new UsuarioInexistenteException();
+			}
+			throw new VentaNoExisteException();
+		}
+		return false;
+	}
 
 }

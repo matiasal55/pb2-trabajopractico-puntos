@@ -1,8 +1,8 @@
 package pb2.puntos;
 
-public class MontoInsuficiente extends Exception {
+public class MontoIncorrecto extends Exception {
 
-	public MontoInsuficiente() {
+	public MontoIncorrecto() {
 		super("El monto a agregar debe ser mayor a 0");
 	}
 }
