@@ -1,30 +1,36 @@
 package pb2.puntos;
 
 public class Ventas {
-	
-	private Usuario usuario;
+
+	private Integer idVenta;
 	private Integer cantidad;
 	private Producto producto;
-	private DetalleDePago detalle;
+	private Integer totalPuntos;
+	private Double precioTotal;
+	private Usuario usuario;
 	private Integer cantidadDePuntos;
-	private Boolean estado;
+	private String medioDePago;
+	private String estadoDePago;
 
-	public Ventas(Cliente cliente, Integer cantidad, Producto producto, DetalleDePago detalle,
-			Integer cantidadDePuntos) {
-		this.usuario = usuario;
+	public Ventas(Integer idVenta, Integer cantidad, Producto producto, Usuario usuario, Integer cantidadDePuntos,
+			String medioDePago) {
+		this.idVenta = idVenta;
 		this.cantidad = cantidad;
 		this.producto = producto;
-		this.detalle = detalle;
-		this.cantidadDePuntos = cantidadDePuntos;
-		this.estado = estado;
+		this.totalPuntos = cantidad * producto.getPrecioPuntos(); // precio total en puntos
+		this.precioTotal = cantidad * producto.getPrecioReal(); // precio total en saldo
+		this.setUsuario(usuario);
+		this.cantidadDePuntos = cantidadDePuntos; // puntos que suma el usuario al hacer una compra
+		this.medioDePago = medioDePago;
+		this.estadoDePago = "Pagar";
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Integer getIdVenta() {
+		return idVenta;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setIdVenta(Integer idVenta) {
+		this.idVenta = idVenta;
 	}
 
 	public Integer getCantidad() {
@@ -43,12 +49,28 @@ public class Ventas {
 		this.producto = producto;
 	}
 
-	public DetalleDePago getDetalle() {
-		return detalle;
+	public Integer getTotalPuntos() {
+		return totalPuntos;
 	}
 
-	public void setDetalle(DetalleDePago detalle) {
-		this.detalle = detalle;
+	public void setTotalPuntos(Integer totalPuntos) {
+		this.totalPuntos = totalPuntos;
+	}
+
+	public Double getPrecioTotal() {
+		return precioTotal;
+	}
+
+	public void setPrecioTotal(Double precioTotal) {
+		this.precioTotal = precioTotal;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Integer getCantidadDePuntos() {
@@ -59,12 +81,20 @@ public class Ventas {
 		this.cantidadDePuntos = cantidadDePuntos;
 	}
 
-	public Boolean getEstado() {
-		return estado;
+	public String getMedioDePago() {
+		return medioDePago;
 	}
 
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
+	public void setMedioDePago(String medioDePago) {
+		this.medioDePago = medioDePago;
+	}
+
+	public String getEstadoDePago() {
+		return estadoDePago;
+	}
+
+	public void setEstadoDePago(String estadoDePago) {
+		this.estadoDePago = estadoDePago;
 	}
 
 }

@@ -11,19 +11,19 @@ public class testTrabajo {
 	Usuario u1 = new Usuario ("Miguel", "Lopez", "mlopez@gmail.com", "12345");
 	
 	@Test
-	public void testRegistroExitoso() throws UsuarioYaRegistrado {
+	public void testRegistroExitoso() throws UsuarioYaRegistradoException {
 		Boolean valorEsperado = sistema.registrarUsuario(u1);
 		assertTrue(valorEsperado);
 	}
 	
-	@Test (expected = UsuarioYaRegistrado.class)
-	public void testRegistroFallido() throws UsuarioYaRegistrado {
+	@Test (expected = UsuarioYaRegistradoException.class)
+	public void testRegistroFallido() throws UsuarioYaRegistradoException {
 		sistema.registrarUsuario(u1);
 		sistema.registrarUsuario(u1);
 	}
 	
 	@Test
-	public void testLoginExistoso () throws UsuarioYaRegistrado, LoginFallidoException {
+	public void testLoginExistoso () throws UsuarioYaRegistradoException, LoginFallidoException {
 		sistema.registrarUsuario(u1);
 		Boolean valorEsperado = sistema.loginUsuario("mlopez@gmail.com", "12345");
 		assertTrue(valorEsperado);
@@ -31,7 +31,7 @@ public class testTrabajo {
 	
 
 	@Test (expected = LoginFallidoException.class)
-	public void testLoginFallido() throws UsuarioYaRegistrado, LoginFallidoException {
+	public void testLoginFallido() throws UsuarioYaRegistradoException, LoginFallidoException {
 		sistema.registrarUsuario(u1);
 		sistema.loginUsuario("slopez@gmail.com", "14345");
 	}
