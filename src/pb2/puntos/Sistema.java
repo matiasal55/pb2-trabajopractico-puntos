@@ -81,7 +81,7 @@ public class Sistema {
 			while (listaAux.hasNext()) {
 				Producto prodAux = listaAux.next();
 				if (prodAux.equals(producto)) { // verifica que el producto ingresado este en la lista de productos
-					listaDeProductos.remove(producto); // si está lo remueve
+					listaAux.remove(); // si está lo remueve
 					return true;
 				}
 				throw new ProductoNoExisteException();
@@ -95,11 +95,11 @@ public class Sistema {
 		if (usuario instanceof Administrador) { // solo el administrador puede modificar productos
 			for (Producto p : listaDeProductos) {
 				if (p.equals(pAModificar)) { // verifica que el producto a modificar este en la lista
-					pAModificar.setDescripcion(pNuevo.getDescripcion());
-					pAModificar.setCodigo(pNuevo.getCodigo());
-					pAModificar.setNombreProducto(pNuevo.getNombreProducto());
-					pAModificar.setPrecioPuntos(pNuevo.getPrecioPuntos());
-					pAModificar.setPrecioReal(pNuevo.getPrecioReal());
+					p.setDescripcion(pNuevo.getDescripcion());
+					p.setCodigo(pNuevo.getCodigo());
+					p.setNombreProducto(pNuevo.getNombreProducto());
+					p.setPrecioPuntos(pNuevo.getPrecioPuntos());
+					p.setPrecioReal(pNuevo.getPrecioReal());
 					return true;
 				}
 				throw new ProductoNoExisteException();
