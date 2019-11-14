@@ -44,6 +44,7 @@ public class Menu {
 							s1.registrarUsuario(admin);
 						} catch (EmailYaRegistrado e1) {
 							e1.printStackTrace();
+							
 						}
 						break;
 					case '3':
