@@ -13,7 +13,7 @@ public class testTrabajo {
 	Producto p1 = new Producto("lacteos", 11012, "leche", 50.0, 250);
 	Producto p2 = new Producto("lacteos", 11013, "queso", 75.0, 310);
 	Producto p3 = new Producto("lacteos", 11014, "pan", 150.0, 500);
-	Sistema s1 = new Sistema();
+	Sistema s1 = Sistema.getInstancia();
 
 	@Test
 	public void realizarCompra() throws NoEsAdminException, VentaFallidaException, MetodoDePagoNoExistenteException,
@@ -26,7 +26,7 @@ public class testTrabajo {
 		s1.realizarCompra(v1);
 		s1.obtenerComprasOrdenadasPorId();
 		s1.pagarEnEfectivo(v1);
-		s1.eliminarUsuario(a1, u1);
+		//s1.eliminarUsuario(a1, u1);
 		s1.mostarListaUsuarios();
 	}
 

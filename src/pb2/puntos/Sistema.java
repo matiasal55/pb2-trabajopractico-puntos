@@ -54,22 +54,31 @@ public class Sistema {
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-	public void eliminarUsuario(Usuario usr, Usuario usrAEliminar) {
+	public Boolean eliminarUsuario(Usuario usr, Integer id) throws NoEsAdminException {
 		if (usr instanceof Administrador) {
-			if (listaDeUsuarios.contains(usrAEliminar)) {
-				listaDeUsuarios.remove(usrAEliminar);
+			Iterator<Usuario> listaAux = listaDeUsuarios.iterator();
+			while(listaAux.hasNext()) {
+				Usuario aux = listaAux.next();
+				if(aux instanceof Cliente) {
+					if(aux.getId().equals(id)) {
+						listaAux.remove();
+						return true;
+					}
+				}
+				
 			}
 		}
+		throw new NoEsAdminException();
 	}
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-	public Boolean eliminarProducto(Usuario usr, Producto prod) {
+	public Boolean eliminarProducto(Usuario usr, Integer id) {
 		if (usr instanceof Administrador) {
 			Iterator<Producto> listaAux = listaDeProductos.iterator();
 			while (listaAux.hasNext()) {
 				Producto aux = listaAux.next();
-				if (aux.equals(prod)) {
+				if (aux.getCodigo().equals(id)) {
 					listaAux.remove();
 					return true;
 				}
@@ -112,7 +121,7 @@ public class Sistema {
 //	}
 
 	public Boolean realizarCompra(Ventas venta) throws VentaFallidaException, MetodoDePagoNoExistenteException,
-			EmailYaRegistrado, ElUsuarioNoEstaRegistradoException {
+			EmailYaRegistrado, ElUsuarioNoEstaRegistradoException, EfectivoInsuficienteException {
 		if (buscarUsuarioParaVerificarCompra(venta.getCliente()) == false) {
 			throw new ElUsuarioNoEstaRegistradoException();
 		}
@@ -133,13 +142,13 @@ public class Sistema {
 		if (registrarUsuario(venta.getCliente()) != true) {
 			throw new ElUsuarioNoEstaRegistradoException();
 		}
-//		if (venta.getMedioDePago().equals("efectivo")) {
-//			this.pagarEnEfectivo(venta);
-//		} else if (venta.getMedioDePago().equals("puntos")) {
-//			this.pagarConPuntos(venta);
-//		} else if (venta.getMedioDePago() != "efectivo" || venta.getMedioDePago() != "puntos") {
-//			throw new MetodoDePagoNoExistenteException();
-//		}
+		if (venta.getMedioDePago().equals("efectivo")) {
+			this.pagarEnEfectivo(venta);
+		} else if (venta.getMedioDePago().equals("puntos")) {
+			this.pagarConPuntos(venta);
+		} else if (venta.getMedioDePago() != "efectivo" || venta.getMedioDePago() != "puntos") {
+			throw new MetodoDePagoNoExistenteException();
+		}
 
 		throw new VentaFallidaException();
 	}
