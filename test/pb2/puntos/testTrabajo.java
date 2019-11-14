@@ -29,8 +29,8 @@ public class testTrabajo {
 	@Test
 	public void comprarYpagar() {
 		miSistema.cargarSaldo(nuevo, 200.0);
-		DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo.getMail(), 1, nuevoProducto, "Saldo");
 		try {
+			DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 			assertTrue(miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo()));
 		} catch (productoInexistenteException | saldoInsuficienteException e) {
 			e.printStackTrace();
@@ -45,8 +45,8 @@ public class testTrabajo {
 	@Test
 	public void anularCompraPorID() {
 		miSistema.cargarSaldo(nuevo, 200.0);
-		DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo.getMail(), 1, nuevoProducto, "Saldo");
 		try {
+			DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 			miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
 			Assert.assertTrue(miSistema.anularCompra(1));
 		} catch (productoInexistenteException e) {
@@ -59,34 +59,34 @@ public class testTrabajo {
 	@Test
 	public void calcularPuntos() {
 		miSistema.cargarSaldo(nuevo, 100.0);
-		DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo.getMail(), 1, nuevoProducto, "Saldo");
+		DetallesDePago nuevoDetalle;
 		try {
+			nuevoDetalle = miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 			miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
-			Integer valorEsperado=1260;
-			Integer valorObtenido=nuevo.getPuntosAcumulados();
-			assertEquals(valorEsperado, valorObtenido);
 		} catch (productoInexistenteException | saldoInsuficienteException e) {
 			e.printStackTrace();
 		}
+		Integer valorEsperado=1260;
+		Integer valorObtenido=nuevo.getPuntosAcumulados();
+		assertEquals(valorEsperado, valorObtenido);
 	}
 	
 	@Test
 	public void pagarConPuntosAcumulados() {
-		miSistema.cargarSaldo(nuevo, 200.0);
-		DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo.getMail(), 1, nuevoProducto, "Saldo");
+		miSistema.cargarSaldo(nuevo, 200.0);	
 		try {
+			DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 			miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
-			DetallesDePago nuevoDetalle2=miSistema.comprarProducto(nuevo.getMail(), 1, nuevoProducto, "Puntos");	
+			DetallesDePago nuevoDetalle2=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Puntos");	
 			assertTrue(miSistema.pagarConPuntos(nuevoDetalle2.getIdPago(), nuevoDetalle2.getPrecioPuntos()));
 		} catch (productoInexistenteException | saldoInsuficienteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	@Test (expected=saldoInsuficienteException.class)
 	public void testQueAnuleCompraSinReintegro() throws productoInexistenteException, saldoInsuficienteException {
-		DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo.getMail(), 1, nuevoProducto, "Saldo");
+		DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 		miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
 		assertFalse(miSistema.anularCompra(nuevoDetalle.getIdPago()));
 	}

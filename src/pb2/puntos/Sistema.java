@@ -2,17 +2,18 @@ package pb2.puntos;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class Sistema {
 	private Set<Producto> listaDeProductos;
-	private Set<Ventas> listaDeVentas;
+	private LinkedList<Ventas> listaDeVentas;
 	private Set<Usuario> listaDeUsuarios;
 
 	public Sistema() {
 		this.listaDeProductos = new TreeSet<>();
-		this.listaDeVentas = new HashSet<>();
+		this.listaDeVentas = new LinkedList<>();
 		this.listaDeUsuarios = new HashSet<>();
 	}
 
@@ -28,7 +29,6 @@ public class Sistema {
 
 	public Boolean loginUsuario(String email, String contrasenia)
 			throws LoginFallidoException, contraseniaInvalidaException {
-		// String encriptada=DigestUtils.sha256Hex(contrasenia);
 		for (Usuario lista : this.listaDeUsuarios) {
 			if (lista.getMail().equals(email)) {
 				if (lista.getContrasenia().equals(contrasenia))
@@ -90,7 +90,7 @@ public class Sistema {
 
 	private Integer obtenerFactorPuntos(Usuario comprador) {
 		for (Usuario lista : this.listaDeUsuarios) {
-			if (lista.getMail().equals(comprador)) {
+			if (lista.equals(comprador)) {
 				if (lista instanceof Cliente)
 					return ((Cliente) lista).getFactorDePuntos();
 				else if (lista instanceof Administrador)
@@ -100,7 +100,7 @@ public class Sistema {
 		return 0;
 	}
 
-	public Boolean pagarConPuntos(Integer idPago, Integer puntos) {
+	public Boolean pagarConPuntos(Integer idPago, Integer puntos) throws saldoInsuficienteException {
 		for (Ventas lista : this.listaDeVentas) {
 			if (lista.getIdVenta().equals(idPago)) {
 				for (Usuario lista2 : this.listaDeUsuarios) {
@@ -108,6 +108,9 @@ public class Sistema {
 						lista2.setPuntosAcumulados(lista2.getPuntosAcumulados() - puntos);
 						lista.setEstadoDePago("Pagado");
 						return true;
+					} else {
+						lista.setEstadoDePago("Puntos insuficientes");
+						throw new saldoInsuficienteException("Su saldo en puntos es insuficiente");
 					}
 				}
 			}
@@ -120,7 +123,7 @@ public class Sistema {
 		for (Ventas lista : this.listaDeVentas) {
 			if (lista.getIdVenta().equals(id)) {
 				for (Usuario lista2 : this.listaDeUsuarios) {
-					if (lista2.getMail().equals(lista.getComprador())) {
+					if (lista2.equals(lista.getComprador())) {
 						if (lista2.getSaldo() >= monto) {
 							lista2.setPuntosAcumulados(lista2.getPuntosAcumulados() + lista.getCantidadDePuntos());
 							lista2.setSaldo(lista2.getSaldo() - monto);
@@ -134,8 +137,9 @@ public class Sistema {
 					}
 				}
 			}
+			
 		}
-		throw new productoInexistenteException();
+			throw new productoInexistenteException();
 	}
 
 	// ___________________________________________________________________________________________
@@ -189,7 +193,7 @@ public class Sistema {
 
 	private Boolean reintegro(Ventas aux) {
 		for (Usuario lista : this.listaDeUsuarios) {
-			if (lista.getMail().equals(aux.getComprador()) && aux.getEstadoDePago().equals("Pagado")) {
+			if (lista.equals(aux.getComprador()) && aux.getEstadoDePago().equals("Pagado")) {
 				if (aux.getMedioDePago().equals("Puntos")) {
 					Integer puntosAReintegrar = aux.getCantidad() * aux.getProducto().getPrecioPuntos();
 					lista.setPuntosAcumulados(lista.getPuntosAcumulados() + puntosAReintegrar);

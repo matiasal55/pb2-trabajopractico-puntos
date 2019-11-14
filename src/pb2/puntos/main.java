@@ -5,13 +5,13 @@ import java.util.Scanner;
 
 public class main {
 	public static void main(String[] args) throws productoInexistenteException, saldoInsuficienteException, usuarioExistenteException {
-		Sistema miSistema = new Sistema();
-		Usuario nuevo = new Cliente("Cosme", "Fulanito", "hotmail.com", "1234A");
-		Usuario admin = new Administrador("Matias", "Alarcon", "gmail.com", "1234A");
-		Producto nuevoProducto = new Producto("Chocolate", 123, "Blanco", 21.0, 100);
-		miSistema.registrarUsuario(nuevo);
-//		miSistema.agregarProducto(nuevoProducto);
-		miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
+//		Sistema miSistema = new Sistema();
+//		Usuario nuevo = new Cliente("Cosme", "Fulanito", "hotmail.com", "1234A");
+//		Usuario admin = new Administrador("Matias", "Alarcon", "gmail.com", "1234A");
+//		Producto nuevoProducto = new Producto("Chocolate", 123, "Blanco", 21.0, 100);
+//		miSistema.registrarUsuario(nuevo);
+////		miSistema.agregarProducto(nuevoProducto);
+//		miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 //		miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Puntos");
 		
 //		Usuario nuevo1=new Cliente("Cosme", "Fulanito", "hotmail.com", "1234A");
