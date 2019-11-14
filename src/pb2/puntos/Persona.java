@@ -1,6 +1,6 @@
 package pb2.puntos;
 
-public abstract class Persona {
+public class Persona extends Sistema{
 	private String nombre;
 	private String apellido;
 

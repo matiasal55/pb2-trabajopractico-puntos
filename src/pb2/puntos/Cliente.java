@@ -1,18 +1,20 @@
 package pb2.puntos;
 
 public class Cliente extends Usuario {
-	private Integer factorPuntos = 60;
 
-public Cliente(String nombre, String apellido, String mail, String contrasenia, Integer factorDePuntos) {
+	private Integer factorDePuntos;
+
+	public Cliente(String nombre, String apellido, String mail, String contrasenia) {
 		super(nombre, apellido, mail, contrasenia);
+		this.factorDePuntos = 60;
 	}
 
-	public Integer getFactorPuntos() {
-		return factorPuntos;
+	public Integer getFactorDePuntos() {
+		return factorDePuntos;
 	}
 
-	public void setFactorPuntos(Integer factorPuntos) {
-		this.factorPuntos = factorPuntos;
+	public void setFactorDePuntos(Integer factorDePuntos) {
+		this.factorDePuntos = factorDePuntos;
 	}
 
 }

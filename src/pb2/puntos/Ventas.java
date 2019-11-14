@@ -2,20 +2,26 @@ package pb2.puntos;
 
 public class Ventas {
 	private Integer idVenta;
-	private Cliente cliente;
 	private Integer cantidad;
 	private Producto producto;
-	private String medioDePago;
+	private Integer totalPuntos;
+	private Double precioTotal;
+	private Usuario comprador;
 	private Integer cantidadDePuntos;
+	private String medioDePago;
+	private String estadoDePago;
 
-	public Ventas(Integer idVenta, Cliente cliente, Integer cantidad, Producto producto, String medioDePago,
-			Integer cantidadDePuntos) {
+	public Ventas(Integer idVenta, Integer cantidad, Producto producto, 
+			Usuario comprador, Integer cantidadDePuntos, String medioDePago) {
 		this.idVenta = idVenta;
-		this.cliente = cliente;
 		this.cantidad = cantidad;
 		this.producto = producto;
+		this.totalPuntos = cantidad*producto.getPrecioPuntos(); // precio total en puntos
+		this.precioTotal = cantidad*producto.getPrecioReal(); // precio total en saldo
+		this.setComprador(comprador);
+		this.cantidadDePuntos = cantidadDePuntos; //puntos que suma el usuario
 		this.medioDePago = medioDePago;
-		this.cantidadDePuntos = cantidadDePuntos;
+		this.estadoDePago = "Pagar";
 	}
 
 	public Integer getIdVenta() {
@@ -25,15 +31,7 @@ public class Ventas {
 	public void setIdVenta(Integer idVenta) {
 		this.idVenta = idVenta;
 	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
+  
 	public Integer getCantidad() {
 		return cantidad;
 	}
@@ -50,6 +48,31 @@ public class Ventas {
 		this.producto = producto;
 	}
 
+	public Integer getTotalPuntos() {
+		return totalPuntos;
+	}
+
+	public void setTotalPuntos(Integer totalPuntos) {
+		this.totalPuntos = totalPuntos;
+	}
+
+	public Double getPrecioTotal() {
+		return precioTotal;
+	}
+
+	public void setPrecioTotal(Double precioTotal) {
+		this.precioTotal = precioTotal;
+	}
+
+	
+	public Integer getCantidadDePuntos() {
+		return cantidadDePuntos;
+	}
+
+	public void setCantidadDePuntos(Integer cantidadDePuntos) {
+		this.cantidadDePuntos = cantidadDePuntos;
+	}
+  
 	public String getMedioDePago() {
 		return medioDePago;
 	}
@@ -58,12 +81,20 @@ public class Ventas {
 		this.medioDePago = medioDePago;
 	}
 
-	public Integer getCantidadDePuntos() {
-		return cantidadDePuntos;
+	public String getEstadoDePago() {
+		return estadoDePago;
 	}
 
-	public void setCantidadDePuntos(Integer cantidadDePuntos) {
-		this.cantidadDePuntos = cantidadDePuntos;
+	public void setEstadoDePago(String estadoDePago) {
+		this.estadoDePago = estadoDePago;
+	}
+
+	public Usuario getComprador() {
+		return comprador;
+	}
+
+	public void setComprador(Usuario comprador) {
+		this.comprador = comprador;
 	}
 
 }
