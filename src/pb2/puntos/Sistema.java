@@ -1,5 +1,6 @@
 package pb2.puntos;
 
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -7,17 +8,35 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class Sistema {
+	private static Sistema instancia;
 	private ArrayList<Producto> listaDeProductos = new ArrayList<Producto>();
 	private LinkedList<Usuario> listaDeUsuarios = new LinkedList<Usuario>();
 	private Set<Ventas> listaDeVentas = new TreeSet<Ventas>();
 
-	public Sistema() {
-		this.listaDeProductos = new ArrayList<>();
-		this.listaDeVentas = new TreeSet<>();
-		this.listaDeUsuarios = new LinkedList<>();
+//	public Sistema() {
+//		this.listaDeProductos = new ArrayList<>();
+//		this.listaDeVentas = new TreeSet<>();
+//		this.listaDeUsuarios = new LinkedList<>();
+//	}
+
+	private Sistema() {
 	}
 
+//	public static Sistema getInstancia() {
+//		if(this.instancia == null) {
+//			this.instancia == new Sistema;
+//		}
+//		return this.instancia;
+//	}
+
 //----------------------------------------------------------------------------------------------------------------------------------
+
+	public static Sistema getInstancia() {
+		if (instancia == null) {
+			instancia = new Sistema();
+		}
+		return instancia;
+	}
 
 	public Boolean registrarUsuario(Usuario usuario) throws EmailYaRegistrado {
 		Iterator<Usuario> listaAux = listaDeUsuarios.iterator();
@@ -27,6 +46,8 @@ public class Sistema {
 				throw new EmailYaRegistrado();
 			}
 		}
+		usuario.setId(listaDeUsuarios.size() + 1);
+		usuario.setPuntosAcumulados(500);
 		listaDeUsuarios.add(usuario);
 		return true;
 	}
@@ -64,11 +85,9 @@ public class Sistema {
 		for (Usuario userAux : listaDeUsuarios) {
 			if (userAux.getEmail().equals(email) && userAux.getContrasenia().equals(contrasenia)) {
 				return true;
-			}
-			if (userAux.getEmail() != email && userAux.getContrasenia().equals(contrasenia)) {
+			} else if (userAux.getEmail() != email && userAux.getContrasenia().equals(contrasenia)) {
 				throw new EmailIncorrectoException();
-			}
-			if (userAux.getEmail().equals(email) && userAux.getContrasenia() != contrasenia) {
+			} else if (userAux.getEmail().equals(email) && userAux.getContrasenia() != contrasenia) {
 				throw new ContraseniaIncorrectaException();
 			}
 		}
@@ -132,16 +151,31 @@ public class Sistema {
 		while (listaAux.hasNext()) {
 			Ventas aux = listaAux.next();
 			if (aux.getIdVenta().equals(venta.getIdVenta())) {
-				listaDeVentas.remove(aux);
+//				aux.getCliente()
+//						.setPuntosAcumulados(aux.getCliente().getPuntosAcumulados() - aux.getCantidadDePuntos());
+				reembolso(aux, aux.getCliente());
+				listaAux.remove();
 				listaDeProductos.add(venta.getProducto());
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public Boolean reintegro(Ventas venta){
-		
+
+	public void reembolso(Ventas vent, Usuario usr) {
+		for (Ventas v : listaDeVentas) {
+			for (Usuario u : listaDeUsuarios) {
+				if (v.getCliente().equals(u)) {
+					if (v.getMedioDePago().equals("efectivo")) {
+						u.setSaldo(u.getSaldo() - v.getProducto().getPrecioReal());
+						u.setPuntosAcumulados(u.getPuntosAcumulados() - v.getCantidadDePuntos());
+					} else if (v.getMedioDePago().equals("puntos")) {
+						u.setPuntosAcumulados(u.getPuntosAcumulados() + v.getProducto().getPrecioPuntos());
+						u.setPuntosAcumulados(u.getPuntosAcumulados() - v.getCantidadDePuntos());
+					}
+				}
+			}
+		}
 	}
 
 //----------------------------------------------------------------------------------------------------------------------------------
@@ -181,10 +215,18 @@ public class Sistema {
 			System.out.println(lista);
 		}
 	}
+	
+	//Ambos metodos son de auto-ayuda para verificar
+	
+	public void mostrarListaProductos() {
+		for(Producto lista : listaDeProductos) {
+			System.out.println(lista);
+		}
+	}
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-	public void recargarSaldo(Usuario usrARecargar, Integer monto) {
+	public void recargarSaldo(Usuario usrARecargar, Double monto) {
 		usrARecargar.setSaldo(usrARecargar.getSaldo() + monto);
 	}
 
@@ -225,4 +267,5 @@ public class Sistema {
 		this.listaDeVentas = listaDeVentas;
 	}
 
+	
 }
