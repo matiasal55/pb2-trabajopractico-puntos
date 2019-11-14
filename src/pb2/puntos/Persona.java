@@ -24,5 +24,4 @@ public class Persona extends Sistema{
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-
 }

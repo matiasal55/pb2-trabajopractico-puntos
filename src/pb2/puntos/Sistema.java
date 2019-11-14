@@ -16,8 +16,8 @@ public class Sistema {
 		this.listaDeVentas = new LinkedList<>();
 		this.listaDeUsuarios = new HashSet<>();
 	}
-
-	// ___________________________________________________________________________________________
+  
+ // ___________________________________________________________________________________________
 
 	public Boolean registrarUsuario(Usuario nuevo) throws usuarioExistenteException {
 		if (this.listaDeUsuarios.contains(nuevo))
@@ -39,8 +39,8 @@ public class Sistema {
 		}
 		throw new LoginFallidoException();
 	}
-
-	public Boolean eliminarUsuario(String email) {
+  
+  public Boolean eliminarUsuario(String email) {
 		Iterator<Usuario> it = this.listaDeUsuarios.iterator();
 		while (it.hasNext()) {
 			Usuario aux = it.next();
@@ -54,7 +54,7 @@ public class Sistema {
 
 	// ___________________________________________________________________________________________
 
-	public Boolean agregarProducto(Producto nuevo) {
+  public Boolean agregarProducto(Producto nuevo) {
 		this.listaDeProductos.add(nuevo);
 		return true;
 	}
@@ -73,7 +73,7 @@ public class Sistema {
 
 	// ___________________________________________________________________________________________
 
-	public DetallesDePago comprarProducto(Usuario comprador, Integer cantidad, Producto producto, String medioDePago) {
+  public DetallesDePago comprarProducto(Usuario comprador, Integer cantidad, Producto producto, String medioDePago) {
 		if (this.listaDeProductos.contains(producto)) {
 			Integer factorDePuntos = obtenerFactorPuntos(comprador);
 			Integer cantidadDePuntos = (int) (cantidad * producto.getPrecioReal() * factorDePuntos);
@@ -215,6 +215,5 @@ public class Sistema {
 		if (this.listaDeUsuarios.contains(usuario))
 			return usuario.getPuntosAcumulados();
 		return 0;
+  }
 	}
-
-}

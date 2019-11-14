@@ -31,7 +31,7 @@ public class Ventas {
 	public void setIdVenta(Integer idVenta) {
 		this.idVenta = idVenta;
 	}
-
+  
 	public Integer getCantidad() {
 		return cantidad;
 	}
@@ -72,7 +72,7 @@ public class Ventas {
 	public void setCantidadDePuntos(Integer cantidadDePuntos) {
 		this.cantidadDePuntos = cantidadDePuntos;
 	}
-
+  
 	public String getMedioDePago() {
 		return medioDePago;
 	}

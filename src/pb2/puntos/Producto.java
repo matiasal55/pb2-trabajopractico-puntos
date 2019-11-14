@@ -50,7 +50,5 @@ public class Producto extends Categoria implements Comparable<Producto>{
 	public int compareTo(Producto o) {
 		return this.codigo.compareTo(o.getCodigo());
 	}
-
-	
-
+  
 }

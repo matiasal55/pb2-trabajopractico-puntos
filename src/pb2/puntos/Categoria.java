@@ -1,6 +1,7 @@
 package pb2.puntos;
 
 public class Categoria {
+
 	private String descripcion;
 
 	public Categoria(String descripcion) {
