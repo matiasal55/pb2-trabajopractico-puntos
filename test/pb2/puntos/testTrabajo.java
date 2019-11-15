@@ -27,7 +27,7 @@ public class testTrabajo {
 	}
 
 	@Test
-	public void comprarYpagar() {
+	public void comprarYpagar() throws VentaFallidaException {
 		miSistema.cargarSaldo(nuevo, 200.0);
 		try {
 			DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
@@ -53,6 +53,8 @@ public class testTrabajo {
 			e.printStackTrace();
 		} catch (saldoInsuficienteException e) {
 			e.printStackTrace();
+		} catch (VentaFallidaException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -64,6 +66,8 @@ public class testTrabajo {
 			nuevoDetalle = miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 			miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
 		} catch (productoInexistenteException | saldoInsuficienteException e) {
+			e.printStackTrace();
+		} catch (VentaFallidaException e) {
 			e.printStackTrace();
 		}
 		Integer valorEsperado=1260;
@@ -81,11 +85,13 @@ public class testTrabajo {
 			assertTrue(miSistema.pagarConPuntos(nuevoDetalle2.getIdPago(), nuevoDetalle2.getPrecioPuntos()));
 		} catch (productoInexistenteException | saldoInsuficienteException e) {
 			e.printStackTrace();
+		} catch (VentaFallidaException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	@Test (expected=saldoInsuficienteException.class)
-	public void testQueAnuleCompraSinReintegro() throws productoInexistenteException, saldoInsuficienteException {
+	public void testQueAnuleCompraSinReintegro() throws productoInexistenteException, saldoInsuficienteException, VentaFallidaException {
 		DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 		miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
 		assertFalse(miSistema.anularCompra(nuevoDetalle.getIdPago()));

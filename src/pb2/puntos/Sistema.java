@@ -30,7 +30,7 @@ public class Sistema {
 	public Boolean loginUsuario(String email, String contrasenia)
 			throws LoginFallidoException, contraseniaInvalidaException {
 		for (Usuario lista : this.listaDeUsuarios) {
-			if (lista.getMail().equals(email)) {
+			if (lista.getEmail().equals(email)) {
 				if (lista.getContrasenia().equals(contrasenia))
 					return true;
 				throw new contraseniaInvalidaException();
@@ -44,7 +44,7 @@ public class Sistema {
 		Iterator<Usuario> it = this.listaDeUsuarios.iterator();
 		while (it.hasNext()) {
 			Usuario aux = it.next();
-			if (aux.getMail().equals(email)) {
+			if (aux.getEmail().equals(email)) {
 				it.remove();
 				return true;
 			}
