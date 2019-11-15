@@ -21,14 +21,14 @@ public class testABM {
 	
 	@Test (expected= LoginFallidoException.class)
 	public void loginConUsuarioIncorrecto() throws LoginFallidoException, contraseniaInvalidaException {
-		Boolean valor = miSistema.loginUsuario(nuevo.getMail(), nuevo.getContrasenia());
+		Boolean valor = miSistema.loginUsuario(nuevo.getEmail(), nuevo.getContrasenia());
 		Assert.assertFalse(valor);
 	}
 
 	@Test
 	public void crearClienteYLoguearlo() throws LoginFallidoException, usuarioExistenteException, contraseniaInvalidaException {
 		miSistema.registrarUsuario(nuevo);
-		Assert.assertTrue(miSistema.loginUsuario(nuevo.getMail(), nuevo.getContrasenia()));
+		Assert.assertTrue(miSistema.loginUsuario(nuevo.getEmail(), nuevo.getContrasenia()));
 	}
 
 	@Test (expected=usuarioExistenteException.class)
@@ -40,7 +40,7 @@ public class testABM {
 	@Test
 	public void crearAdministradorYLoguearlo() throws LoginFallidoException, usuarioExistenteException, contraseniaInvalidaException {
 		miSistema.registrarUsuario(admin);
-		Assert.assertTrue(miSistema.loginUsuario(admin.getMail(), admin.getContrasenia()));
+		Assert.assertTrue(miSistema.loginUsuario(admin.getEmail(), admin.getContrasenia()));
 	}
 
 	@Test
