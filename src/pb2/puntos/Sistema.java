@@ -30,7 +30,7 @@ public class Sistema {
 	public Boolean loginUsuario(String email, String contrasenia)
 			throws LoginFallidoException, contraseniaInvalidaException {
 		for (Usuario lista : this.listaDeUsuarios) {
-			if (lista.getEmail().equals(email)) {
+			if (lista.getMail().equals(email)) {
 				if (lista.getContrasenia().equals(contrasenia))
 					return true;
 				throw new contraseniaInvalidaException();
@@ -44,7 +44,7 @@ public class Sistema {
 		Iterator<Usuario> it = this.listaDeUsuarios.iterator();
 		while (it.hasNext()) {
 			Usuario aux = it.next();
-			if (aux.getEmail().equals(email)) {
+			if (aux.getMail().equals(email)) {
 				it.remove();
 				return true;
 			}
@@ -73,7 +73,7 @@ public class Sistema {
 
 	// ___________________________________________________________________________________________
 
-  public DetallesDePago comprarProducto(Usuario comprador, Integer cantidad, Producto producto, String medioDePago) throws VentaFallidaException {
+  public DetallesDePago comprarProducto(Usuario comprador, Integer cantidad, Producto producto, String medioDePago) {
 		if (this.listaDeProductos.contains(producto)) {
 			Integer factorDePuntos = obtenerFactorPuntos(comprador);
 			Integer cantidadDePuntos = (int) (cantidad * producto.getPrecioReal() * factorDePuntos);
@@ -84,7 +84,7 @@ public class Sistema {
 			this.listaDeVentas.add(nuevaVenta);
 			return nuevoDetalle;
 		}
-		throw new VentaFallidaException();
+		return null;
 
 	}
 
