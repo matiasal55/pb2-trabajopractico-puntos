@@ -100,7 +100,7 @@ public class Sistema {
 		return 0;
 	}
 
-	public Boolean pagarConPuntos(Integer idPago, Integer puntos) throws saldoInsuficienteException {
+	public Boolean pagarConPuntos(Integer idPago, Integer puntos) throws saldoInsuficienteException, VentaFallidaException {
 		for (Ventas lista : this.listaDeVentas) {
 			if (lista.getIdVenta().equals(idPago)) {
 				for (Usuario lista2 : this.listaDeUsuarios) {
@@ -116,11 +116,11 @@ public class Sistema {
 				}
 			}
 		}
-		return false;
+		throw new VentaFallidaException();
 	}
 
 	public Boolean pagarConSaldo(Integer id, Double monto)
-			throws productoInexistenteException, saldoInsuficienteException {
+			throws productoInexistenteException, saldoInsuficienteException, VentaFallidaException {
 		for (Ventas lista : this.listaDeVentas) {
 			if (lista.getIdVenta().equals(id)) {
 				for (Usuario lista2 : this.listaDeUsuarios) {
@@ -140,7 +140,7 @@ public class Sistema {
 			}
 			
 		}
-			throw new productoInexistenteException();
+			throw new VentaFallidaException();
 	}
 
 	// ___________________________________________________________________________________________
