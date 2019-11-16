@@ -52,7 +52,11 @@ public class Menu {
 						String email = teclado.next();
 						System.out.println("Ingresar contrasenia: ");
 						String contra = teclado.next();
-						s1.loginUsuario(email, contra);
+						try {
+							s1.loginUsuario(email, contra);
+						} catch (LoginFallidoException | EmailIncorrectoException | ContraseniaIncorrectaException e2) {
+							e2.printStackTrace();
+						}
 						break;
 					case '4':
 						System.out.println("\nIngresar categoria: ");
@@ -78,7 +82,11 @@ public class Menu {
 					case '6':
 						System.out.println("\nIngresar id de producto a eliminar: ");
 						Integer id1 = teclado.nextInt();
-						s1.eliminarProducto(admin, id1);
+						try {
+							s1.eliminarProducto(admin, id1);
+						} catch (NoEsAdminException e1) {
+							e1.printStackTrace();
+						}
 						break;
 					case '7':
 						s1.mostrarListaProductos();
@@ -159,11 +167,11 @@ public class Menu {
 								Integer cantidad = teclado.nextInt();
 								System.out.println("Ingrese medio de pago: (efectivo o puntos)");
 								String medioDePago = teclado.next();
-								Integer cantidadDePuntos = /*factor de puntos * cantidad */0;
+								Integer cantidadDePuntos = /* factor de puntos * cantidad */0;
 								Ventas venta = new Ventas(idVenta, (Cliente) client, cantidad, prod, medioDePago,
 										cantidadDePuntos);
 								vent = venta;
-								s1.comprarProducto(comprador, cantidadDePuntos, producto, medioDePago);
+								// s1.comprarProducto(comprador, cantidadDePuntos, producto, medioDePago);
 							}
 						} while (option != '0');
 						break;
@@ -173,7 +181,12 @@ public class Menu {
 					case '6':
 						System.out.println("\nIngrese monto para la recarga: (Valor con coma)");
 						Double monto = teclado.nextDouble();
-						s1.cargarSaldo(client, monto);
+						try {
+							s1.cargarSaldo(client, monto);
+						} catch (LaRecargaHaFalladoException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				} while (opcion != '0');
 			}

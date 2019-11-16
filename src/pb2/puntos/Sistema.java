@@ -27,7 +27,7 @@ public class Sistema {
 //  
 // // ___________________________________________________________________________________________
 //
-	public Boolean registrarUsuario(Usuario nuevo) throws UsuarioExistenteException, EmailYaRegistradoException {
+	public Boolean registrarUsuario(Usuario nuevo) throws EmailYaRegistradoException {
 		for (Usuario usr : listaDeUsuarios) {
 			if (usr.getEmail().equals(nuevo.getEmail())) {
 				throw new EmailYaRegistradoException();
@@ -119,7 +119,7 @@ public class Sistema {
 				Integer factorDePuntos = obtenerFactorPuntos(comprador);
 				Integer cantidadDePuntos = cantidad /* producto.getPrecioReal() */ * factorDePuntos;
 				Ventas nuevaVenta = new Ventas(this.listaDeVentas.size() + 1, cantidad, producto, comprador,
-						cantidadDePuntos, medioDePago);
+				//Error --->		cantidadDePuntos, medioDePago);
 				DetallesDePago nuevoDetalle = new DetallesDePago(nuevaVenta.getIdVenta(), nuevaVenta.getPrecioTotal(),
 						nuevaVenta.getTotalPuntos());
 				this.listaDeVentas.add(nuevaVenta);
@@ -281,7 +281,7 @@ public class Sistema {
 			System.out.println(lista);
 		}
 	}
-	
+
 	public void mostarListaUsuarios() {
 		for (Usuario lista : listaDeUsuarios) {
 			System.out.println(lista);
