@@ -8,6 +8,7 @@ public class TestABM {
 	
 	Sistema sistema = new Sistema();
 	Usuario u1 = new Usuario ("Miguel", "Lopez", "mlopez@gmail.com", "12345");
+	Usuario u2 = new Usuario ("Ana", "Rosas", "anaro@gmail.com", "54321");
 	
 	@Test
 	public void testRegistroExitoso() throws UsuarioYaRegistradoException {
@@ -34,4 +35,5 @@ public class TestABM {
 		sistema.registrarUsuario(u1);
 		sistema.loginUsuario("slopez@gmail.com", "14345");
 	}
+	
 }
