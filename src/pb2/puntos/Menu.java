@@ -167,7 +167,7 @@ public class Menu {
 								Integer cantidad = teclado.nextInt();
 								System.out.println("Ingrese medio de pago: (efectivo o puntos)");
 								String medioDePago = teclado.next();
-								Integer cantidadDePuntos = 0; // VER
+								Integer cantidadDePuntos = /*factor de puntos * cantidad */0;
 								Ventas venta = new Ventas(idVenta, (Cliente) client, cantidad, prod, medioDePago,
 										cantidadDePuntos);
 								vent = venta;
@@ -177,8 +177,7 @@ public class Menu {
 										| ElUsuarioNoEstaRegistradoException e) {
 									e.printStackTrace();
 								} catch (EfectivoInsuficienteException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
+									e.printStackTrace();	
 								}
 							}
 						} while (option != '0');

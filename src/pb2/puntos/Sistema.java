@@ -130,7 +130,7 @@ public class Sistema {
 //		}
 		Iterator<Producto> listaAux = listaDeProductos.iterator();
 		while (listaAux.hasNext()) {
-			Producto prodAux = listaAux.next();
+			Producto prodAux = listaAux.next();	
 			if (prodAux.equals(venta.getProducto())) {
 				listaDeProductos.remove(prodAux);
 				listaDeVentas.add(venta);
