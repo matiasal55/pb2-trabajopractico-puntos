@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class main {
-	public static void main(String[] args) throws productoInexistenteException, saldoInsuficienteException, usuarioExistenteException {
+	public static void main(String[] args) throws ProductoInexistenteException, SaldoInsuficienteException, UsuarioExistenteException {
 //		Sistema miSistema = new Sistema();
 //		Usuario nuevo = new Cliente("Cosme", "Fulanito", "hotmail.com", "1234A");
 //		Usuario admin = new Administrador("Matias", "Alarcon", "gmail.com", "1234A");

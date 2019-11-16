@@ -19,21 +19,21 @@ public class Sistema {
   
  // ___________________________________________________________________________________________
 
-	public Boolean registrarUsuario(Usuario nuevo) throws usuarioExistenteException {
+	public Boolean registrarUsuario(Usuario nuevo) throws UsuarioExistenteException {
 		if (this.listaDeUsuarios.contains(nuevo))
-			throw new usuarioExistenteException("El nombre de usuario ya existe");
+			throw new UsuarioExistenteException("El nombre de usuario ya existe");
 		nuevo.setId(this.listaDeUsuarios.size() + 1);
 		this.listaDeUsuarios.add(nuevo);
 		return true;
 	}
 
 	public Boolean loginUsuario(String email, String contrasenia)
-			throws LoginFallidoException, contraseniaInvalidaException {
+			throws LoginFallidoException, ContraseniaInvalidaException {
 		for (Usuario lista : this.listaDeUsuarios) {
 			if (lista.getEmail().equals(email)) {
 				if (lista.getContrasenia().equals(contrasenia))
 					return true;
-				throw new contraseniaInvalidaException();
+				throw new ContraseniaInvalidaException();
 			}
 
 		}
@@ -100,7 +100,7 @@ public class Sistema {
 		return 0;
 	}
 
-	public Boolean pagarConPuntos(Integer idPago, Integer puntos) throws saldoInsuficienteException, VentaFallidaException {
+	public Boolean pagarConPuntos(Integer idPago, Integer puntos) throws SaldoInsuficienteException, VentaFallidaException {
 		for (Ventas lista : this.listaDeVentas) {
 			if (lista.getIdVenta().equals(idPago)) {
 				for (Usuario lista2 : this.listaDeUsuarios) {
@@ -110,7 +110,7 @@ public class Sistema {
 						return true;
 					} else {
 						lista.setEstadoDePago("Puntos insuficientes");
-						throw new saldoInsuficienteException("Su saldo en puntos es insuficiente");
+						throw new SaldoInsuficienteException("Su saldo en puntos es insuficiente");
 					}
 				}
 			}
@@ -119,7 +119,7 @@ public class Sistema {
 	}
 
 	public Boolean pagarConSaldo(Integer id, Double monto)
-			throws productoInexistenteException, saldoInsuficienteException, VentaFallidaException {
+			throws ProductoInexistenteException, SaldoInsuficienteException, VentaFallidaException {
 		for (Ventas lista : this.listaDeVentas) {
 			if (lista.getIdVenta().equals(id)) {
 				for (Usuario lista2 : this.listaDeUsuarios) {
@@ -131,7 +131,7 @@ public class Sistema {
 							return true;
 						} else {
 							lista.setEstadoDePago("Saldo insuficiente");
-							throw new saldoInsuficienteException("Su saldo es insuficiente");
+							throw new SaldoInsuficienteException("Su saldo es insuficiente");
 						}
 
 					}
