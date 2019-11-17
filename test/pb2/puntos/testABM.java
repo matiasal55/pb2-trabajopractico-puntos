@@ -16,7 +16,7 @@ public class testABM {
 	Producto nuevoProducto = new Producto("Chocolate", 123, "Blanco", 21.0, 100);
 	
 	@Test
-	public void testRegistroExitoso() throws UsuarioExistenteException {
+	public void testRegistroExitoso() {
 		Boolean valorEsperado;
 		try {
 			valorEsperado = sistema.registrarUsuario(u1);
