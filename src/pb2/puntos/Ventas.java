@@ -11,15 +11,15 @@ public class Ventas {
 	private String medioDePago;
 	private String estadoDePago;
 
-	public Ventas(Integer idVenta, Integer cantidad, Producto producto, 
-			Usuario comprador, Integer cantidadDePuntos, String medioDePago) {
+	public Ventas(Integer idVenta, Usuario comprador, Integer cantidad, Producto producto, String medioDePago,
+			Integer cantidadDePuntos) {
 		this.idVenta = idVenta;
 		this.cantidad = cantidad;
 		this.producto = producto;
-		this.totalPuntos = cantidad*producto.getPrecioPuntos(); // precio total en puntos
-		this.precioTotal = cantidad*producto.getPrecioReal(); // precio total en saldo
+		this.totalPuntos = cantidad * producto.getPrecioPuntos(); // precio total en puntos
+		this.precioTotal = cantidad * producto.getPrecioReal(); // precio total en saldo
 		this.setComprador(comprador);
-		this.cantidadDePuntos = cantidadDePuntos; //puntos que suma el usuario
+		this.cantidadDePuntos = cantidadDePuntos; // puntos que suma el usuario
 		this.medioDePago = medioDePago;
 		this.estadoDePago = "Pagar";
 	}
@@ -31,7 +31,7 @@ public class Ventas {
 	public void setIdVenta(Integer idVenta) {
 		this.idVenta = idVenta;
 	}
-  
+
 	public Integer getCantidad() {
 		return cantidad;
 	}
@@ -64,7 +64,6 @@ public class Ventas {
 		this.precioTotal = precioTotal;
 	}
 
-	
 	public Integer getCantidadDePuntos() {
 		return cantidadDePuntos;
 	}
@@ -72,7 +71,7 @@ public class Ventas {
 	public void setCantidadDePuntos(Integer cantidadDePuntos) {
 		this.cantidadDePuntos = cantidadDePuntos;
 	}
-  
+
 	public String getMedioDePago() {
 		return medioDePago;
 	}
