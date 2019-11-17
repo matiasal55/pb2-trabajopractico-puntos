@@ -23,7 +23,6 @@ public class testABM {
 			valorEsperado = sistema.registrarUsuario(u1);
 			assertTrue(valorEsperado);
 		} catch (EmailYaRegistradoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -70,7 +69,6 @@ public class testABM {
 		} catch (productoExistenteException e) {
 			e.printStackTrace();
 		} catch (NoEsAdminException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -2,7 +2,6 @@ package pb2.puntos;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
 
