@@ -6,15 +6,14 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class testABM {
-	
-	Sistema miSistema;
+
 	Usuario nuevo;
 	Usuario admin;
-	Producto nuevoProducto;
 	
 	Sistema sistema = new Sistema();
 	Usuario u1 = new Usuario ("Miguel", "Lopez", "mlopez@gmail.com", "12345");
 	Usuario u2 = new Usuario ("Ana", "Rosas", "anaro@gmail.com", "54321");
+	Producto nuevoProducto = new Producto("Chocolate", 123, "Blanco", 21.0, 100);
 	
 	@Test
 	public void testRegistroExitoso() throws UsuarioExistenteException {
@@ -55,7 +54,7 @@ public class testABM {
 	@Test
 	public void crearProducto() {
 		try {
-			Assert.assertTrue(miSistema.agregarProducto(nuevoProducto));
+			Assert.assertTrue(sistema.agregarProducto(nuevoProducto));
 		} catch (productoExistenteException e) {
 			e.printStackTrace();
 		}
@@ -64,8 +63,8 @@ public class testABM {
 	@Test
 	public void eliminarProducto() {
 		try {
-			miSistema.agregarProducto(nuevoProducto);
-			Assert.assertTrue(miSistema.eliminarProducto(nuevoProducto.getCodigo()));
+			sistema.agregarProducto(nuevoProducto);
+			Assert.assertTrue(sistema.eliminarProducto(nuevoProducto.getCodigo()));
 		} catch (productoExistenteException e) {
 			e.printStackTrace();
 		} catch (NoEsAdminException e) {
