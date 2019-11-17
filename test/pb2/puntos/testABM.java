@@ -3,7 +3,6 @@ package pb2.puntos;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class testABM {
@@ -19,21 +18,38 @@ public class testABM {
 	
 	@Test
 	public void testRegistroExitoso() throws UsuarioExistenteException {
-		Boolean valorEsperado = sistema.registrarUsuario(u1);
-		assertTrue(valorEsperado);
+		Boolean valorEsperado;
+		try {
+			valorEsperado = sistema.registrarUsuario(u1);
+			assertTrue(valorEsperado);
+		} catch (EmailYaRegistradoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
-	@Test (expected = UsuarioExistenteException.class)
-	public void testRegistroFallido() throws UsuarioExistenteException {
+	@Test (expected = EmailYaRegistradoException.class)
+	public void testRegistroFallido() throws EmailYaRegistradoException {
 		sistema.registrarUsuario(u1);
 		sistema.registrarUsuario(u1);
 	}
 	
 	@Test
-	public void testLoginExistoso () throws UsuarioExistenteException, LoginFallidoException, ContraseniaInvalidaException {
-		sistema.registrarUsuario(u1);
-		Boolean valorEsperado = sistema.loginUsuario("mlopez@gmail.com", "12345");
-		assertTrue(valorEsperado);
+	public void testLoginExistoso () {
+		try {
+			sistema.registrarUsuario(u1);
+			Boolean valorEsperado = sistema.loginUsuario("mlopez@gmail.com", "12345");
+			assertTrue(valorEsperado);
+		} catch (EmailYaRegistradoException e) {
+			e.printStackTrace();
+		} catch (LoginFallidoException e) {
+			e.printStackTrace();
+		} catch (EmailIncorrectoException e) {
+			e.printStackTrace();
+		} catch (ContraseniaIncorrectaException e) {
+			e.printStackTrace();
+		}
 	}
 	
 
@@ -53,15 +69,19 @@ public class testABM {
 			Assert.assertTrue(miSistema.eliminarProducto(nuevoProducto.getCodigo()));
 		} catch (productoExistenteException e) {
 			e.printStackTrace();
+		} catch (NoEsAdminException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	}
 		
 	@Test (expected = LoginFallidoException.class)
-	public void testLoginFallido() throws LoginFallidoException, UsuarioExistenteException, ContraseniaInvalidaException {
+	public void testLoginFallido() throws LoginFallidoException, EmailIncorrectoException, ContraseniaIncorrectaException {
 		sistema.loginUsuario("slopez@gmail.com", "14345");
 	}
 	
-	@Test (expected = ContraseniaInvalidaException.class)
-	public void testLoginContraseniaInvalida () throws LoginFallidoException, UsuarioExistenteException, ContraseniaInvalidaException {
+	@Test (expected = ContraseniaIncorrectaException.class)
+	public void testLoginContraseniaInvalida () throws EmailYaRegistradoException, LoginFallidoException, EmailIncorrectoException, ContraseniaIncorrectaException  {
 		sistema.registrarUsuario(u1);
 		sistema.loginUsuario("mlopez@gmail.com", "12346");
 	}

@@ -16,13 +16,21 @@ public class testTrabajo {
 	Producto nuevoProducto;
 
 	@Before
-	public void before() throws UsuarioExistenteException {
+	public void before() {
 		miSistema = new Sistema();
 		nuevo = new Cliente("Cosme", "Fulanito", "hotmail.com", "1234A");
 		admin = new Administrador("Matias", "Alarcon", "gmail.com", "1234A");
 		nuevoProducto = new Producto("Chocolate", 123, "Blanco", 21.0, 100);
-		miSistema.registrarUsuario(nuevo);
-		miSistema.registrarUsuario(admin);
+		try {
+			miSistema.registrarUsuario(nuevo);
+		} catch (EmailYaRegistradoException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			miSistema.registrarUsuario(admin);
+		} catch (EmailYaRegistradoException e1) {
+			e1.printStackTrace();
+		}
 		try {
 			miSistema.agregarProducto(nuevoProducto);
 		} catch (productoExistenteException e) {
@@ -32,24 +40,36 @@ public class testTrabajo {
 
 	@Test
 	public void comprarYpagar() throws VentaFallidaException {
-		miSistema.cargarSaldo(nuevo, 200.0);
 		try {
+			miSistema.cargarSaldo(nuevo, 200.0);
 			DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 			assertTrue(miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo()));
 		} catch (ProductoInexistenteException | SaldoInsuficienteException e) {
+			e.printStackTrace();
+		} catch (CompraFallidaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LaRecargaHaFalladoException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@Test
 	public void cargarSaldo() {
-		Assert.assertTrue(miSistema.cargarSaldo(nuevo, 200.0));
+		try {
+			Assert.assertTrue(miSistema.cargarSaldo(nuevo, 200.0));
+		} catch (LaRecargaHaFalladoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void anularCompraPorID() {
-		miSistema.cargarSaldo(nuevo, 200.0);
+		
 		try {
+			miSistema.cargarSaldo(nuevo, 200.0);
 			DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 			miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
 			Assert.assertTrue(miSistema.anularCompra(1));
@@ -59,19 +79,28 @@ public class testTrabajo {
 			e.printStackTrace();
 		} catch (VentaFallidaException e) {
 			e.printStackTrace();
+		} catch (LaRecargaHaFalladoException e) {
+			e.printStackTrace();
+		} catch (CompraFallidaException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	@Test
 	public void calcularPuntos() {
-		miSistema.cargarSaldo(nuevo, 100.0);
+		
 		DetallesDePago nuevoDetalle;
 		try {
+			miSistema.cargarSaldo(nuevo, 100.0);
 			nuevoDetalle = miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 			miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
 		} catch (ProductoInexistenteException | SaldoInsuficienteException e) {
 			e.printStackTrace();
 		} catch (VentaFallidaException e) {
+			e.printStackTrace();
+		} catch (LaRecargaHaFalladoException e) {
+			e.printStackTrace();
+		} catch (CompraFallidaException e) {
 			e.printStackTrace();
 		}
 		Integer valorEsperado=1260;
@@ -81,8 +110,9 @@ public class testTrabajo {
 	
 	@Test
 	public void pagarConPuntosAcumulados() {
-		miSistema.cargarSaldo(nuevo, 200.0);	
+			
 		try {
+			miSistema.cargarSaldo(nuevo, 200.0);
 			DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 			miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
 			DetallesDePago nuevoDetalle2=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Puntos");	
@@ -91,14 +121,23 @@ public class testTrabajo {
 			e.printStackTrace();
 		} catch (VentaFallidaException e) {
 			e.printStackTrace();
+		} catch (LaRecargaHaFalladoException e) {
+			e.printStackTrace();
+		} catch (CompraFallidaException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	@Test (expected=SaldoInsuficienteException.class)
 	public void testQueAnuleCompraSinReintegro() throws ProductoInexistenteException, SaldoInsuficienteException, VentaFallidaException {
-		DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
-		miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
-		assertFalse(miSistema.anularCompra(nuevoDetalle.getIdPago()));
+		DetallesDePago nuevoDetalle;
+		try {
+			nuevoDetalle = miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
+			miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
+			assertFalse(miSistema.anularCompra(nuevoDetalle.getIdPago()));
+		} catch (CompraFallidaException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
