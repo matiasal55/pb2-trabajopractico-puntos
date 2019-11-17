@@ -54,9 +54,11 @@ public class Sistema {
 
 	// ___________________________________________________________________________________________
 
-  public Boolean agregarProducto(Producto nuevo) {
-		this.listaDeProductos.add(nuevo);
-		return true;
+  public Boolean agregarProducto(Producto nuevo) throws productoExistenteException {
+	  if(this.listaDeProductos.contains(nuevo))
+		  throw new productoExistenteException();
+	  this.listaDeProductos.add(nuevo);
+	  return true;
 	}
 
 	public Boolean eliminarProducto(Integer id) {

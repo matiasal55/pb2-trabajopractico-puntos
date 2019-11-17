@@ -45,12 +45,21 @@ public class testABM {
 
 	@Test
 	public void crearProducto() {
-		Assert.assertTrue(miSistema.agregarProducto(nuevoProducto));
+		try {
+			Assert.assertTrue(miSistema.agregarProducto(nuevoProducto));
+		} catch (productoExistenteException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void eliminarProducto() {
-		miSistema.agregarProducto(nuevoProducto);
-		Assert.assertTrue(miSistema.eliminarProducto(nuevoProducto.getCodigo()));
+		try {
+			miSistema.agregarProducto(nuevoProducto);
+			Assert.assertTrue(miSistema.eliminarProducto(nuevoProducto.getCodigo()));
+		} catch (productoExistenteException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
