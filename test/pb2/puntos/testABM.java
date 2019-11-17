@@ -37,6 +37,24 @@ public class testABM {
 	}
 	
 
+	@Test
+	public void crearProducto() {
+		try {
+			Assert.assertTrue(miSistema.agregarProducto(nuevoProducto));
+		} catch (productoExistenteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void eliminarProducto() {
+		try {
+			miSistema.agregarProducto(nuevoProducto);
+			Assert.assertTrue(miSistema.eliminarProducto(nuevoProducto.getCodigo()));
+		} catch (productoExistenteException e) {
+			e.printStackTrace();
+		}
+		
 	@Test (expected = LoginFallidoException.class)
 	public void testLoginFallido() throws LoginFallidoException, UsuarioExistenteException, ContraseniaInvalidaException {
 		sistema.loginUsuario("slopez@gmail.com", "14345");

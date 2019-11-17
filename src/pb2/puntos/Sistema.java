@@ -82,17 +82,16 @@ public class Sistema {
 		}
 		throw new NoEsAdminException();
 	}
+	// ___________________________________________________________________________________________
 
+  public Boolean agregarProducto(Producto nuevo) throws productoExistenteException {
+	  if(this.listaDeProductos.contains(nuevo))
+		  throw new productoExistenteException();
+	  this.listaDeProductos.add(nuevo);
+	  return true;
+  }
 //
 //	// ___________________________________________________________________________________________
-//
-	public Boolean agregarProducto(Usuario usr, Producto nuevo) throws NoEsAdminException {
-		if (usr instanceof Administrador) {
-			this.listaDeProductos.add(nuevo);
-			return true;
-		}
-		throw new NoEsAdminException();
-	}
 
 //
 	public Boolean eliminarProducto(Usuario usr, Integer id) throws NoEsAdminException {
@@ -185,7 +184,7 @@ public class Sistema {
 			}
 
 		}
-		throw new VentaFallidaException();
+			throw new VentaFallidaException();
 	}
 
 //

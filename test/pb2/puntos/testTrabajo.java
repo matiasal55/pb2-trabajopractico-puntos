@@ -23,7 +23,11 @@ public class testTrabajo {
 		nuevoProducto = new Producto("Chocolate", 123, "Blanco", 21.0, 100);
 		miSistema.registrarUsuario(nuevo);
 		miSistema.registrarUsuario(admin);
-		miSistema.agregarProducto(nuevoProducto);
+		try {
+			miSistema.agregarProducto(nuevoProducto);
+		} catch (productoExistenteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
