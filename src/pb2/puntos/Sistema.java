@@ -69,6 +69,17 @@ public class Sistema {
 		}
 		throw new NoEsAdminException();
 	}
+	
+	public Boolean modificarContrasenia (String email, String nuevaContrasenia) throws UsuarioInexistenteException {
+		for (Usuario userAux : listaDeUsuarios) {
+			if (userAux.getEmail().equals(email)) {
+				userAux.setContrasenia(nuevaContrasenia);
+				return true;
+			}
+		}
+		throw new UsuarioInexistenteException();
+	}
+	
 	// ___________________________________________________________________________________________
 
   public Boolean agregarProducto(Producto nuevo) throws ProductoExistenteException, NoEsAdminException {
@@ -80,9 +91,7 @@ public class Sistema {
 	  }
 	  throw new NoEsAdminException();
   }
-//	// ___________________________________________________________________________________________
 
-//
 	public Boolean eliminarProducto(Integer id) throws NoEsAdminException, ProductoInexistenteException {
 		if (usuarioLogueado instanceof Administrador) {
 			Iterator<Producto> it = this.listaDeProductos.iterator();
