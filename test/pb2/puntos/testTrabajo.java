@@ -33,7 +33,7 @@ public class testTrabajo {
 		}
 		try {
 			miSistema.agregarProducto(nuevoProducto);
-		} catch (productoExistenteException e) {
+		} catch (ProductoExistenteException e) {
 			e.printStackTrace();
 		}
 	}

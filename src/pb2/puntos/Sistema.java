@@ -55,7 +55,7 @@ public class Sistema {
 	}
 
 //  
-	public Boolean eliminarUsuario(String email) throws NoEsAdminException {
+	public Boolean eliminarUsuario(String email) throws NoEsAdminException, UsuarioInexistenteException {
 		if (usuarioLogueado instanceof Administrador) {
 			Iterator<Usuario> it = this.listaDeUsuarios.iterator();
 			while (it.hasNext()) {
@@ -64,23 +64,26 @@ public class Sistema {
 					it.remove();
 					return true;
 				}
+				throw new UsuarioInexistenteException();
 			}
 		}
 		throw new NoEsAdminException();
 	}
 	// ___________________________________________________________________________________________
 
-  public Boolean agregarProducto(Producto nuevo) throws productoExistenteException {
-	  if(this.listaDeProductos.contains(nuevo))
-		  throw new productoExistenteException();
-	  this.listaDeProductos.add(nuevo);
-	  return true;
+  public Boolean agregarProducto(Producto nuevo) throws ProductoExistenteException, NoEsAdminException {
+	  	if(usuarioLogueado instanceof Administrador) {
+	  		if(this.listaDeProductos.contains(nuevo))
+	  			throw new ProductoExistenteException();
+	  			this.listaDeProductos.add(nuevo);
+	  			return true;
+	  }
+	  throw new NoEsAdminException();
   }
-//
 //	// ___________________________________________________________________________________________
 
 //
-	public Boolean eliminarProducto(Integer id) throws NoEsAdminException {
+	public Boolean eliminarProducto(Integer id) throws NoEsAdminException, ProductoInexistenteException {
 		if (usuarioLogueado instanceof Administrador) {
 			Iterator<Producto> it = this.listaDeProductos.iterator();
 			while (it.hasNext()) {
@@ -89,6 +92,24 @@ public class Sistema {
 					it.remove();
 					return true;
 				}
+				throw new ProductoInexistenteException();
+			}
+		}
+		throw new NoEsAdminException();
+	}
+	
+	public Boolean modificarProducto( Producto pAModificar, Producto pNuevo) throws ProductoInexistenteException, NoEsAdminException {
+		if (usuarioLogueado instanceof Administrador) { 
+			for (Producto p : listaDeProductos) {
+				if (p.equals(pAModificar)) {
+					p.setDescripcion(pNuevo.getDescripcion());
+					p.setCodigo(pNuevo.getCodigo());
+					p.setNombre(pNuevo.getNombre());
+					p.setPrecioPuntos(pNuevo.getPrecioPuntos());
+					p.setPrecioReal(pNuevo.getPrecioReal());
+					return true;
+				}
+				throw new ProductoInexistenteException();
 			}
 		}
 		throw new NoEsAdminException();
