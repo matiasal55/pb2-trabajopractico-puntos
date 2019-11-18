@@ -19,8 +19,8 @@ public class Sistema {
 //		this.listaDeUsuarios = new LinkedList<>();
 //	}
 
-	private Sistema() {
-	}
+//	private Sistema() {
+//	}
 
 //	public static Sistema getInstancia() {
 //		if(this.instancia == null) {
@@ -57,15 +57,15 @@ public class Sistema {
 	public Boolean eliminarUsuario(Usuario usr, Integer id) throws NoEsAdminException {
 		if (usr instanceof Administrador) {
 			Iterator<Usuario> listaAux = listaDeUsuarios.iterator();
-			while(listaAux.hasNext()) {
+			while (listaAux.hasNext()) {
 				Usuario aux = listaAux.next();
-				if(aux instanceof Cliente) {
-					if(aux.getId().equals(id)) {
+				if (aux instanceof Cliente) {
+					if (aux.getId().equals(id)) {
 						listaAux.remove();
 						return true;
 					}
 				}
-				
+
 			}
 		}
 		throw new NoEsAdminException();
@@ -89,6 +89,25 @@ public class Sistema {
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
+	public Boolean modificarProducto(Usuario usr, Integer codigo, Producto pNuevo)
+			throws ProductoNoExisteException, NoEsAdminException {
+		if (usr instanceof Administrador) {
+			for (Producto p : listaDeProductos) {
+				if (p.getCodigo().equals(codigo)) {
+					p.setDescripcion(pNuevo.getDescripcion());
+					p.setNombreProducto(pNuevo.getNombreProducto());
+					p.setPrecioPuntos(pNuevo.getPrecioPuntos());
+					p.setPrecioReal(pNuevo.getPrecioReal());
+					return true;
+				}
+				throw new ProductoNoExisteException();
+			}
+		}
+		throw new NoEsAdminException();
+	}
+
+//----------------------------------------------------------------------------------------------------------------------------------
+
 	public Boolean loginUsuario(String email, String contrasenia)
 			throws LoginFallidoException, EmailIncorrectoException, ContraseniaIncorrectaException {
 		for (Usuario userAux : listaDeUsuarios) {
@@ -105,8 +124,11 @@ public class Sistema {
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-	public Boolean agregarProducto(Usuario usr, Producto prod) throws NoEsAdminException {
+	public Boolean agregarProducto(Usuario usr, Producto prod) throws NoEsAdminException, productoExistenteException {
 		if (usr instanceof Administrador) {
+			if (this.listaDeProductos.contains(prod))
+				throw new productoExistenteException();
+			prod.setCodigo(listaDeProductos.size() + 1);
 			listaDeProductos.add(prod);
 			return true;
 		}
@@ -121,7 +143,7 @@ public class Sistema {
 //	}
 
 	public Boolean realizarCompra(Ventas venta) throws VentaFallidaException, MetodoDePagoNoExistenteException,
-			EmailYaRegistrado, ElUsuarioNoEstaRegistradoException, EfectivoInsuficienteException {
+			EmailYaRegistrado, ElUsuarioNoEstaRegistradoException, EfectivoInsuficienteException, PuntosInsuficienteException {
 		if (buscarUsuarioParaVerificarCompra(venta.getCliente()) == false) {
 			throw new ElUsuarioNoEstaRegistradoException();
 		}
@@ -130,10 +152,11 @@ public class Sistema {
 //		}
 		Iterator<Producto> listaAux = listaDeProductos.iterator();
 		while (listaAux.hasNext()) {
-			Producto prodAux = listaAux.next();	
+			Producto prodAux = listaAux.next();
 			if (prodAux.equals(venta.getProducto())) {
 				listaDeProductos.remove(prodAux);
 				listaDeVentas.add(venta);
+				venta.setCantidadDePuntos(venta.getCliente().getFactorDePuntos() * venta.getCantidad());
 				venta.getCliente()
 						.setPuntosAcumulados(venta.getCliente().getPuntosAcumulados() + venta.getCantidadDePuntos());
 				return true;
@@ -189,24 +212,30 @@ public class Sistema {
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-	public void pagarEnEfectivo(Ventas venta) throws EfectivoInsuficienteException {
+	public Boolean pagarEnEfectivo(Ventas venta) throws EfectivoInsuficienteException {
 		if (venta.getMedioDePago().equals("efectivo")
-				&& venta.getCliente().getSaldo() < venta.getProducto().getPrecioReal()
-				|| venta.getCliente().getSaldo() <= 0) {
+				&& (venta.getCliente().getSaldo() < venta.getProducto().getPrecioReal()
+						|| venta.getCliente().getSaldo() <= 0)) {
 			throw new EfectivoInsuficienteException();
-		}
-		if (venta.getMedioDePago().equals("efectivo")) {
+		} else if (venta.getMedioDePago().equals("efectivo")) {
 			venta.getCliente().setSaldo(venta.getCliente().getSaldo() - venta.getProducto().getPrecioReal());
 		}
+		return true;
 	}
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-	public void pagarConPuntos(Ventas venta) {
-		if (venta.getMedioDePago().equals("puntos")) {
-			venta.getCliente().setPuntosAcumulados(
-					venta.getCliente().getPuntosAcumulados() - venta.getProducto().getPrecioPuntos());
+	public Boolean pagarConPuntos(Ventas venta) throws PuntosInsuficienteException {
+		if (venta.getMedioDePago().equals("puntos") && (venta.getCliente().getFactorDePuntos() <= 0
+				|| venta.getCliente().getPuntosAcumulados() < venta.getProducto().getPrecioPuntos())) {
+			throw new PuntosInsuficienteException();
 		}
+		else
+			if (venta.getMedioDePago().equals("puntos")) {
+				venta.getCliente().setPuntosAcumulados(
+						venta.getCliente().getPuntosAcumulados() - venta.getProducto().getPrecioPuntos());
+			}
+		return true;
 	}
 
 //----------------------------------------------------------------------------------------------------------------------------------
@@ -224,24 +253,37 @@ public class Sistema {
 			System.out.println(lista);
 		}
 	}
-	
-	//Ambos metodos son de auto-ayuda para verificar
-	
+
+	// Ambos metodos son de auto-ayuda para verificar
+
 	public void mostrarListaProductos() {
-		for(Producto lista : listaDeProductos) {
+		for (Producto lista : listaDeProductos) {
 			System.out.println(lista);
 		}
 	}
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-	public void recargarSaldo(Usuario usrARecargar, Double monto) {
-		usrARecargar.setSaldo(usrARecargar.getSaldo() + monto);
+//	public void recargarSaldo(Usuario usrARecargar, Double monto) {
+//		usrARecargar.setSaldo(usrARecargar.getSaldo() + monto);
+//	}
+
+	public Boolean recargarSaldo(String email, Double monto) throws MontoIncorrecto, UsuarioInexistenteException {
+		for (Usuario u : listaDeUsuarios) {
+			if (u.getEmail().equals(email)) {
+				if (monto > 0) {
+					u.setSaldo(monto);
+					return true;
+				}
+				throw new MontoIncorrecto();
+			}
+		}
+		throw new UsuarioInexistenteException();
 	}
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-	public Boolean buscarUsuarioParaVerificarCompra(Usuario usr) {
+	private Boolean buscarUsuarioParaVerificarCompra(Usuario usr) {
 		for (Usuario s : listaDeUsuarios) {
 			if (usr.equals(s)) {
 				return true;
@@ -249,6 +291,22 @@ public class Sistema {
 		}
 		return false;
 	}
+
+//----------------------------------------------------------------------------------------------------------------------------------
+
+//	private Integer obtenerFactorPuntos(String email) throws UsuarioInexistenteException {
+//		for (Usuario u : this.listaDeUsuarios) {
+//			if (u.getEmail().equals(email)) {
+//				if (u instanceof Cliente) {
+//					return ((Cliente) u).getFactorDePuntos();
+//				} else if (u instanceof Administrador) {
+//					return ((Administrador) u).getFactorDePuntos();
+//				}
+//			}
+//			throw new UsuarioInexistenteException();
+//		}
+//		return 0;
+//	}
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
@@ -276,5 +334,4 @@ public class Sistema {
 		this.listaDeVentas = listaDeVentas;
 	}
 
-	
 }
