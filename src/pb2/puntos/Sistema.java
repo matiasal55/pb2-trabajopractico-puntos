@@ -2,15 +2,15 @@ package pb2.puntos;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class Sistema {
 	private static Sistema instancia;
-	private Set<Producto> listaDeProductos = new HashSet<>();
-	private Set<Ventas> listaDeVentas = new TreeSet<>();
+	private Set<Producto> listaDeProductos = new TreeSet<>();
+	private Set<Ventas> listaDeVentas = new HashSet<>();
 	private Set<Usuario> listaDeUsuarios = new HashSet<>();
+	private Usuario usuarioLogueado;
 
 	public static Sistema getInstancia() {
 		if (instancia == null) {
@@ -38,26 +38,12 @@ public class Sistema {
 		return true;
 	}
 
-//
-//	public Boolean loginUsuario(String email, String contrasenia)
-//			throws LoginFallidoException, ContraseniaInvalidaException {
-//		for (Usuario usr : this.listaDeUsuarios) {
-//			if (usr.getEmail().equals(email)) {
-//				if (usr.getContrasenia().equals(contrasenia))
-//					return true;
-//				else if (usr.getContrasenia() != contrasenia) {
-//					throw new ContraseniaInvalidaException();
-//				}
-//			}
-//
-//		}
-//		throw new LoginFallidoException();
-//	}
 
 	public Boolean loginUsuario(String email, String contrasenia)
 			throws LoginFallidoException, EmailIncorrectoException, ContraseniaIncorrectaException {
 		for (Usuario userAux : listaDeUsuarios) {
 			if (userAux.getEmail().equals(email) && userAux.getContrasenia().equals(contrasenia)) {
+				this.usuarioLogueado=userAux;
 				return true;
 			} else if (userAux.getEmail() != email && userAux.getContrasenia().equals(contrasenia)) {
 				throw new EmailIncorrectoException();
@@ -69,8 +55,8 @@ public class Sistema {
 	}
 
 //  
-	public Boolean eliminarUsuario(Usuario usr, String email) throws NoEsAdminException {
-		if (usr instanceof Administrador) {
+	public Boolean eliminarUsuario(String email) throws NoEsAdminException {
+		if (usuarioLogueado instanceof Administrador) {
 			Iterator<Usuario> it = this.listaDeUsuarios.iterator();
 			while (it.hasNext()) {
 				Usuario aux = it.next();
@@ -94,8 +80,8 @@ public class Sistema {
 //	// ___________________________________________________________________________________________
 
 //
-	public Boolean eliminarProducto(Usuario usr, Integer id) throws NoEsAdminException {
-		if (usr instanceof Administrador) {
+	public Boolean eliminarProducto(Integer id) throws NoEsAdminException {
+		if (usuarioLogueado instanceof Administrador) {
 			Iterator<Producto> it = this.listaDeProductos.iterator();
 			while (it.hasNext()) {
 				Producto aux = it.next();
@@ -116,9 +102,8 @@ public class Sistema {
 		for (Producto prod : listaDeProductos) {
 			if (prod.equals(producto)) {
 				Integer factorDePuntos = obtenerFactorPuntos(comprador);
-				Integer cantidadDePuntos = cantidad /* producto.getPrecioReal() */ * factorDePuntos;
-				Ventas nuevaVenta = new Ventas(this.listaDeVentas.size() + 1, cantidad, producto, comprador,
-				//Error --->		cantidadDePuntos, medioDePago);
+				Integer cantidadDePuntos = (int)(cantidad * producto.getPrecioReal() * factorDePuntos);
+				Ventas nuevaVenta=new Ventas(this.listaDeVentas.size()+1, comprador, cantidad, producto, medioDePago, cantidadDePuntos);
 				DetallesDePago nuevoDetalle = new DetallesDePago(nuevaVenta.getIdVenta(), nuevaVenta.getPrecioTotal(),
 						nuevaVenta.getTotalPuntos());
 				this.listaDeVentas.add(nuevaVenta);
