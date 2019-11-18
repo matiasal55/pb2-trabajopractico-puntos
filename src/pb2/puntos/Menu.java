@@ -21,7 +21,7 @@ public class Menu {
 			if (opcion == '1') {
 				do {
 					System.out.println("\n1- Crear admin. " + "\n2- Registrarse. " + "\n3- Loguearse."
-							+ "\n4- Opciones de producto." + "\5- Opciones de usuario."
+							+ "\n4- Opciones de producto." + "\n5- Opciones de usuario."
 							+ "\n0- Volver a la seleccion de admin/cliente.");
 					opcion = teclado.next().charAt(0);
 					switch (opcion) {
@@ -65,7 +65,8 @@ public class Menu {
 						do {
 							System.out.println("\n Bienvenido a la pantalla de productos: \n1- Crear producto."
 									+ "\n2- Agregar producto a lista." + "\n3- Eliminar producto de una lista."
-									+ "\n4- Mostrar lista productos." + "\n0- Salir de la pantalla de productos.");
+									+ "\n4- Mostrar lista productos." + "\n5- Modificar producto."
+									+ "\n0- Salir de la pantalla de productos.");
 							option = teclado.next().charAt(0);
 							if (option == '1') {
 								System.out.println("\nIngresar categoria: ");
@@ -92,6 +93,25 @@ public class Menu {
 								s1.eliminarProducto(admin, id1);
 							} else if (option == '4') {
 								s1.mostrarListaProductos();
+							} else if (option == '5') {
+								System.out.println("\nIngresar codigo del producto: ");
+								Integer codigoP = teclado.nextInt();
+								System.out.println("Ingresar nueva descripcion: ");
+								String descripcion = teclado.next();
+								System.out.println("Ingresar nuevo nombre del producto: ");
+								String nombreProducto = teclado.next();
+								System.out.println("Ingresar nuevo precio en efectivo: ");
+								Double precioReal = teclado.nextDouble();
+								System.out.println("Ingresar nuevo precio en puntos: ");
+								Integer precioPuntos = teclado.nextInt();
+								Producto pNuevo = new Producto(descripcion , codigoP, nombreProducto, precioReal,
+								precioPuntos);
+								try {
+									s1.modificarProducto(admin, codigoP, pNuevo);
+								} catch (ProductoNoExisteException | NoEsAdminException e) {
+									e.printStackTrace();
+								}
+				
 							}
 						} while (option != '0');
 						break;
