@@ -15,13 +15,17 @@ public class Menu {
 		Producto prod = null;
 		DetallesDePago recibo = null;
 
+		Producto nuevoProd = new Producto("Chocolate", 123, "Blanco", 21.0, 100);
+		Producto nuevoProd2 = new Producto("Chocolate", 456, "Negro", 42.0, 200);
+		Producto nuevoProd3 = new Producto("Chocolate", 789, "Puro", 63.0, 250);
+
 		do {
 			System.out.println("Elige: \n" + "1- Administrador \t" + "2- Cliente \t" + "3- Salir.");
 			opcion = teclado.next().charAt(0);
 			if (opcion == '1') {
 				do {
 					System.out.println("\n1- Crear admin. " + "\n2- Registrarse. " + "\n3- Loguearse."
-							+ "\n4- Opciones de producto." + "\n5- Opciones de usuario."
+							+ "\n4- Opciones de producto." + "\n5- Opciones de usuario." + "\n6- Cambiar contrasenia."
 							+ "\n0- Volver a la seleccion de admin/cliente.");
 					opcion = teclado.next().charAt(0);
 					switch (opcion) {
@@ -55,6 +59,13 @@ public class Menu {
 						} catch (LoginFallidoException | EmailIncorrectoException | ContraseniaIncorrectaException e) {
 							e.printStackTrace();
 						}
+						try {
+							s1.agregarProducto(nuevoProd);
+							s1.agregarProducto(nuevoProd2);
+							s1.agregarProducto(nuevoProd3);
+						} catch (ProductoExistenteException | NoEsAdminException e1) {
+							e1.printStackTrace();
+						}
 						break;
 					case '4':
 						char option = 0;
@@ -67,7 +78,8 @@ public class Menu {
 							if (option == '1') {
 								System.out.println("\nIngresar categoria: ");
 								String descripcion = teclado.next();
-								Integer codigo = 0;
+								System.out.println("Ingresar codigo del producto: ");
+								Integer codigo = teclado.nextInt();
 								System.out.println("Ingresar nombre del producto: ");
 								String nombreProducto = teclado.next();
 								System.out.println("Ingresar precio en puntos: ");
@@ -147,6 +159,19 @@ public class Menu {
 								s1.mostarListaUsuarios();
 							}
 						} while (option1 != '0');
+						break;
+					case '6':
+						System.out.println("Ingresar email: ");
+						String emailC = teclado.next();
+						System.out.println("Ingresar contrasenia: ");
+						String contraseniaAntigua = teclado.next();
+						System.out.println("Ingresar nueva contrasenia: ");
+						String nuevaContrasenia = teclado.next();
+						try {
+							s1.modificarContrasenia(emailC, contraseniaAntigua, nuevaContrasenia);
+						} catch (UsuarioInexistenteException e) {
+							e.printStackTrace();
+						}
 						break;
 					}
 				} while (opcion != '0');

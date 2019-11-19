@@ -69,9 +69,9 @@ public class Sistema {
 		throw new NoEsAdminException();
 	}
 
-	public Boolean modificarContrasenia(String email, String nuevaContrasenia) throws UsuarioInexistenteException {
+	public Boolean modificarContrasenia(String email, String contraseniaAntigua, String nuevaContrasenia) throws UsuarioInexistenteException {
 		for (Usuario userAux : listaDeUsuarios) {
-			if (userAux.getEmail().equals(email)) {
+			if (userAux.getEmail().equals(email) && userAux.getContrasenia().equals(contraseniaAntigua)) {
 				userAux.setContrasenia(nuevaContrasenia);
 				return true;
 			}
@@ -296,13 +296,13 @@ public class Sistema {
 
 	public void mostrarListaProductos() {
 		for (Producto lista : listaDeProductos) {
-			System.out.println(lista);
+			System.out.println(lista.toString());
 		}
 	}
 
 	public void mostarListaUsuarios() {
 		for (Usuario lista : listaDeUsuarios) {
-			System.out.println(lista);
+			System.out.println(lista.toString());
 		}
 	}
 //
