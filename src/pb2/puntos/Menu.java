@@ -13,7 +13,7 @@ public class Menu {
 		Usuario client = null;
 		Usuario admin = null;
 		Producto prod = null;
-		Ventas vent = null;
+		DetallesDePago recibo = null;
 
 		do {
 			System.out.println("Elige: \n" + "1- Administrador \t" + "2- Cliente \t" + "3- Salir.");
@@ -21,9 +21,7 @@ public class Menu {
 			if (opcion == '1') {
 				do {
 					System.out.println("\n1- Crear admin. " + "\n2- Registrarse. " + "\n3- Loguearse."
-							+ "\n4- Crear producto." + "\n5- Agregar producto a lista."
-							+ "\n6- Eliminar producto de una lista." + "\n7- Mostrar lista productos."
-							+ "\n8- Eliminar usuario." + "\n9- Mostrar lista de usuarios."
+							+ "\n4- Opciones de producto." + "\n5- Opciones de usuario."
 							+ "\n0- Volver a la seleccion de admin/cliente.");
 					opcion = teclado.next().charAt(0);
 					switch (opcion) {
@@ -54,63 +52,109 @@ public class Menu {
 						String contra = teclado.next();
 						try {
 							s1.loginUsuario(email, contra);
-						} catch (LoginFallidoException | EmailIncorrectoException | ContraseniaIncorrectaException e2) {
-							e2.printStackTrace();
+						} catch (LoginFallidoException | EmailIncorrectoException | ContraseniaIncorrectaException e) {
+							e.printStackTrace();
 						}
 						break;
 					case '4':
-						System.out.println("\nIngresar categoria: ");
-						String descripcion = teclado.next();
-						System.out.println("Ingresar codigo de producto: (Valores numericos)");
-						Integer codigo = teclado.nextInt();
-						System.out.println("Ingresar nombre del producto: ");
-						String nombreProducto = teclado.next();
-						System.out.println("Ingresar precio en puntos: ");
-						Integer precioPuntos = teclado.nextInt();
-						System.out.println("Ingresar precio en efectivo: (Con coma)");
-						Double precioReal = teclado.nextDouble();
-						Producto p1 = new Producto(descripcion, codigo, nombreProducto, precioReal, precioPuntos);
-						prod = p1;
+						char option = 0;
+						do {
+							System.out.println("\n Bienvenido a la pantalla de productos: \n1- Crear producto."
+									+ "\n2- Agregar producto a lista." + "\n3- Eliminar producto de una lista."
+									+ "\n4- Mostrar lista productos." + "\n5- Modificar producto."
+									+ "\n0- Salir de la pantalla de productos.");
+							option = teclado.next().charAt(0);
+							if (option == '1') {
+								System.out.println("\nIngresar categoria: ");
+								String descripcion = teclado.next();
+								Integer codigo = 0;
+								System.out.println("Ingresar nombre del producto: ");
+								String nombreProducto = teclado.next();
+								System.out.println("Ingresar precio en puntos: ");
+								Integer precioPuntos = teclado.nextInt();
+								System.out.println("Ingresar precio en efectivo: (Con coma)");
+								Double precioReal = teclado.nextDouble();
+								Producto p1 = new Producto(descripcion, codigo, nombreProducto, precioReal,
+										precioPuntos);
+								prod = p1;
+							} else if (option == '2') {
+								try {
+									s1.agregarProducto(prod);
+								} catch (ProductoExistenteException | NoEsAdminException e) {
+									e.printStackTrace();
+								}
+							} else if (option == '3') {
+								System.out.println("\nIngresar id de producto a eliminar: ");
+								Integer id1 = teclado.nextInt();
+								try {
+									s1.eliminarProducto(id1);
+								} catch (NoEsAdminException | ProductoInexistenteException e) {
+									e.printStackTrace();
+								}
+							} else if (option == '4') {
+								s1.mostrarListaProductos();
+							} else if (option == '5') {
+								System.out.println("\nIngresar datos del producto a modificar: ");
+								System.out.println("Ingresar descripcion: ");
+								String descripcionp = teclado.next();
+								System.out.println("Ingresar codigo del producto: ");
+								Integer codigop = teclado.nextInt();
+								System.out.println("Ingresar nombre del producto: ");
+								String nombrep = teclado.next();
+								System.out.println("Ingresar precio en puntos: ");
+								Integer precioPuntosp = teclado.nextInt();
+								System.out.println("Ingresar precio en efectivo: ");
+								Double precioRealp = teclado.nextDouble();
+								Producto pAModificar = new Producto(descripcionp, codigop, nombrep, precioRealp,
+										precioPuntosp);
+								System.out.println("\nAhora ingrese los datos para modificar el producto: ");
+								System.out.println("Ingresar nueva descripcion: ");
+								String nuevaDescripcion = teclado.next();
+								System.out.println("Ingresar nuevo codigo del producto: ");
+								Integer nuevoCodigo = teclado.nextInt();
+								System.out.println("Ingresar nuevo nombre del producto: ");
+								String nuevoNombreProducto = teclado.next();
+								System.out.println("Ingresar nuevo precio en puntos: ");
+								Integer nuevoPrecioPuntos = teclado.nextInt();
+								System.out.println("Ingresar nuevo precio en efectivo: ");
+								Double nuevoPrecioReal = teclado.nextDouble();
+								Producto pNuevo = new Producto(nuevaDescripcion, nuevoCodigo, nuevoNombreProducto,
+										nuevoPrecioReal, nuevoPrecioPuntos);
+
+								try {
+									s1.modificarProducto(pAModificar, pNuevo);
+								} catch (ProductoInexistenteException | NoEsAdminException e) {
+									e.printStackTrace();
+								}
+							}
+						} while (option != '0');
 						break;
 					case '5':
-						try {
-							s1.agregarProducto(admin, prod);
-						} catch (NoEsAdminException e) {
-							e.printStackTrace();
-						}
-						break;
-					case '6':
-						System.out.println("\nIngresar id de producto a eliminar: ");
-						Integer id1 = teclado.nextInt();
-						try {
-							s1.eliminarProducto(admin, id1);
-						} catch (NoEsAdminException e1) {
-							e1.printStackTrace();
-						}
-						break;
-					case '7':
-						s1.mostrarListaProductos();
-						break;
-					case '8':
-						System.out.println("\nIngresar email del cliente: ");
-						String email2 = teclado.next();
-						try {
-							s1.eliminarUsuario(admin, email2);
-						} catch (NoEsAdminException e) {
-							e.printStackTrace();
-						}
-						break;
-					case '9':
-						s1.mostarListaUsuarios();
+						char option1 = 0;
+						do {
+							System.out.println("Bienvenido a la pantalla de usuario: " + "\n1- Eliminar usuario."
+									+ "\n2- Mostrar lista de usuarios." + "\n0- Salir de la pantalla de usuario.");
+							option1 = teclado.next().charAt(0);
+							if (option1 == '1') {
+								System.out.println("\nIngresar email del cliente a eliminar: ");
+								String emailUsr = teclado.next();
+								try {
+									s1.eliminarUsuario(emailUsr);
+								} catch (UsuarioInexistenteException | NoEsAdminException e) {
+									e.printStackTrace();
+								}
+							} else if (option1 == '2') {
+								s1.mostarListaUsuarios();
+							}
+						} while (option1 != '0');
 						break;
 					}
 				} while (opcion != '0');
-
 			} else if (opcion == '2') {
 				do {
-					System.out.println("\n1-Crear usuario." + "\n2- Registarse." + "\n3- Loguearse."
-							+ "\n4- Realizar una compra." + "\n5- Anular compra." + "\n6- Recargar saldo."
-							+ "0- Volver a la seleccion de admin/cliente.");
+					System.out.println(
+							"\n1-Crear usuario." + "\n2- Registarse." + "\n3- Loguearse." + "\n4- Opciones de compra."
+									+ "\n5- Recargar saldo." + "0- Volver a la seleccion de admin/cliente.");
 					opcion = teclado.next().charAt(0);
 					switch (opcion) {
 					case 0:
@@ -127,9 +171,6 @@ public class Menu {
 						System.out.println("-Ingresar contrasenia: ");
 						String contrasenia = teclado.next();
 
-						Integer id = 0;
-						Integer puntosAcumulados = 0;
-						Double saldo = 0.0;
 						Usuario cliente = new Cliente(nombre, apellido, mail, contrasenia);
 						client = cliente;
 						break;
@@ -156,42 +197,64 @@ public class Menu {
 						char option = 0;
 						do {
 							System.out.println("\nBienvenido a la pantalla de compra: " + "\n1- Ver lista de productos."
-									+ "\n2- Realizar una compra." + "\n0- Salir de la pantalla de compra.");
+									+ "\n2- Realizar una compra." + "\n3- Anular compra." + "\n4- Ver recibo."
+									+ "\n0- Salir de la pantalla de compra.");
 							option = teclado.next().charAt(0);
 							if (option == '1') {
 								s1.mostrarListaProductos();
 							} else if (option == '2') {
-								System.out.println("\nIngrese id del producto: ");
-								Integer idVenta = teclado.nextInt();
-								System.out.println("Ingrese la cantidad del producto: ");
-								Integer cantidad = teclado.nextInt();
-								System.out.println("Ingrese medio de pago: (efectivo o puntos)");
-								String medioDePago = teclado.next();
-								Integer cantidadDePuntos = /* factor de puntos * cantidad */0;
-								Ventas venta = new Ventas(idVenta, (Cliente) client, cantidad, prod, medioDePago,
-										cantidadDePuntos);
-								vent = venta;
-								// s1.comprarProducto(comprador, cantidadDePuntos, producto, medioDePago);
+								System.out.println("\nIngresar cantidad del producto a comprar:");
+								Integer cantidadp = teclado.nextInt();
+								System.out.println("Ingresar codigo del producto a comprar: ");
+								Integer idProd = teclado.nextInt();
+								System.out.println(
+										"Ingresar medio de pago: ('puntos' para pagara con puntos o 'saldo' para pagar en efectivo)");
+								String medioDePagop = teclado.next();
+
+								try {
+									DetallesDePago nuevo = s1.comprarProducto(client, cantidadp, idProd, medioDePagop);
+									recibo = nuevo;
+								} catch (CompraFallidaException e1) {
+									e1.printStackTrace();
+								}
+								if (medioDePagop.equals("puntos")) {
+									try {
+										s1.pagarConPuntos(recibo.getIdPago(), recibo.getPrecioPuntos());
+									} catch (SaldoInsuficienteException | VentaFallidaException e) {
+										e.printStackTrace();
+									}
+								} else if (medioDePagop.equals("saldo")) {
+									try {
+										s1.pagarConSaldo(recibo.getIdPago(), recibo.getPrecioSaldo());
+									} catch (ProductoInexistenteException | SaldoInsuficienteException
+											| VentaFallidaException e) {
+										e.printStackTrace();
+									}
+								}
+							} else if (option == '3') {
+								s1.anularCompra(recibo.getIdPago());
+							} else if (option == '4') {
+								System.out.println(recibo);
 							}
 						} while (option != '0');
 						break;
 					case '5':
-						s1.anularCompra(vent.getIdVenta());
-						break;
-					case '6':
 						System.out.println("\nIngrese monto para la recarga: (Valor con coma)");
 						Double monto = teclado.nextDouble();
 						try {
 							s1.cargarSaldo(client, monto);
 						} catch (LaRecargaHaFalladoException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						break;
 					}
 				} while (opcion != '0');
 			}
 		} while (opcion != '3');
-		if (opcion == '3') {
+		if (opcion == '3')
+
+		{
+			teclado.close();
 			System.out.println("Usted ha salido.");
 		}
 	}

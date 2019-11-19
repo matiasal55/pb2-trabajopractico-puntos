@@ -38,12 +38,11 @@ public class Sistema {
 		return true;
 	}
 
-
 	public Boolean loginUsuario(String email, String contrasenia)
 			throws LoginFallidoException, EmailIncorrectoException, ContraseniaIncorrectaException {
 		for (Usuario userAux : listaDeUsuarios) {
 			if (userAux.getEmail().equals(email) && userAux.getContrasenia().equals(contrasenia)) {
-				this.usuarioLogueado=userAux;
+				this.usuarioLogueado = userAux;
 				return true;
 			} else if (userAux.getEmail() != email && userAux.getContrasenia().equals(contrasenia)) {
 				throw new EmailIncorrectoException();
@@ -69,8 +68,8 @@ public class Sistema {
 		}
 		throw new NoEsAdminException();
 	}
-	
-	public Boolean modificarContrasenia (String email, String nuevaContrasenia) throws UsuarioInexistenteException {
+
+	public Boolean modificarContrasenia(String email, String nuevaContrasenia) throws UsuarioInexistenteException {
 		for (Usuario userAux : listaDeUsuarios) {
 			if (userAux.getEmail().equals(email)) {
 				userAux.setContrasenia(nuevaContrasenia);
@@ -79,19 +78,19 @@ public class Sistema {
 		}
 		throw new UsuarioInexistenteException();
 	}
-	
+
 	// ___________________________________________________________________________________________
 
-  public Boolean agregarProducto(Producto nuevo) throws ProductoExistenteException, NoEsAdminException {
-	  	if(usuarioLogueado instanceof Administrador) {
-	  		if(this.listaDeProductos.contains(nuevo))
-	  			throw new ProductoExistenteException();
-	  		else
-	  			this.listaDeProductos.add(nuevo);
-	  			return true;
-	  }
-	  throw new NoEsAdminException();
-  }
+	public Boolean agregarProducto(Producto nuevo) throws ProductoExistenteException, NoEsAdminException {
+		if (usuarioLogueado instanceof Administrador) {
+			if (this.listaDeProductos.contains(nuevo))
+				throw new ProductoExistenteException();
+			else
+				this.listaDeProductos.add(nuevo);
+			return true;
+		}
+		throw new NoEsAdminException();
+	}
 
 	public Boolean eliminarProducto(Integer id) throws NoEsAdminException, ProductoInexistenteException {
 		if (usuarioLogueado instanceof Administrador) {
@@ -107,9 +106,10 @@ public class Sistema {
 		}
 		throw new NoEsAdminException();
 	}
-	
-	public Boolean modificarProducto( Producto pAModificar, Producto pNuevo) throws ProductoInexistenteException, NoEsAdminException {
-		if (usuarioLogueado instanceof Administrador) { 
+
+	public Boolean modificarProducto(Producto pAModificar, Producto pNuevo)
+			throws ProductoInexistenteException, NoEsAdminException {
+		if (usuarioLogueado instanceof Administrador) {
 			for (Producto p : listaDeProductos) {
 				if (p.equals(pAModificar)) {
 					p.setDescripcion(pNuevo.getDescripcion());
@@ -128,13 +128,14 @@ public class Sistema {
 //
 //	// ___________________________________________________________________________________________
 //
-	public DetallesDePago comprarProducto(Usuario comprador, Integer cantidad, Producto producto, String medioDePago)
+	public DetallesDePago comprarProducto(Usuario comprador, Integer cantidad, Integer id, String medioDePago)
 			throws CompraFallidaException {
 		for (Producto prod : listaDeProductos) {
-			if (prod.equals(producto)) {
+			if (prod.getCodigo().equals(id)) {
 				Integer factorDePuntos = obtenerFactorPuntos(comprador);
-				Integer cantidadDePuntos = (int)(cantidad * producto.getPrecioReal() * factorDePuntos);
-				Ventas nuevaVenta=new Ventas(this.listaDeVentas.size()+1, comprador, cantidad, producto, medioDePago, cantidadDePuntos);
+				Integer cantidadDePuntos = (int) (cantidad * prod.getPrecioReal() * factorDePuntos);
+				Ventas nuevaVenta = new Ventas(this.listaDeVentas.size() + 1, comprador, cantidad, prod, medioDePago,
+						cantidadDePuntos);
 				DetallesDePago nuevoDetalle = new DetallesDePago(nuevaVenta.getIdVenta(), nuevaVenta.getPrecioTotal(),
 						nuevaVenta.getTotalPuntos());
 				this.listaDeVentas.add(nuevaVenta);
@@ -161,7 +162,7 @@ public class Sistema {
 //
 	public Boolean pagarConPuntos(Integer idPago, Integer puntos)
 			throws SaldoInsuficienteException, VentaFallidaException {
-		for (Ventas lista : this.listaDeVentas) {			
+		for (Ventas lista : this.listaDeVentas) {
 			if (lista.getIdVenta().equals(idPago)) {
 				for (Usuario usr : this.listaDeUsuarios) {
 					System.out.println(lista + " " + usr.getPuntosAcumulados());
@@ -202,7 +203,7 @@ public class Sistema {
 			}
 
 		}
-			throw new VentaFallidaException();
+		throw new VentaFallidaException();
 	}
 
 //

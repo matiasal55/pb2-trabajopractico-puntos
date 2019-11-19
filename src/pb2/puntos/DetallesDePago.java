@@ -18,6 +18,12 @@ public class DetallesDePago {
 	public Integer getPrecioPuntos() {
 		return precioPuntos;
 	}
+	@Override
+	public String toString() {
+		return "Id de pago: " + idPago + ", precio en saldo: " + precioSaldo + " y el precio en puntos fue: "+ precioPuntos;
+	}
+	
+	
 	
 	
 }
