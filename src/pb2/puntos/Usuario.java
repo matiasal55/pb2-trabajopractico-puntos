@@ -57,4 +57,10 @@ public class Usuario extends Persona {
 		this.saldo = saldo;
 	}
 
+	@Override
+	public String toString() {
+		return "Usuario [email=" + email + ", contrasenia=" + contrasenia + ", id=" + id + ", puntosAcumulados="
+				+ puntosAcumulados + ", saldo=" + saldo + "]";
+	}
+
 }

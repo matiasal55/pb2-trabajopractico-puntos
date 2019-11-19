@@ -96,4 +96,11 @@ public class Ventas {
 		this.comprador = comprador;
 	}
 
+	@Override
+	public String toString() {
+		return "Ventas [idVenta=" + idVenta + ", cantidad=" + cantidad + ", producto=" + producto + ", totalPuntos="
+				+ totalPuntos + ", precioTotal=" + precioTotal + ", comprador=" + comprador + ", cantidadDePuntos="
+				+ cantidadDePuntos + ", medioDePago=" + medioDePago + ", estadoDePago=" + estadoDePago + "]";
+	}
+
 }

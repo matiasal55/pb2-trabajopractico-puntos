@@ -16,28 +16,17 @@ public class testTrabajo {
 	Producto nuevoProducto;
 
 	@Before
-	public void before() throws NoEsAdminException {
+	public void before() throws EmailYaRegistradoException, ProductoExistenteException, NoEsAdminException, LoginFallidoException, EmailIncorrectoException, ContraseniaIncorrectaException {
 		miSistema = new Sistema();
 		nuevo = new Cliente("Cosme", "Fulanito", "hotmail.com", "1234A");
 		admin = new Administrador("Matias", "Alarcon", "gmail.com", "1234A");
 		nuevoProducto = new Producto("Chocolate", 123, "Blanco", 21.0, 100);
-		try {
-			miSistema.registrarUsuario(nuevo);
-		} catch (EmailYaRegistradoException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			miSistema.registrarUsuario(admin);
-		} catch (EmailYaRegistradoException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			miSistema.agregarProducto(nuevoProducto);
-		} catch (ProductoExistenteException e) {
-			e.printStackTrace();
-		}
+		miSistema.registrarUsuario(admin);
+		miSistema.loginUsuario(admin.getEmail(), admin.getContrasenia());
+		miSistema.agregarProducto(nuevoProducto);
+		miSistema.registrarUsuario(nuevo);
 	}
-
+	
 	@Test
 	public void comprarYpagar() throws VentaFallidaException {
 		try {
@@ -112,18 +101,21 @@ public class testTrabajo {
 	public void pagarConPuntosAcumulados() {
 			
 		try {
-			miSistema.cargarSaldo(nuevo, 200.0);
+			miSistema.cargarSaldo(nuevo, 400.0);
 			DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
 			miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
 			DetallesDePago nuevoDetalle2=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Puntos");	
-			assertTrue(miSistema.pagarConPuntos(nuevoDetalle2.getIdPago(), nuevoDetalle2.getPrecioPuntos()));
-		} catch (ProductoInexistenteException | SaldoInsuficienteException e) {
+			miSistema.pagarConPuntos(nuevoDetalle2.getIdPago(), nuevoDetalle2.getPrecioPuntos());
+		} catch (SaldoInsuficienteException e) {
 			e.printStackTrace();
 		} catch (VentaFallidaException e) {
 			e.printStackTrace();
 		} catch (LaRecargaHaFalladoException e) {
 			e.printStackTrace();
 		} catch (CompraFallidaException e) {
+			e.printStackTrace();
+		} catch (ProductoInexistenteException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

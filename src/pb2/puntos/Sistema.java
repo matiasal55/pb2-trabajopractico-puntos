@@ -161,9 +161,11 @@ public class Sistema {
 //
 	public Boolean pagarConPuntos(Integer idPago, Integer puntos)
 			throws SaldoInsuficienteException, VentaFallidaException {
-		for (Ventas lista : this.listaDeVentas) {
+		for (Ventas lista : this.listaDeVentas) {			
 			if (lista.getIdVenta().equals(idPago)) {
 				for (Usuario usr : this.listaDeUsuarios) {
+					System.out.println(lista + " " + usr.getPuntosAcumulados());
+					System.out.println(usr);
 					if (usr.equals(lista.getComprador()) && usr.getPuntosAcumulados() >= puntos) {
 						usr.setPuntosAcumulados(usr.getPuntosAcumulados() - puntos);
 						lista.setEstadoDePago("Pagado");
