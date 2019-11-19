@@ -215,7 +215,7 @@ public class testABM {
 			sistema.registrarUsuario(a1);
 			sistema.loginUsuario(a1.getEmail(), a1.getContrasenia());
 			sistema.agregarProducto(nuevoProducto);
-			Assert.assertTrue(sistema.modificarProducto(nuevoProducto, nuevoProducto2));
+			Assert.assertTrue(sistema.modificarProducto(123, nuevoProducto2));
 		} catch (NoEsAdminException e) {
 			e.printStackTrace();
 		} catch (EmailYaRegistradoException e) {
@@ -240,7 +240,7 @@ public class testABM {
 		sistema.registrarUsuario(u1);
 		sistema.loginUsuario(u1.getEmail(), u1.getContrasenia());
 		sistema.agregarProducto(nuevoProducto);
-		sistema.modificarProducto(nuevoProducto, nuevoProducto2);
+		sistema.modificarProducto(123, nuevoProducto2);
 
 	}
 
@@ -251,6 +251,6 @@ public class testABM {
 		sistema.registrarUsuario(a1);
 		sistema.loginUsuario(a1.getEmail(), a1.getContrasenia());
 		sistema.agregarProducto(nuevoProducto);
-		sistema.modificarProducto(nuevoProducto2, nuevoProducto);
+		sistema.modificarProducto(124, nuevoProducto);
 	}
 }

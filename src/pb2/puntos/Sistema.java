@@ -107,11 +107,11 @@ public class Sistema {
 		throw new NoEsAdminException();
 	}
 
-	public Boolean modificarProducto(Producto pAModificar, Producto pNuevo)
+	public Boolean modificarProducto(Integer cod, Producto pNuevo)
 			throws ProductoInexistenteException, NoEsAdminException {
 		if (usuarioLogueado instanceof Administrador) {
 			for (Producto p : listaDeProductos) {
-				if (p.equals(pAModificar)) {
+				if (p.getCodigo().equals(cod)) {
 					p.setDescripcion(pNuevo.getDescripcion());
 					p.setCodigo(pNuevo.getCodigo());
 					p.setNombre(pNuevo.getNombre());

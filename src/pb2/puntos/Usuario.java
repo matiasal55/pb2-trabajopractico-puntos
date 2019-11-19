@@ -60,7 +60,7 @@ public class Usuario extends Persona {
 	@Override
 	public String toString() {
 		return "Usuarios: \nEmail=" + email + ", id=" + id + ", puntosAcumulados="
-				+ puntosAcumulados + ", saldo=" + saldo + "]";
+				+ puntosAcumulados + ", saldo=" + saldo ;
 	}
 
 }

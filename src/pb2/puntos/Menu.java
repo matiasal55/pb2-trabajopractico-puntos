@@ -20,7 +20,7 @@ public class Menu {
 		Producto nuevoProd3 = new Producto("Chocolate", 789, "Puro", 63.0, 250);
 
 		do {
-			System.out.println("Elige: \n" + "1- Administrador \t" + "2- Cliente \t" + "3- Salir.");
+			System.out.println("Elige ser: \n" + "1- Administrador \t" + "2- Cliente \t" + "3- Salir.");
 			opcion = teclado.next().charAt(0);
 			if (opcion == '1') {
 				do {
@@ -106,19 +106,21 @@ public class Menu {
 							} else if (option == '4') {
 								s1.mostrarListaProductos();
 							} else if (option == '5') {
-								System.out.println("\nIngresar datos del producto a modificar: ");
-								System.out.println("Ingresar descripcion: ");
-								String descripcionp = teclado.next();
-								System.out.println("Ingresar codigo del producto: ");
-								Integer codigop = teclado.nextInt();
-								System.out.println("Ingresar nombre del producto: ");
-								String nombrep = teclado.next();
-								System.out.println("Ingresar precio en puntos: ");
-								Integer precioPuntosp = teclado.nextInt();
-								System.out.println("Ingresar precio en efectivo: ");
-								Double precioRealp = teclado.nextDouble();
-								Producto pAModificar = new Producto(descripcionp, codigop, nombrep, precioRealp,
-										precioPuntosp);
+//								System.out.println("\nIngresar datos del producto a modificar: ");
+//								System.out.println("Ingresar descripcion: ");
+//								String descripcionp = teclado.next();
+//								System.out.println("Ingresar codigo del producto: ");
+//								Integer codigop = teclado.nextInt();
+//								System.out.println("Ingresar nombre del producto: ");
+//								String nombrep = teclado.next();
+//								System.out.println("Ingresar precio en puntos: ");
+//								Integer precioPuntosp = teclado.nextInt();
+//								System.out.println("Ingresar precio en efectivo: ");
+//								Double precioRealp = teclado.nextDouble();
+//								Producto pAModificar = new Producto(descripcionp, codigop, nombrep, precioRealp,
+//										precioPuntosp);
+								System.out.println("\nIngrese codigo del producto a modificar: ");
+								Integer cod = teclado.nextInt();
 								System.out.println("\nAhora ingrese los datos para modificar el producto: ");
 								System.out.println("Ingresar nueva descripcion: ");
 								String nuevaDescripcion = teclado.next();
@@ -134,7 +136,7 @@ public class Menu {
 										nuevoPrecioReal, nuevoPrecioPuntos);
 
 								try {
-									s1.modificarProducto(pAModificar, pNuevo);
+									s1.modificarProducto(cod, pNuevo);
 								} catch (ProductoInexistenteException | NoEsAdminException e) {
 									e.printStackTrace();
 								}
@@ -179,7 +181,7 @@ public class Menu {
 				do {
 					System.out.println(
 							"\n1-Crear usuario." + "\n2- Registarse." + "\n3- Loguearse." + "\n4- Opciones de compra."
-									+ "\n5- Recargar saldo." + "0- Volver a la seleccion de admin/cliente.");
+									+ "\n5- Recargar saldo." + "\n0- Volver a la seleccion de admin/cliente.");
 					opcion = teclado.next().charAt(0);
 					switch (opcion) {
 					case 0:
