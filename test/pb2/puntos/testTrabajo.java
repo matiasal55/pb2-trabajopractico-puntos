@@ -16,7 +16,7 @@ public class testTrabajo {
 	Producto nuevoProducto;
 
 	@Before
-	public void before() {
+	public void before() throws NoEsAdminException {
 		miSistema = new Sistema();
 		nuevo = new Cliente("Cosme", "Fulanito", "hotmail.com", "1234A");
 		admin = new Administrador("Matias", "Alarcon", "gmail.com", "1234A");
@@ -139,5 +139,4 @@ public class testTrabajo {
 			e.printStackTrace();
 		}
 	}
-
 }

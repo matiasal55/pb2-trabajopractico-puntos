@@ -86,6 +86,7 @@ public class Sistema {
 	  	if(usuarioLogueado instanceof Administrador) {
 	  		if(this.listaDeProductos.contains(nuevo))
 	  			throw new ProductoExistenteException();
+	  		else
 	  			this.listaDeProductos.add(nuevo);
 	  			return true;
 	  }

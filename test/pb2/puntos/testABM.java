@@ -6,9 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class testABM {
-
-	Usuario nuevo;
-	Usuario admin;
 	
 	Sistema sistema = new Sistema();
 	Cliente u1 = new Cliente ("Miguel", "Lopez", "mlopez@gmail.com", "12345");
@@ -29,7 +26,7 @@ public class testABM {
 	}
 	
 	@Test (expected = EmailYaRegistradoException.class)
-	public void testRegistroFallido() throws EmailYaRegistradoException {
+	public void testRegistroFallido() throws EmailYaRegistradoException{
 		sistema.registrarUsuario(u1);
 		sistema.registrarUsuario(u1);
 	}
@@ -84,12 +81,14 @@ public class testABM {
 	}
 	
 	@Test
-	public void eliminarUsuarioExitoso() throws EmailYaRegistradoException, NoEsAdminException, UsuarioInexistenteException {
-		sistema.registrarUsuario(u1);
-		try { 
+	public void eliminarUsuarioExitoso() {
+		try {
+			sistema.registrarUsuario(u1);
+			sistema.registrarUsuario(a1);
+			sistema.loginUsuario(a1.getEmail(),a1.getContrasenia());
 			Boolean valorEsperado = sistema.eliminarUsuario(u1.getEmail());
 			Assert.assertTrue(valorEsperado);
-		} catch (NoEsAdminException e) {
+		} catch (NoEsAdminException | UsuarioInexistenteException | EmailYaRegistradoException | LoginFallidoException | EmailIncorrectoException | ContraseniaIncorrectaException e) {
 			e.printStackTrace();
 		}
 	}
@@ -109,10 +108,19 @@ public class testABM {
 	}
 	
 	@Test
-	public void modificarContraseniaExistoso () throws EmailYaRegistradoException, UsuarioInexistenteException {
-		sistema.registrarUsuario(u1);
-		Boolean valorEsperado = sistema.modificarContrasenia(u1.getEmail(), "00000");
-		Assert.assertTrue(valorEsperado);
+	public void modificarContraseniaExistoso () {
+		try {
+			sistema.registrarUsuario(u1);
+		} catch (EmailYaRegistradoException e) {
+			e.printStackTrace();
+		}
+		Boolean valorEsperado;
+		try {
+			valorEsperado = sistema.modificarContrasenia(u1.getEmail(), "00000");
+			Assert.assertTrue(valorEsperado);
+		} catch (UsuarioInexistenteException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test (expected = UsuarioInexistenteException.class)
@@ -122,12 +130,13 @@ public class testABM {
 	}
 	
 	@Test
-	public void agregarProductoExitoso() throws NoEsAdminException, ProductoExistenteException {
+	public void agregarProductoExitoso() {
 		try {
-			sistema.agregarProducto(nuevoProducto);
+			sistema.registrarUsuario(a1);
+			sistema.loginUsuario(a1.getEmail(),a1.getContrasenia());
 			Boolean valorEsperado = sistema.agregarProducto(nuevoProducto);
 			Assert.assertTrue(valorEsperado);
-		} catch (NoEsAdminException e) {
+		} catch (NoEsAdminException | EmailYaRegistradoException | LoginFallidoException | EmailIncorrectoException | ContraseniaIncorrectaException | ProductoExistenteException e) {
 			e.printStackTrace();
 		}
 	}
@@ -146,13 +155,25 @@ public class testABM {
 	}
 	
 	@Test
-	public void eliminarProductoExitoso() throws ProductoInexistenteException {
+	public void eliminarProductoExitoso() {
 		try {
+			sistema.registrarUsuario(a1);
+			sistema.loginUsuario(a1.getEmail(),a1.getContrasenia());
 			sistema.agregarProducto(nuevoProducto);
 			Assert.assertTrue(sistema.eliminarProducto(nuevoProducto.getCodigo()));
 		} catch (ProductoExistenteException e) {
 			e.printStackTrace();
 		} catch (NoEsAdminException e) {
+			e.printStackTrace();
+		} catch (ProductoInexistenteException e) {
+			e.printStackTrace();
+		} catch (EmailYaRegistradoException e) {
+			e.printStackTrace();
+		} catch (LoginFallidoException e) {
+			e.printStackTrace();
+		} catch (EmailIncorrectoException e) {
+			e.printStackTrace();
+		} catch (ContraseniaIncorrectaException e) {
 			e.printStackTrace();
 		}
 	}
@@ -177,23 +198,36 @@ public class testABM {
 	
 	
 	@Test
-	public void modificarProductoExitoso() throws ProductoInexistenteException, ProductoExistenteException {
+	public void modificarProductoExitoso() {
 		try {
+			sistema.registrarUsuario(a1);
+			sistema.loginUsuario(a1.getEmail(),a1.getContrasenia());
 			sistema.agregarProducto(nuevoProducto);
 			Assert.assertTrue(sistema.modificarProducto(nuevoProducto, nuevoProducto2));
 		} catch (NoEsAdminException e) {
+			e.printStackTrace();
+		} catch (EmailYaRegistradoException e) {
+			e.printStackTrace();
+		} catch (LoginFallidoException e) {
+			e.printStackTrace();
+		} catch (EmailIncorrectoException e) {
+			e.printStackTrace();
+		} catch (ContraseniaIncorrectaException e) {
+			e.printStackTrace();
+		} catch (ProductoExistenteException e) {
+			e.printStackTrace();
+		} catch (ProductoInexistenteException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@Test (expected = NoEsAdminException.class)
-	public void modificarProductoFallidoNoAdmin() throws NoEsAdminException, ProductoExistenteException, ProductoInexistenteException {
-		try {
-			sistema.agregarProducto(nuevoProducto);
-		} catch (NoEsAdminException e) {
-			e.printStackTrace();
-		}
+	public void modificarProductoFallidoNoAdmin() throws EmailYaRegistradoException, LoginFallidoException, EmailIncorrectoException, ContraseniaIncorrectaException, ProductoExistenteException, NoEsAdminException, ProductoInexistenteException{
+		sistema.registrarUsuario(u1);
+		sistema.loginUsuario(u1.getEmail(), u1.getContrasenia());
+		sistema.agregarProducto(nuevoProducto);
 		sistema.modificarProducto(nuevoProducto, nuevoProducto2);
+		
 	}
 	
 	@Test (expected = ProductoInexistenteException.class)
