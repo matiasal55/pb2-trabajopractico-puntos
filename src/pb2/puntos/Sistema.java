@@ -165,8 +165,6 @@ public class Sistema {
 		for (Ventas lista : this.listaDeVentas) {
 			if (lista.getIdVenta().equals(idPago)) {
 				for (Usuario usr : this.listaDeUsuarios) {
-					System.out.println(lista + " " + usr.getPuntosAcumulados());
-					System.out.println(usr);
 					if (usr.equals(lista.getComprador()) && usr.getPuntosAcumulados() >= puntos) {
 						usr.setPuntosAcumulados(usr.getPuntosAcumulados() - puntos);
 						lista.setEstadoDePago("Pagado");
