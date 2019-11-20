@@ -90,33 +90,10 @@ public class testTrabajo {
 		} catch (CompraFallidaException e) {
 			e.printStackTrace();
 		}
-		Integer valorEsperado = 1260;
+		Integer valorEsperado = 60;
 		Integer valorObtenido = nuevo.getPuntosAcumulados();
 		assertEquals(valorEsperado, valorObtenido);
 	}
-
-//	@Test
-//	public void pagarConPuntosAcumulados() {
-//			
-//		try {
-//			miSistema.cargarSaldo(nuevo, 400.0);
-//			DetallesDePago nuevoDetalle=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Saldo");
-//			miSistema.pagarConSaldo(nuevoDetalle.getIdPago(), nuevoDetalle.getPrecioSaldo());
-//			DetallesDePago nuevoDetalle2=miSistema.comprarProducto(nuevo, 1, nuevoProducto, "Puntos");	
-//			miSistema.pagarConPuntos(nuevoDetalle2.getIdPago(), nuevoDetalle2.getPrecioPuntos());
-//		} catch (SaldoInsuficienteException e) {
-//			e.printStackTrace();
-//		} catch (VentaFallidaException e) {
-//			e.printStackTrace();
-//		} catch (LaRecargaHaFalladoException e) {
-//			e.printStackTrace();
-//		} catch (CompraFallidaException e) {
-//			e.printStackTrace();
-//		} catch (ProductoInexistenteException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 
 	@Test(expected = SaldoInsuficienteException.class)
 	public void testQueAnuleCompraSinReintegro()
