@@ -22,6 +22,7 @@ public class Menu {
 		do {
 			System.out.println("Elige ser: \n" + "1- Administrador \t" + "2- Cliente \t" + "3- Salir.");
 			opcion = teclado.next().charAt(0);
+//__ADMINISTRADOR_______________________________________________________________________________________________________________________________
 			if (opcion == '1') {
 				do {
 					System.out.println("\n1- Crear admin. " + "\n2- Registrarse. " + "\n3- Loguearse."
@@ -106,19 +107,6 @@ public class Menu {
 							} else if (option == '4') {
 								s1.mostrarListaProductos();
 							} else if (option == '5') {
-//								System.out.println("\nIngresar datos del producto a modificar: ");
-//								System.out.println("Ingresar descripcion: ");
-//								String descripcionp = teclado.next();
-//								System.out.println("Ingresar codigo del producto: ");
-//								Integer codigop = teclado.nextInt();
-//								System.out.println("Ingresar nombre del producto: ");
-//								String nombrep = teclado.next();
-//								System.out.println("Ingresar precio en puntos: ");
-//								Integer precioPuntosp = teclado.nextInt();
-//								System.out.println("Ingresar precio en efectivo: ");
-//								Double precioRealp = teclado.nextDouble();
-//								Producto pAModificar = new Producto(descripcionp, codigop, nombrep, precioRealp,
-//										precioPuntosp);
 								System.out.println("\nIngrese codigo del producto a modificar: ");
 								Integer cod = teclado.nextInt();
 								System.out.println("\nAhora ingrese los datos para modificar el producto: ");
@@ -177,11 +165,13 @@ public class Menu {
 						break;
 					}
 				} while (opcion != '0');
+//__CLIENTE_______________________________________________________________________________________________________________________________
+
 			} else if (opcion == '2') {
 				do {
-					System.out.println(
-							"\n1-Crear usuario." + "\n2- Registarse." + "\n3- Loguearse." + "\n4- Opciones de compra."
-									+ "\n5- Recargar saldo." + "\n0- Volver a la seleccion de admin/cliente.");
+					System.out.println("\n1-Crear usuario." + "\n2- Registarse." + "\n3- Loguearse."
+							+ "\n4- Opciones de compra." + "\n5- Recargar saldo." + "\n6- Modificar contrasenia. "
+							+ "\n0- Volver a la seleccion de admin/cliente.");
 					opcion = teclado.next().charAt(0);
 					switch (opcion) {
 					case 0:
@@ -274,13 +264,25 @@ public class Menu {
 							e.printStackTrace();
 						}
 						break;
+					case '6':
+						System.out.println("\nIngrese su email: ");
+						String emailUsr = teclado.next();
+						System.out.println("Ingrese su contrasenia: ");
+						String contraseniaAntiguaUsr = teclado.next();
+						System.out.println("Ingrese su nueva contrasenia: ");
+						String nuevaContraseniaUsr = teclado.next();
+						try {
+							s1.modificarContrasenia(emailUsr, contraseniaAntiguaUsr, nuevaContraseniaUsr);
+						} catch (UsuarioInexistenteException e) {
+							e.printStackTrace();
+						}
+						break;
 					}
 				} while (opcion != '0');
 			}
 		} while (opcion != '3');
-		if (opcion == '3')
-
-		{
+//__FIN DEL PROGRAMA_______________________________________________________________________________________________________________________________
+		if (opcion == '3') {
 			teclado.close();
 			System.out.println("Usted ha salido.");
 		}

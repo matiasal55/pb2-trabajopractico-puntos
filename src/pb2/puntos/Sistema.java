@@ -20,13 +20,8 @@ public class Sistema {
 		return instancia;
 	}
 
-	// this.listaDeProductos = new TreeSet<>();
-//		this.listaDeVentas = new LinkedList<>();
-//		this.listaDeUsuarios = new HashSet<>();
-//	}
-//  
-// // ___________________________________________________________________________________________
-//
+//_______________________________________________________________________________________________________________________________
+
 	public Boolean registrarUsuario(Usuario nuevo) throws EmailYaRegistradoException {
 		for (Usuario usr : listaDeUsuarios) {
 			if (usr.getEmail().equals(nuevo.getEmail())) {
@@ -34,9 +29,12 @@ public class Sistema {
 			}
 		}
 		nuevo.setId(this.listaDeUsuarios.size() + 1);
+		nuevo.setPuntosAcumulados(nuevo.getPuntosAcumulados() + 500);
 		this.listaDeUsuarios.add(nuevo);
 		return true;
 	}
+
+//_______________________________________________________________________________________________________________________________
 
 	public Boolean loginUsuario(String email, String contrasenia)
 			throws LoginFallidoException, EmailIncorrectoException, ContraseniaIncorrectaException {
@@ -53,7 +51,8 @@ public class Sistema {
 		throw new LoginFallidoException();
 	}
 
-//  
+//_______________________________________________________________________________________________________________________________
+
 	public Boolean eliminarUsuario(String email) throws NoEsAdminException, UsuarioInexistenteException {
 		if (usuarioLogueado instanceof Administrador) {
 			Iterator<Usuario> it = this.listaDeUsuarios.iterator();
@@ -69,7 +68,10 @@ public class Sistema {
 		throw new NoEsAdminException();
 	}
 
-	public Boolean modificarContrasenia(String email, String contraseniaAntigua, String nuevaContrasenia) throws UsuarioInexistenteException {
+//_______________________________________________________________________________________________________________________________
+
+	public Boolean modificarContrasenia(String email, String contraseniaAntigua, String nuevaContrasenia)
+			throws UsuarioInexistenteException {
 		for (Usuario userAux : listaDeUsuarios) {
 			if (userAux.getEmail().equals(email) && userAux.getContrasenia().equals(contraseniaAntigua)) {
 				userAux.setContrasenia(nuevaContrasenia);
@@ -79,7 +81,7 @@ public class Sistema {
 		throw new UsuarioInexistenteException();
 	}
 
-	// ___________________________________________________________________________________________
+//_______________________________________________________________________________________________________________________________
 
 	public Boolean agregarProducto(Producto nuevo) throws ProductoExistenteException, NoEsAdminException {
 		if (usuarioLogueado instanceof Administrador) {
@@ -91,6 +93,8 @@ public class Sistema {
 		}
 		throw new NoEsAdminException();
 	}
+
+//_______________________________________________________________________________________________________________________________
 
 	public Boolean eliminarProducto(Integer id) throws NoEsAdminException, ProductoInexistenteException {
 		if (usuarioLogueado instanceof Administrador) {
@@ -106,6 +110,8 @@ public class Sistema {
 		}
 		throw new NoEsAdminException();
 	}
+
+//_______________________________________________________________________________________________________________________________
 
 	public Boolean modificarProducto(Integer cod, Producto pNuevo)
 			throws ProductoInexistenteException, NoEsAdminException {
@@ -125,15 +131,14 @@ public class Sistema {
 		throw new NoEsAdminException();
 	}
 
-//
-//	// ___________________________________________________________________________________________
-//
+//_______________________________________________________________________________________________________________________________
+
 	public DetallesDePago comprarProducto(Usuario comprador, Integer cantidad, Integer id, String medioDePago)
 			throws CompraFallidaException {
 		for (Producto prod : listaDeProductos) {
 			if (prod.getCodigo().equals(id)) {
 				Integer factorDePuntos = obtenerFactorPuntos(comprador);
-				Integer cantidadDePuntos = (int) (cantidad * prod.getPrecioReal() * factorDePuntos);
+				Integer cantidadDePuntos = (int) (cantidad * factorDePuntos);
 				Ventas nuevaVenta = new Ventas(this.listaDeVentas.size() + 1, comprador, cantidad, prod, medioDePago,
 						cantidadDePuntos);
 				DetallesDePago nuevoDetalle = new DetallesDePago(nuevaVenta.getIdVenta(), nuevaVenta.getPrecioTotal(),
@@ -146,7 +151,8 @@ public class Sistema {
 
 	}
 
-//
+//_______________________________________________________________________________________________________________________________
+
 	private Integer obtenerFactorPuntos(Usuario comprador) {
 		for (Usuario lista : this.listaDeUsuarios) {
 			if (lista.equals(comprador)) {
@@ -159,19 +165,23 @@ public class Sistema {
 		return 0;
 	}
 
-//
+//_______________________________________________________________________________________________________________________________
+
 	public Boolean pagarConPuntos(Integer idPago, Integer puntos)
 			throws SaldoInsuficienteException, VentaFallidaException {
 		for (Ventas lista : this.listaDeVentas) {
 			if (lista.getIdVenta().equals(idPago)) {
 				for (Usuario usr : this.listaDeUsuarios) {
-					if (usr.equals(lista.getComprador()) && usr.getPuntosAcumulados() >= puntos) {
-						usr.setPuntosAcumulados(usr.getPuntosAcumulados() - puntos);
-						lista.setEstadoDePago("Pagado");
-						return true;
-					} else {
-						lista.setEstadoDePago("Puntos insuficientes");
-						throw new SaldoInsuficienteException("Su saldo en puntos es insuficiente");
+					if (usr.equals(lista.getComprador())) {
+						if (usr.getPuntosAcumulados() >= (puntos)) {
+							lista.getComprador()
+									.setPuntosAcumulados(lista.getComprador().getPuntosAcumulados() - puntos);
+							lista.setEstadoDePago("Pagado");
+							return true;
+						} else {
+							lista.setEstadoDePago("Puntos insuficientes");
+							throw new SaldoInsuficienteException("Su saldo en puntos es insuficiente");
+						}
 					}
 				}
 			}
@@ -179,7 +189,8 @@ public class Sistema {
 		throw new VentaFallidaException();
 	}
 
-//
+//_______________________________________________________________________________________________________________________________
+
 	public Boolean pagarConSaldo(Integer id, Double monto)
 			throws ProductoInexistenteException, SaldoInsuficienteException, VentaFallidaException {
 		for (Ventas lista : this.listaDeVentas) {
@@ -187,8 +198,8 @@ public class Sistema {
 				for (Usuario lista2 : this.listaDeUsuarios) {
 					if (lista2.equals(lista.getComprador())) {
 						if (lista2.getSaldo() >= monto) {
-							lista2.setPuntosAcumulados(lista2.getPuntosAcumulados() + lista.getCantidadDePuntos());
-							lista2.setSaldo(lista2.getSaldo() - monto);
+							lista.getComprador().setPuntosAcumulados(lista.getCantidad() * obtenerFactorPuntos(lista2));
+							lista.getComprador().setSaldo(lista.getComprador().getSaldo() - monto);
 							lista.setEstadoDePago("Pagado");
 							return true;
 						} else {
@@ -204,9 +215,8 @@ public class Sistema {
 		throw new VentaFallidaException();
 	}
 
-//
-//	// ___________________________________________________________________________________________
-//
+//_______________________________________________________________________________________________________________________________
+
 	public Boolean cargarSaldo(Usuario comprador, Double monto) throws LaRecargaHaFalladoException {
 		for (Usuario lista : this.listaDeUsuarios) {
 			if (lista.equals(comprador)) {
@@ -219,18 +229,8 @@ public class Sistema {
 		throw new LaRecargaHaFalladoException();
 	}
 
-//
-//	// ___________________________________________________________________________________________
-//
-//	public Double buscarPrecioDeLaCompraEnEfectivo(Integer id) {
-//		Double precio = 0.0;
-//		for (Ventas lista : this.listaDeVentas) {
-//			if (lista.getIdVenta().equals(id))
-//				precio = lista.getPrecioTotal();
-//		}
-//		return precio;
-//	}
-//
+//_______________________________________________________________________________________________________________________________
+
 	public Boolean eliminarDeListaDeVentas(Integer id) {
 		Iterator<Ventas> it = this.listaDeVentas.iterator();
 		while (it.hasNext()) {
@@ -243,7 +243,8 @@ public class Sistema {
 		return false;
 	}
 
-//
+//_______________________________________________________________________________________________________________________________
+
 	public Boolean anularCompra(Integer id) {
 		for (Ventas lista : this.listaDeVentas) {
 			if (lista.getIdVenta().equals(id)) {
@@ -255,24 +256,8 @@ public class Sistema {
 		}
 		return false;
 	}
-//
-//	private Boolean reintegro(Ventas aux) {
-//		for (Usuario lista : this.listaDeUsuarios) {
-//			if (lista.equals(aux.getComprador()) && aux.getEstadoDePago().equals("Pagado")) {
-//				if (aux.getMedioDePago().equals("Puntos")) {
-//					Integer puntosAReintegrar = aux.getCantidad() * aux.getProducto().getPrecioPuntos();
-//					lista.setPuntosAcumulados(lista.getPuntosAcumulados() + puntosAReintegrar);
-//				} else {
-//					Double saldoAReintegrar = aux.getCantidad() * aux.getProducto().getPrecioReal();
-//					Integer puntosARestar = aux.getCantidadDePuntos();
-//					lista.setSaldo(lista.getSaldo() + saldoAReintegrar);
-//					lista.setPuntosAcumulados(lista.getPuntosAcumulados() - puntosARestar);
-//				}
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+
+//_______________________________________________________________________________________________________________________________
 
 	public void reintegro(Integer id, Usuario usr) {
 		for (Ventas v : listaDeVentas) {
@@ -292,24 +277,20 @@ public class Sistema {
 		}
 	}
 
+//_______________________________________________________________________________________________________________________________
+
 	public void mostrarListaProductos() {
 		for (Producto lista : listaDeProductos) {
 			System.out.println(lista.toString());
 		}
 	}
 
+//_______________________________________________________________________________________________________________________________
+
 	public void mostarListaUsuarios() {
 		for (Usuario lista : listaDeUsuarios) {
 			System.out.println(lista.toString());
 		}
 	}
-//
-//	// ___________________________________________________________________________________________
-//
-//	public Integer calcularPuntos(Usuario usuario) {
-//		if (this.listaDeUsuarios.contains(usuario))
-//			return usuario.getPuntosAcumulados();
-//		return 0;
-//  }
 
 }
